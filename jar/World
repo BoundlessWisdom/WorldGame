@@ -1,0 +1,19 @@
+package jar;
+
+import java.util.ArrayList;
+
+public class World {
+	public final int size;
+	
+	public Tile[][] worldMap; 
+	
+	public World(int size) {
+		this.size = size;
+		worldMap = new Tile[size][size];
+	}
+	
+	/***************************************************************/
+	
+	//Permanent and semi-permanent effects go here.
+	
+}
