@@ -1,3 +1,5 @@
+package jar;
+
 public interface ICaster {
 
 public void cast(String cast);
