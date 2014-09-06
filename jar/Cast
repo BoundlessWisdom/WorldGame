@@ -1,0 +1,12 @@
+package jar;
+
+public abstract class Cast {
+ICaster caster;
+
+public Cast(ICaster caster) {
+	this.caster = caster;
+}
+
+protected abstract void query();
+
+}
