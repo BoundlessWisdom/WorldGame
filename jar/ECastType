@@ -1,0 +1,22 @@
+package jar;
+
+public enum ECastType {
+
+AIR("AIR"),
+EARTH("EARTH"),
+FIRE("FIRE"),
+WATER("WATER"),
+//PLANT("FLORA"),
+//BEAST("FAUNA"),
+//TIME("TIME"),
+//PLASMA("FIRE"),
+//ANIME("MOSHI MOSHI!"),
+NULL("NULL");
+
+public final String castName;
+
+ECastType(String name) {
+	castName = name;
+}
+
+}
