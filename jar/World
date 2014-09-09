@@ -15,5 +15,9 @@ public class World {
 	/***************************************************************/
 	
 	//Permanent and semi-permanent effects go here.
+	private ArrayList<Effect> standingEffects = new ArrayList<Effect>();
 	
+	public void addEffect(Effect effect) {
+		standingEffects.add(effect);
+	}
 }
