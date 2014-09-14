@@ -2,4 +2,5 @@ WorldGame
 ================
 
 Proposition: We rename the beings to Archons. <br>
-Proposition: We rename this game to something like Archonica or Archonicon.
+Proposition: We rename this game to something like Archonica or Archonicon. <br><br>
+Proposition: We add stairs.
