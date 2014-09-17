@@ -14,6 +14,8 @@ public abstract class Item implements IObject{
 	private String name = "";
 	private Vector3f a = new Vector3f(0,0,0);
 	private Vector3f v  = new Vector3f(0,0,0);
+	private Vector3f P = new Vector3f(0,0,0);
+	private int index;
 	/**
 	 * @param x x-coordinate
 	 * @param y y-coordinate
@@ -76,5 +78,16 @@ public abstract class Item implements IObject{
 	@Override
 	public Vector3f getVelocity() {
 		return v;
+	}
+	public int getIndex() {
+		return index;
+	}
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	@Override
+	public Vector3f getMomentum()
+	{
+		return P;
 	}
 }

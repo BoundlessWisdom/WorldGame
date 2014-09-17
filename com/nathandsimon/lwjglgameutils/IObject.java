@@ -7,9 +7,14 @@ public interface IObject {
 	public String getName();
 	public Vector3f getPos();
 	public Model getSprite();
+	public double getMu();
+	public double getElasticConstant();
+	public Vector3f getMomentum();
 	public void move(float x, float y, float z);
 	public void setAcceleration(Vector3f accel);
 	public Vector3f getAcceleration();
 	public void setVelocity(Vector3f vel);
 	public Vector3f getVelocity();
+	public int getIndex();
+	public void setIndex(int index);
 }

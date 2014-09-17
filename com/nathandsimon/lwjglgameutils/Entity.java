@@ -16,6 +16,8 @@ public abstract class Entity implements IObject {
 	private String name = "";
 	private Vector3f a = new Vector3f(0,0,0);
 	private Vector3f v  = new Vector3f(0,0,0);
+	private Vector3f P = new Vector3f(0,0,0);
+	private int index;
 	private int health = 10000;
 	/**
 	 * @param x x-coordinate
@@ -101,4 +103,15 @@ public abstract class Entity implements IObject {
 		return v;
 	}
 	public abstract void die();
+	public int getIndex() {
+		return index;
+	}
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	@Override
+	public Vector3f getMomentum()
+	{
+		return P;
+	}
 }
