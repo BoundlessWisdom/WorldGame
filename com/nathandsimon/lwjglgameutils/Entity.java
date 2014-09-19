@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import org.lwjgl.util.vector.Vector3f;
 /**
- * @author nathan simon
+ * @author Nathan
  */
 public abstract class Entity implements IObject {
 	private Vector3f m_pos = new Vector3f();
@@ -14,10 +14,13 @@ public abstract class Entity implements IObject {
 	private double mass = 0;
 	//For indexing and storage, etc.
 	private String name = "";
+	//For the physics engine
 	private Vector3f a = new Vector3f(0,0,0);
 	private Vector3f v  = new Vector3f(0,0,0);
 	private Vector3f P = new Vector3f(0,0,0);
+	//For the rendering and physics engines
 	private int index;
+	//For the game
 	private int health = 10000;
 	/**
 	 * @param x x-coordinate

@@ -21,6 +21,9 @@ public class ObjectRenderer {
 	private static ArrayList<Integer> vboVertexHandle = new ArrayList<Integer>();
 	private static ArrayList<Integer> vboNormalHandle = new ArrayList<Integer>();
 	public static EulerCamera cam;
+	/**
+	 * Initialize the renderer. ALWAYS CALL IN INITIALIZATION CODE.
+	 */
 	public static void init()
 	{
 		 cam = new EulerCamera((float) Display.getWidth() / (float) Display.getHeight(), -2.19f, 1.36f, 11.45f);
@@ -39,11 +42,22 @@ public class ObjectRenderer {
 	        glMaterialf(GL_FRONT, GL_SHININESS, 120);
 	        glMaterial(GL_FRONT, GL_DIFFUSE, BufferTools.asFlippedFloatBuffer(0.4f, 0.27f, 0.17f, 0));
 	}
+	/**
+	 * Add an object to the renderer.
+	 * @param obj the object to add.
+	 */
 	public static void add(IObject obj)
 	{
 		m_objs.add(obj);
-		init(obj);
+		int[] vbos;
+        vbos = OBJLoader.createVBO(obj.getSprite());
+		vboVertexHandle.add(vbos[0]);
+		vboNormalHandle.add(vbos[1]);
 	}
+	/**
+	 * Loads the object at an index to be rendered. Use run() instead of calling directly.
+	 * @param objectindex the object's index.
+	 */
 	public static void prepare(int objectindex)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, vboVertexHandle.get(objectindex));
@@ -54,6 +68,9 @@ public class ObjectRenderer {
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_NORMAL_ARRAY);
 	}
+	/**
+	 * Run the renderer.
+	 */
 	public static void run()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -63,12 +80,10 @@ public class ObjectRenderer {
 			render(i);
 		}
 	}
-	public static void init(IObject obj) {
-		 int[] vbos;
-	        vbos = OBJLoader.createVBO(obj.getSprite());
-			vboVertexHandle.add(vbos[0]);
-			vboNormalHandle.add(vbos[1]);
-	}
+	/**
+	 * Render an object. Use run() instead of calling directly.
+	 * @param i the object's index.
+	 */
 	public static void render(int i) {
 		IObject obj = m_objs.get(i);
 		 glLoadIdentity();
@@ -80,6 +95,10 @@ public class ObjectRenderer {
 	        glDrawArrays(GL_TRIANGLES, 0, obj.getSprite().getFaces().size() * 3);
 	        
 	}
+	/**
+	 * Update the camera.
+	 * @param elapsedTime the elapsed time since the game started.
+	 */
 	public static void update(long elapsedTime) {
 		cam.processMouse(1, 80, -80);
         cam.processKeyboard(16, 1, 1, 1);
@@ -89,6 +108,9 @@ public class ObjectRenderer {
             Mouse.setGrabbed(false);
         }
 	}
+	/**
+	 * Dispose stuff.
+	 */
 	public static void dispose() {
 		glDeleteProgram(shaderProgram);
 		for(int i = 0; i < vboVertexHandle.size(); i++)
@@ -96,6 +118,10 @@ public class ObjectRenderer {
 			dispObj(i);
 		}
 	}
+	/**
+	 * Dispose an object's buffers.
+	 * @param i the object's index.
+	 */
 	public static void dispObj(int i)
 	{
 		glDeleteBuffers(vboVertexHandle.get(i));

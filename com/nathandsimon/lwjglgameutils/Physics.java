@@ -3,15 +3,30 @@ package com.nathandsimon.lwjglgameutils;
 import java.util.ArrayList;
 
 import org.lwjgl.util.vector.Vector3f;
+/**
+ * A simple physics engine.
+ * @author Nathan
+ *
+ */
 public class Physics {
 	private static ArrayList<Vector3f> forces = new ArrayList<Vector3f>();
 	private static ArrayList<IObject> objs = new ArrayList<IObject>();
+	/**
+	 * Adds an object to the physics engine.
+	 * @param o object to add.
+	 */
 	public static void add(IObject o)
 	{
 		objs.add(o);
 		forces.add(new Vector3f(0,0,0));
 		o.setIndex(objs.size());
 	}
+	/**
+	 * Applies a force to an object. Assumes not to apply impulse.
+	 * @param index the object's index.
+	 * @param force the force vector.
+	 * @param add whether to add the force to the current value(true) or to set the current value to the value provided(false).
+	 */
 	public static void applyForce(int index, Vector3f force, boolean add)
 	{
 		if(index < objs.size())
@@ -27,6 +42,13 @@ public class Physics {
 		}
 		else return;
 	}
+	/**
+	 * Applies a force to an object.
+	 * @param index index the object's index.
+	 * @param force the force vector.
+	 * @param add whether to add the force to the current value(true) or to set the current value to the value provided(false).
+	 * @param impulse whether to apply impulse.
+	 */
 	public static void applyForce(int index, Vector3f force, boolean add, boolean impulse)
 	{
 		if(index < objs.size())
@@ -46,6 +68,11 @@ public class Physics {
 		}
 		else return;
 	}
+	/**
+	 * Applies friction to a moving object.
+	 * @param index the object's index.
+	 * @param gndHt The height of the ground.
+	 */
 	public static void applyMovingFriction(int index, float gndHt)
 	{
 		if(index < objs.size())
@@ -90,6 +117,10 @@ public class Physics {
 			applyForce(index, new Vector3f((float)(finalX), (float)(finalY), (float)(finalZ)), true);
 		}
 	}
+	/**
+	 * Sets the force on an object to zero.
+	 * @param index the object's index.
+	 */
 	public static void zeroForce(int index)
 	{
 		if(index < objs.size())
@@ -98,13 +129,29 @@ public class Physics {
 		}
 		else return;
 	}
+	/**
+	 * Applies gravity to all objects.
+	 */
 	public static void applyGravity()
 	{
 		for(int i = 0; i < objs.size(); i++)
 		{
-				applyForce(i, new Vector3f(0f, -0.17f*(float)objs.get(i).getMass(),0f), false);	
+				applyGravity(i);	
 		}
 	}
+	/**
+	 * Applies gravity to a specific object.
+	 * @param i the object's index.
+	 */
+	public static void applyGravity(int i)
+	{
+		applyForce(i, new Vector3f(0f, -0.17f*(float)objs.get(i).getMass(),0f), false);	
+	}
+	/**
+	 * Applies an impulse to an object.
+	 * @param index the object's index.
+	 * @param impulse the impulse to apply.
+	 */
 	public static void applyImpulse(int index, Vector3f impulse)
 	{
 		objs.get(index).getMomentum().x += impulse.x;
@@ -114,12 +161,21 @@ public class Physics {
 		objs.get(index).getVelocity().y = (float) (impulse.y / objs.get(index).getMass());
 		objs.get(index).getVelocity().z = (float) (impulse.z / objs.get(index).getMass());
 	}
+	/**
+	 * Updates the momentum values of an object.
+	 * @param index the object's index.
+	 */
 	public static void updateMomentum(int index)
 	{
 		objs.get(index).getMomentum().x = (float) (objs.get(index).getVelocity().x * objs.get(index).getMass());
 		objs.get(index).getMomentum().y = (float) (objs.get(index).getVelocity().y * objs.get(index).getMass());
 		objs.get(index).getMomentum().z = (float) (objs.get(index).getVelocity().z * objs.get(index).getMass());
 	}
+	/**
+	 * Updates the world.
+	 * @param elapsedTime the time elapsed since the start of the game, in frames.
+	 * @param gndHt the lowest ground y-value.
+	 */
 	public static void update(long elapsedTime, float gndHt)
 	{
 			for(int i = 0; i < objs.size(); i++)
