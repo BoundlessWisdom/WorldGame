@@ -1,0 +1,11 @@
+package pizazz;
+
+public class AttachedEffect extends Effect {
+	public final Entity host;
+
+	AttachedEffect(Entity h, CasterBase c, int i) {
+		super(c, i);
+		this.host = h;
+	}
+
+}
