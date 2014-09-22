@@ -1,12 +1,15 @@
 package jar;
 
 public abstract class Cast {
-ICaster caster;
+CasterBase caster;
 
-public Cast(ICaster caster) {
+public Cast(CasterBase caster) {
 	this.caster = caster;
+	query();
 }
 
 protected abstract void query();
+
+protected abstract boolean activate();
 
 }
