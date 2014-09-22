@@ -1,4 +1,4 @@
-package jar;
+package pizazz;
 
 public enum ECastType {
 
@@ -6,11 +6,9 @@ AIR("AIR"),
 EARTH("EARTH"),
 FIRE("FIRE"),
 WATER("WATER"),
-//PLANT("FLORA"),
-//BEAST("FAUNA"),
-//TIME("TIME"),
-//PLASMA("FIRE"),
-//ANIME("MOSHI MOSHI!"),
+ICE("ICE"),
+CLOUD("CLOUD"),
+//PLANT("PLANT"),
 NULL("NULL");
 
 public final String castName;
