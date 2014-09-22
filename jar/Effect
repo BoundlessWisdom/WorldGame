@@ -1,6 +1,7 @@
 package pizazz;
 
 public class Effect {
+	@SuppressWarnings("unused")
 	private CasterBase caster;
 	
 	public boolean expired;
