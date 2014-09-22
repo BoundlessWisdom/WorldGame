@@ -1,0 +1,17 @@
+package pizazz;
+
+public class Effect {
+	public CasterBase caster;
+	
+	public boolean expired;
+	public final int index;
+	
+	Effect(CasterBase c, int i) {
+		caster = c;
+		index = i;
+	}
+	
+	void expire() {
+		expired = true;
+	}
+}
