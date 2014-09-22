@@ -3,8 +3,8 @@ package pizazz;
 public class AttachedEffect extends Effect {
 	public final Entity host;
 
-	AttachedEffect(Entity h, CasterBase c, int i) {
-		super(c, i);
+	AttachedEffect(int i, Entity h) {
+		super(i);
 		this.host = h;
 	}
 
