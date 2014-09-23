@@ -1,10 +1,13 @@
 package com.nathandsimon.lwjglgameutils;
 
+import java.util.ArrayList;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
+import static org.lwjgl.opengl.GL11.*;
 /**
  * The basic framework for use with my LWJGL tutorials.
  *
@@ -16,7 +19,8 @@ public abstract class Game
     private static Game instance;
     // Delta time
     private static long delta;
-
+    private ArrayList<EngineComponent> components = new ArrayList<EngineComponent>();
+    private ArrayList<IObject> objs = new ArrayList<IObject>();
     /**
      * A simple Game
      */
@@ -37,7 +41,7 @@ public abstract class Game
             System.exit(-1);
         }
     }
-    public Game getInstance()
+    public static Game getInstance()
     {
     	return instance;
     }
@@ -56,7 +60,6 @@ public abstract class Game
             setDelta(thisFrame - lastFrame);
 
             update(getDelta());
-            render();
 
             Display.update();
 
@@ -228,29 +231,43 @@ public abstract class Game
     /**
      * Load any resources here.
      */
-    public abstract void init();
+    public void init()
+    {
+    	addEngineComponent(new PhysicsEngine());
+		addEngineComponent(new RenderingEngine());
+    }
 
     /**
      * Update the logic of the game.
      *
      * @param elapsedTime Time elapsed since last frame.
      */
-    public abstract void update(long elapsedTime);
-
-    /**
-     * Render to screen.
-     */
-    public abstract void render();
+    public void update(long elapsedTime)
+    {
+    	for(EngineComponent c : getEngineComponents())
+		{
+			c.run(elapsedTime);
+		}
+    }
 
     /**
      * Display is resized
      */
-    public abstract void resized();
+    public void resized()
+    {
+        glViewport(0, 0, Display.getWidth(), Display.getHeight());
+    }
 
     /**
      * Dispose created resources.
      */
-    public abstract void dispose();
+    public void dispose()
+    {
+    	for(EngineComponent c : getEngineComponents())
+		{
+			c.dispose();
+		}
+    }
 
     public static long getDelta()
     {
@@ -262,9 +279,29 @@ public abstract class Game
         Game.delta = delta;
     }
     
-    public static void addObject(IObject o)
+    public void addObject(IObject o)
     {
-    	Physics.add(o);
-    	ObjectRenderer.add(o);
+    	for(EngineComponent e : components)
+    	{
+    		e.add(o);
+    	}
+    	objs.add(o);
     }
+    public void removeObject(IObject o)
+    {
+    	for(EngineComponent e : components)
+    	{
+    		e.remove(o);
+    	}
+    	objs.remove(o);
+    }
+	public ArrayList<EngineComponent> getEngineComponents() {
+		return components;
+	}
+	public void addEngineComponent(EngineComponent component) {
+		components.add(component);
+	}
+	public ArrayList<IObject> getObjects() {
+		return objs;
+	}
 }

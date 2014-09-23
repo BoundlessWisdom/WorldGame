@@ -8,18 +8,36 @@ import org.lwjgl.util.vector.Vector3f;
  * @author Nathan
  *
  */
-public class Physics {
-	private static ArrayList<Vector3f> forces = new ArrayList<Vector3f>();
-	private static ArrayList<IObject> objs = new ArrayList<IObject>();
+public class PhysicsEngine extends EngineComponent {
+	private ArrayList<Vector3f> forces;
+	private ArrayList<IObject> objs;
+	public PhysicsEngine()
+	{
+		init();
+	}
+	public void init()
+	{
+		forces  = new ArrayList<Vector3f>();
+		objs  = new ArrayList<IObject>();
+	}
 	/**
 	 * Adds an object to the physics engine.
 	 * @param o object to add.
 	 */
-	public static void add(IObject o)
+	public void add(IObject o)
 	{
+		o.setIndex(objs.size());
 		objs.add(o);
 		forces.add(new Vector3f(0,0,0));
-		o.setIndex(objs.size());
+	}
+	public void remove(IObject o)
+	{
+		objs.remove(o.getIndex());
+		forces.remove(o.getIndex());
+		for(int i = o.getIndex(); i < objs.size(); i++)
+		{
+			objs.get(i).setIndex(i);
+		}
 	}
 	/**
 	 * Applies a force to an object. Assumes not to apply impulse.
@@ -27,7 +45,7 @@ public class Physics {
 	 * @param force the force vector.
 	 * @param add whether to add the force to the current value(true) or to set the current value to the value provided(false).
 	 */
-	public static void applyForce(int index, Vector3f force, boolean add)
+	public void applyForce(int index, Vector3f force, boolean add)
 	{
 		if(index < objs.size())
 		{
@@ -49,7 +67,7 @@ public class Physics {
 	 * @param add whether to add the force to the current value(true) or to set the current value to the value provided(false).
 	 * @param impulse whether to apply impulse.
 	 */
-	public static void applyForce(int index, Vector3f force, boolean add, boolean impulse)
+	public void applyForce(int index, Vector3f force, boolean add, boolean impulse)
 	{
 		if(index < objs.size())
 		{
@@ -73,7 +91,7 @@ public class Physics {
 	 * @param index the object's index.
 	 * @param gndHt The height of the ground.
 	 */
-	public static void applyMovingFriction(int index, float gndHt)
+	public void applyMovingFriction(int index, float gndHt)
 	{
 		if(index < objs.size())
 		{
@@ -121,7 +139,7 @@ public class Physics {
 	 * Sets the force on an object to zero.
 	 * @param index the object's index.
 	 */
-	public static void zeroForce(int index)
+	public void zeroForce(int index)
 	{
 		if(index < objs.size())
 		{
@@ -132,7 +150,7 @@ public class Physics {
 	/**
 	 * Applies gravity to all objects.
 	 */
-	public static void applyGravity()
+	public void applyGravity()
 	{
 		for(int i = 0; i < objs.size(); i++)
 		{
@@ -143,7 +161,7 @@ public class Physics {
 	 * Applies gravity to a specific object.
 	 * @param i the object's index.
 	 */
-	public static void applyGravity(int i)
+	public void applyGravity(int i)
 	{
 		applyForce(i, new Vector3f(0f, -0.17f*(float)objs.get(i).getMass(),0f), false);	
 	}
@@ -152,7 +170,7 @@ public class Physics {
 	 * @param index the object's index.
 	 * @param impulse the impulse to apply.
 	 */
-	public static void applyImpulse(int index, Vector3f impulse)
+	public void applyImpulse(int index, Vector3f impulse)
 	{
 		objs.get(index).getMomentum().x += impulse.x;
 		objs.get(index).getMomentum().y += impulse.y;
@@ -165,7 +183,7 @@ public class Physics {
 	 * Updates the momentum values of an object.
 	 * @param index the object's index.
 	 */
-	public static void updateMomentum(int index)
+	public void updateMomentum(int index)
 	{
 		objs.get(index).getMomentum().x = (float) (objs.get(index).getVelocity().x * objs.get(index).getMass());
 		objs.get(index).getMomentum().y = (float) (objs.get(index).getVelocity().y * objs.get(index).getMass());
@@ -174,22 +192,24 @@ public class Physics {
 	/**
 	 * Updates the world.
 	 * @param elapsedTime the time elapsed since the start of the game, in frames.
-	 * @param gndHt the lowest ground y-value.
 	 */
-	public static void update(long elapsedTime, float gndHt)
+	public void run(long elapsedTime)
 	{
 			for(int i = 0; i < objs.size(); i++)
 			{
+				applyGravity(i);
 				updateMomentum(i);
-				if(objs.get(i).getVelocity().y <= gndHt-objs.get(i).getPos().y&&forces.get(i).y < gndHt)
+				applyMovingFriction(i, 0);
+				if(objs.get(i).getVelocity().y <= -objs.get(i).getPos().y && forces.get(i).y < 0)
 				{
-					if(Math.abs(objs.get(i).getVelocity().y) < 0.2)
+					if(Math.abs(objs.get(i).getVelocity().y) < 0.2 || objs.get(i).getPos().y < 0.1)
 					{
 						objs.get(i).getMomentum().y = 0;
+						objs.get(i).getVelocity().y = 0;
 					}
 					applyForce(i, new Vector3f((float) (forces.get(i).x),(float) (-objs.get(i).getMomentum().y*objs.get(i).getElasticConstant()),(float) (forces.get(i).z)) ,false,true);
 					objs.get(i).getVelocity().setY(0);
-					objs.get(i).getPos().y = gndHt;
+					objs.get(i).getPos().y = 0;
 					
 				}				
 				objs.get(i).getAcceleration().x = (float) (forces.get(i).x/objs.get(i).getMass());
@@ -201,5 +221,12 @@ public class Physics {
 				objs.get(i).move(objs.get(i).getVelocity().x, objs.get(i).getVelocity().y, objs.get(i).getVelocity().z);
 			}
 		
+	}
+	public void dispose()
+	{
+		for(int i = 0; i < objs.size(); i++)
+		{
+			remove(objs.get(i));
+		}
 	}
 }
