@@ -23,12 +23,12 @@ public abstract class Entity implements IObject {
 	//For the game
 	private int health = 10000;
 	/**
-	 * @param x x-coordinate
-	 * @param y y-coordinate
-	 * @param z z-coordinate
-	 * @param mass mass for physics engine
-	 * @param model_loc location on disk of the entity's model
-	 * @param name name of the entity
+	 * @param x x-coordinate.
+	 * @param y y-coordinate.
+	 * @param z z-coordinate.
+	 * @param mass mass for physics engine.
+	 * @param model_loc location on disk of the entity's model.
+	 * @param name name of the entity.
 	 */
 	public Entity(float x, float y, float z, double mass, String model_loc, String name)
 	{
@@ -44,10 +44,18 @@ public abstract class Entity implements IObject {
 		this.mass = mass;
 		this.name = name;
 	}
+	/**
+	 * @return the entity's sprite (model).
+	 */
+	@Override
 	public Model getSprite()
 	{
 		return m_sprite;
 	}
+	/**
+	 * Move around.
+	 */
+	@Override
 	public void move(float x, float y, float z)
 	{
 		m_pos.x+=x;
@@ -55,24 +63,40 @@ public abstract class Entity implements IObject {
 		m_pos.z+=z;
 	}
 	/**
-	 * @return the entity's position
+	 * @return the entity's position.
 	 */
+	@Override
 	public Vector3f getPos()
 	{
 		return m_pos;
 	}
+	/**
+	 * @return the mass of the entity.
+	 */
+	@Override
 	public double getMass()
 	{
 		return mass;
 	}
+	/**
+	 * @return the name of the entity.
+	 */
+	@Override
 	public String getName()
 	{
 		return name;
 	}
+	/**
+	 * @return the entity's remaining health.
+	 */
 	public int getHealth()
 	{
 		return health;
 	}
+	/**
+	 * Add health.
+	 * @param h the amount of health.
+	 */
 	public void addHealth(int h)
 	{
 		health += h;
@@ -81,6 +105,10 @@ public abstract class Entity implements IObject {
 			die();
 		}
 	}
+	/**
+	 * Subtract health.
+	 * @param h the amount of health.
+	 */
 	public void subtractHealth(int h)
 	{
 		health -= h;
@@ -89,29 +117,67 @@ public abstract class Entity implements IObject {
 			die();
 		}
 	}
+	/**
+	 * Set the acceleration.
+	 * @param accel the acceleration vector.
+	 */
 	@Override
-	public void setAcceleration(Vector3f accel) {
+	public void setAcceleration(Vector3f accel) 
+	{
 		a = accel;
 	}
+	/**
+	 * @return the acceleration.
+	 */
 	@Override
-	public Vector3f getAcceleration() {
+	public Vector3f getAcceleration() 
+	{
 		return a;
 	}
+	/**
+	 * Set the velocity.
+	 * @param vel the velocity.
+	 */
 	@Override
-	public void setVelocity(Vector3f vel) {
+	public void setVelocity(Vector3f vel) 
+	{
 		v = vel;
 	}
+	/**
+	 * @return the velocity.
+	 */
 	@Override
-	public Vector3f getVelocity() {
+	public Vector3f getVelocity() 
+	{
 		return v;
 	}
-	public abstract void die();
-	public int getIndex() {
+	/**
+	 * Die, removing the entity from the game.
+	 */
+	public void die()
+	{
+		Game.getInstance().removeObject(this);
+	}
+	/**
+	 * @return the index of the object in the engine.
+	 */
+	@Override
+	public int getIndex() 
+	{
 		return index;
 	}
-	public void setIndex(int index) {
+	/**
+	 * Set what the entity thinks its index is.
+	 * @param index the index.
+	 */
+	@Override
+	public void setIndex(int index) 
+	{
 		this.index = index;
 	}
+	/**
+	 * @return the momentum vector.
+	 */
 	@Override
 	public Vector3f getMomentum()
 	{

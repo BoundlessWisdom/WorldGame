@@ -17,4 +17,6 @@ public interface IObject {
 	public Vector3f getVelocity();
 	public int getIndex();
 	public void setIndex(int index);
+	public double getDragConstant();
+	public double getCrossSectionArea();
 }

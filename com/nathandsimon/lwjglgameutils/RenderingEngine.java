@@ -9,9 +9,8 @@ import java.util.ArrayList;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 /**
- * Used to render non-animated objects.
+ * A simple rendering engine.
  * @author nathan
- *
  */
 public class RenderingEngine extends EngineComponent{
 	private ArrayList<IObject> m_objs = new ArrayList<IObject>();
@@ -20,11 +19,11 @@ public class RenderingEngine extends EngineComponent{
 	private int shaderProgram;
 	private ArrayList<Integer> vboVertexHandle = new ArrayList<Integer>();
 	private ArrayList<Integer> vboNormalHandle = new ArrayList<Integer>();
+	public EulerCamera cam;
 	public RenderingEngine()
 	{
 		init();
 	}
-	public EulerCamera cam;
 	/**
 	 * Initialize the renderer. ALWAYS CALL IN INITIALIZATION CODE.
 	 */
@@ -58,6 +57,10 @@ public class RenderingEngine extends EngineComponent{
 		vboVertexHandle.add(vbos[0]);
 		vboNormalHandle.add(vbos[1]);
 	}
+	/**
+	 * Remove an object from the renderer.
+	 * @param obj the object to remove.
+	 */
 	public void remove(IObject obj)
 	{
 		dispObj(obj.getIndex());
@@ -67,20 +70,7 @@ public class RenderingEngine extends EngineComponent{
 			m_objs.get(i).setIndex(i);
 		}
 	}
-	/**
-	 * Loads the object at an index to be rendered. Use run() instead of calling directly.
-	 * @param objectindex the object's index.
-	 */
-	private void prepare(int objectindex)
-	{
-		glBindBuffer(GL_ARRAY_BUFFER, vboVertexHandle.get(objectindex));
-		glVertexPointer(3, GL_FLOAT, 0, 0L);
-		glBindBuffer(GL_ARRAY_BUFFER, vboNormalHandle.get(objectindex));
-		glNormalPointer(GL_FLOAT, 0, 0L);
-		glBindBuffer(GL_ARRAY_BUFFER,0);
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_NORMAL_ARRAY);
-	}
+	
 	/**
 	 * Run the renderer.
 	 */
@@ -100,21 +90,9 @@ public class RenderingEngine extends EngineComponent{
 			render(i);
 		}
 	}
+	
 	/**
-	 * Render an object. Use run() instead of calling directly.
-	 * @param i the object's index.
-	 */
-	private void render(int i) {
-		IObject obj = m_objs.get(i);
-		glLoadIdentity();
-	    cam.applyTranslations();
-	    glTranslatef(obj.getPos().x, obj.getPos().y, obj.getPos().z);
-	    glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(cam.x(), cam.y(), cam.z(), 1));
-	    glDrawArrays(GL_TRIANGLES, 0, obj.getSprite().getFaces().size() * 3);
-	        
-	}
-	/**
-	 * Dispose stuff.
+	 * Clean up.
 	 */
 	public void dispose() {
 		glDeleteProgram(shaderProgram);
@@ -133,5 +111,32 @@ public class RenderingEngine extends EngineComponent{
         glDeleteBuffers(vboNormalHandle.get(i));
         vboVertexHandle.remove(i);
         vboNormalHandle.remove(i);
+	}
+	/**
+	 * Loads the object at an index to be rendered. Use run() instead of calling directly.
+	 * @param objectindex the object's index.
+	 */
+	private void prepare(int objectindex)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, vboVertexHandle.get(objectindex));
+		glVertexPointer(3, GL_FLOAT, 0, 0L);
+		glBindBuffer(GL_ARRAY_BUFFER, vboNormalHandle.get(objectindex));
+		glNormalPointer(GL_FLOAT, 0, 0L);
+		glBindBuffer(GL_ARRAY_BUFFER,0);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_NORMAL_ARRAY);
+	}
+	/**
+	 * Render an object. Use run() instead of calling directly.
+	 * @param i the object's index.
+	 */
+	private void render(int i) {
+		IObject obj = m_objs.get(i);
+		glLoadIdentity();
+	    cam.applyTranslations();
+	    glTranslatef(obj.getPos().x, obj.getPos().y, obj.getPos().z);
+	    glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(cam.x(), cam.y(), cam.z(), 1));
+	    glDrawArrays(GL_TRIANGLES, 0, obj.getSprite().getFaces().size() * 3);
+	        
 	}
 }

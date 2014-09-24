@@ -11,10 +11,15 @@ import org.lwjgl.util.vector.Vector3f;
 public class PhysicsEngine extends EngineComponent {
 	private ArrayList<Vector3f> forces;
 	private ArrayList<IObject> objs;
+	private static final double rho = .02;
+	private static final float g = .17f;
 	public PhysicsEngine()
 	{
 		init();
 	}
+	/**
+	 * Initialize the engine.
+	 */
 	public void init()
 	{
 		forces  = new ArrayList<Vector3f>();
@@ -30,6 +35,10 @@ public class PhysicsEngine extends EngineComponent {
 		objs.add(o);
 		forces.add(new Vector3f(0,0,0));
 	}
+	/**
+	 * Remove an object from the physics engine.
+	 * @param o object to remove.
+	 */
 	public void remove(IObject o)
 	{
 		objs.remove(o.getIndex());
@@ -73,7 +82,10 @@ public class PhysicsEngine extends EngineComponent {
 		{
 			if(add)
 			{
-				forces.get(index).set(forces.get(index).x + force.x, forces.get(index).y + force.y, forces.get(index).z + force.z);
+				forces.get(index).x += force.x;
+				forces.get(index).y += force.y;
+				forces.get(index).z += force.z;
+				
 			}
 			else
 			{
@@ -97,11 +109,12 @@ public class PhysicsEngine extends EngineComponent {
 		{
 			
 			double mu = objs.get(index).getMu();
-			double fN = objs.get(index).getPos().y <= gndHt ? forces.get(index).getY() : 0.1;
+			double fN = objs.get(index).getPos().y <= gndHt ? forces.get(index).getY() : 0;
 			
-			double percentXMotion = objs.get(index).getAcceleration().x  != 0 ? objs.get(index).getAcceleration().x / (objs.get(index).getAcceleration().x +objs.get(index).getAcceleration().y  + objs.get(index).getAcceleration().z) : 0;
-			double percentYMotion = objs.get(index).getAcceleration().y  != 0 ? objs.get(index).getAcceleration().y / (objs.get(index).getAcceleration().x +objs.get(index).getAcceleration().y  + objs.get(index).getAcceleration().z) : 0;
-			double percentZMotion = objs.get(index).getAcceleration().z  != 0 ? objs.get(index).getAcceleration().z / (objs.get(index).getAcceleration().x +objs.get(index).getAcceleration().y  + objs.get(index).getAcceleration().z) : 0;
+			double percentXMotion = objs.get(index).getVelocity().x  != 0 ? objs.get(index).getVelocity().x / (objs.get(index).getVelocity().x +objs.get(index).getVelocity().y  + objs.get(index).getVelocity().z) : 0;
+			double percentYMotion = objs.get(index).getVelocity().y  != 0 ? objs.get(index).getVelocity().y / (objs.get(index).getVelocity().x +objs.get(index).getVelocity().y  + objs.get(index).getVelocity().z) : 0;
+			double percentZMotion = objs.get(index).getVelocity().z  != 0 ? objs.get(index).getVelocity().z / (objs.get(index).getVelocity().x +objs.get(index).getVelocity().y  + objs.get(index).getVelocity().z) : 0;
+			
 			double finalX = -mu * fN * percentXMotion;
 			double finalY = -mu * fN * percentYMotion;
 			double finalZ = -mu * fN * percentZMotion;
@@ -136,6 +149,22 @@ public class PhysicsEngine extends EngineComponent {
 		}
 	}
 	/**
+	 * Applies air resistance to an object.
+	 * @param index the object's index.
+	 */
+	public void applyAirResistance(int index)
+	{
+		float dotprod = Vector3f.dot(objs.get(index).getVelocity(), objs.get(index).getVelocity());
+		double halfpcda = .5 * rho * objs.get(index).getDragConstant() * objs.get(index).getCrossSectionArea();
+		double percentXMotion = objs.get(index).getVelocity().x  != 0 ? objs.get(index).getVelocity().x / (objs.get(index).getVelocity().x +objs.get(index).getVelocity().y  + objs.get(index).getVelocity().z) : 0;
+		double percentYMotion = objs.get(index).getVelocity().y  != 0 ? objs.get(index).getVelocity().y / (objs.get(index).getVelocity().x +objs.get(index).getVelocity().y  + objs.get(index).getVelocity().z) : 0;
+		double percentZMotion = objs.get(index).getVelocity().z  != 0 ? objs.get(index).getVelocity().z / (objs.get(index).getVelocity().x +objs.get(index).getVelocity().y  + objs.get(index).getVelocity().z) : 0;
+		float Finalx = (float) (-dotprod*halfpcda*percentXMotion);
+		float Finaly = (float) (-dotprod*halfpcda*percentYMotion);
+		float Finalz = (float) (-dotprod*halfpcda*percentZMotion);
+		applyForce(index, new Vector3f(Finalx, Finaly, Finalz), true);
+	}
+	/**
 	 * Sets the force on an object to zero.
 	 * @param index the object's index.
 	 */
@@ -163,7 +192,7 @@ public class PhysicsEngine extends EngineComponent {
 	 */
 	public void applyGravity(int i)
 	{
-		applyForce(i, new Vector3f(0f, -0.17f*(float)objs.get(i).getMass(),0f), false);	
+		applyForce(i, new Vector3f(0f, (float) (-g*objs.get(i).getMass()),0f), false);	
 	}
 	/**
 	 * Applies an impulse to an object.
@@ -198,11 +227,12 @@ public class PhysicsEngine extends EngineComponent {
 			for(int i = 0; i < objs.size(); i++)
 			{
 				applyGravity(i);
-				updateMomentum(i);
 				applyMovingFriction(i, 0);
+				applyAirResistance(i);
+				updateMomentum(i);
 				if(objs.get(i).getVelocity().y <= -objs.get(i).getPos().y && forces.get(i).y < 0)
 				{
-					if(Math.abs(objs.get(i).getVelocity().y) < 0.2 || objs.get(i).getPos().y < 0.1)
+					if(Math.abs(objs.get(i).getVelocity().y) < 0.45)
 					{
 						objs.get(i).getMomentum().y = 0;
 						objs.get(i).getVelocity().y = 0;
@@ -222,6 +252,9 @@ public class PhysicsEngine extends EngineComponent {
 			}
 		
 	}
+	/**
+	 * Clean up.
+	 */
 	public void dispose()
 	{
 		for(int i = 0; i < objs.size(); i++)

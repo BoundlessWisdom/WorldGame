@@ -38,10 +38,18 @@ public abstract class Item implements IObject{
 		this.mass = mass;
 		this.name = name;
 	}
+	/**
+	 * @return the item's sprite (model).
+	 */
+	@Override
 	public Model getSprite()
 	{
 		return m_sprite;
 	}
+	/**
+	 * Move around.
+	 */
+	@Override
 	public void move(float x, float y, float z)
 	{
 		m_pos.x+=x;
@@ -49,42 +57,83 @@ public abstract class Item implements IObject{
 		m_pos.z+=z;
 	}
 	/**
-	 * @return the entity's position
+	 * @return the item's position.
 	 */
+	@Override
 	public Vector3f getPos()
 	{
 		return m_pos;
 	}
+	/**
+	 * @return the item's mass.
+	 */
+	@Override
 	public double getMass()
 	{
 		return mass;
 	}
+	/**
+	 * @return the item's name.
+	 */
+	@Override
 	public String getName()
 	{
 		return name;
 	}
+	/**
+	 * Set the acceleration.
+	 * @param accel the acceleration vector.
+	 */
 	@Override
-	public void setAcceleration(Vector3f accel) {
+	public void setAcceleration(Vector3f accel)
+	{
 		a = accel;
 	}
+	/**
+	 * @return the acceleration.
+	 */
 	@Override
-	public Vector3f getAcceleration() {
+	public Vector3f getAcceleration()
+	{
 		return a;
 	}
+	/**
+	 * Set the velocity.
+	 * @param vel the velocity.
+	 */
 	@Override
-	public void setVelocity(Vector3f vel) {
+	public void setVelocity(Vector3f vel)
+	{
 		v = vel;
 	}
+	/**
+	 * @return the velocity.
+	 */
 	@Override
-	public Vector3f getVelocity() {
+	public Vector3f getVelocity()
+	{
 		return v;
 	}
-	public int getIndex() {
+	/**
+	 * @return the index of the object in the engine.
+	 */
+	@Override
+	public int getIndex()
+	{
 		return index;
 	}
-	public void setIndex(int index) {
+	/**
+	 * Set what the item thinks its index is.
+	 * @param index the index.
+	 */
+	@Override
+	public void setIndex(int index)
+	{
 		this.index = index;
 	}
+	/**
+	 * @return the momentum vector.
+	 */
 	@Override
 	public Vector3f getMomentum()
 	{
