@@ -295,13 +295,38 @@ public abstract class Game
     	}
     	objs.remove(o);
     }
-	public ArrayList<EngineComponent> getEngineComponents() {
+	public ArrayList<EngineComponent> getEngineComponents()
+	{
 		return components;
 	}
-	public void addEngineComponent(EngineComponent component) {
+	public void addEngineComponent(EngineComponent component)
+	{
 		components.add(component);
 	}
-	public ArrayList<IObject> getObjects() {
+	public ArrayList<IObject> getObjects()
+	{
 		return objs;
+	}
+	public PhysicsEngine getPhysicsEngine()
+	{
+		for(EngineComponent c : components)
+		{
+			if(c.getType() == EngineComponent.ComponentType.physics)
+			{
+				return (PhysicsEngine) c;
+			}
+		}
+		return null;
+	}
+	public RenderingEngine getRenderingEngine()
+	{
+		for(EngineComponent c : components)
+		{
+			if(c.getType() == EngineComponent.ComponentType.render)
+			{
+				return (RenderingEngine) c;
+			}
+		}
+		return null;
 	}
 }

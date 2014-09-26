@@ -19,4 +19,6 @@ public interface IObject {
 	public void setIndex(int index);
 	public double getDragConstant();
 	public double getCrossSectionArea();
+	public boolean isFlying();
+	public void setFlying(boolean flying);
 }

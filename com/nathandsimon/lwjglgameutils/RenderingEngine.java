@@ -101,6 +101,11 @@ public class RenderingEngine extends EngineComponent{
 			dispObj(i);
 		}
 	}
+	@Override
+	public ComponentType getType() 
+	{
+		return EngineComponent.ComponentType.render;
+	}
 	/**
 	 * Dispose an object's buffers.
 	 * @param i the object's index.

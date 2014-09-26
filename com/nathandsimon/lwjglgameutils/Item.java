@@ -16,6 +16,7 @@ public abstract class Item implements IObject{
 	private Vector3f v  = new Vector3f(0,0,0);
 	private Vector3f P = new Vector3f(0,0,0);
 	private int index;
+	private boolean flying = false;
 	/**
 	 * @param x x-coordinate
 	 * @param y y-coordinate
@@ -138,5 +139,19 @@ public abstract class Item implements IObject{
 	public Vector3f getMomentum()
 	{
 		return P;
+	}
+	@Override
+	public boolean isFlying()
+	{
+		return flying;
+	}
+	@Override
+	public void setFlying(boolean flying) 
+	{
+		this.flying  = flying;
+		if(flying)
+		{
+			v.y = 0;
+		}
 	}
 }
