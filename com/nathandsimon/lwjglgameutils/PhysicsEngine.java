@@ -15,6 +15,10 @@ public class PhysicsEngine extends EngineComponent {
 	private boolean frictionEnabled = true;
 	private static final double rho = .02;
 	private static final float g = .17f;
+	static 
+	{
+		Game.getInstance().hasPhysics = true;
+	}
 	public PhysicsEngine()
 	{
 		init();
@@ -84,7 +88,6 @@ public class PhysicsEngine extends EngineComponent {
 				objs.get(i).getVelocity().z += objs.get(i).getAcceleration().z;
 				objs.get(i).move(objs.get(i).getVelocity().x, objs.get(i).getVelocity().y, objs.get(i).getVelocity().z);
 			}
-		
 	}
 	/**
 	 * Clean up.
@@ -171,7 +174,6 @@ public class PhysicsEngine extends EngineComponent {
 				forces.get(index).x += force.x;
 				forces.get(index).y += force.y;
 				forces.get(index).z += force.z;
-				
 			}
 			else
 			{
@@ -207,14 +209,11 @@ public class PhysicsEngine extends EngineComponent {
 	{
 		if(index < objs.size())
 		{
-			
 			double mu = objs.get(index).getMu();
 			double fN = objs.get(index).getPos().y <= 0 ? forces.get(index).getY() : 0;
-			
 			double percentXMotion = objs.get(index).getVelocity().x  != 0 ? objs.get(index).getVelocity().x / (objs.get(index).getVelocity().x +objs.get(index).getVelocity().y  + objs.get(index).getVelocity().z) : 0;
 			double percentYMotion = objs.get(index).getVelocity().y  != 0 ? objs.get(index).getVelocity().y / (objs.get(index).getVelocity().x +objs.get(index).getVelocity().y  + objs.get(index).getVelocity().z) : 0;
 			double percentZMotion = objs.get(index).getVelocity().z  != 0 ? objs.get(index).getVelocity().z / (objs.get(index).getVelocity().x +objs.get(index).getVelocity().y  + objs.get(index).getVelocity().z) : 0;
-			
 			double finalX = -mu * fN * percentXMotion;
 			double finalY = -mu * fN * percentYMotion;
 			double finalZ = -mu * fN * percentZMotion;
@@ -281,5 +280,5 @@ public class PhysicsEngine extends EngineComponent {
 		objs.get(index).getMomentum().x = (float) (objs.get(index).getVelocity().x * objs.get(index).getMass());
 		objs.get(index).getMomentum().y = (float) (objs.get(index).getVelocity().y * objs.get(index).getMass());
 		objs.get(index).getMomentum().z = (float) (objs.get(index).getVelocity().z * objs.get(index).getMass());
-	}
+    }	
 }

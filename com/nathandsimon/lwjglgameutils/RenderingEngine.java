@@ -142,6 +142,5 @@ public class RenderingEngine extends EngineComponent{
 	    glTranslatef(obj.getPos().x, obj.getPos().y, obj.getPos().z);
 	    glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(cam.x(), cam.y(), cam.z(), 1));
 	    glDrawArrays(GL_TRIANGLES, 0, obj.getSprite().getFaces().size() * 3);
-	        
 	}
 }

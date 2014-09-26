@@ -21,6 +21,7 @@ public abstract class Game
     private static long delta;
     private ArrayList<EngineComponent> components = new ArrayList<EngineComponent>();
     private ArrayList<IObject> objs = new ArrayList<IObject>();
+    public boolean hasPhysics = false;
     /**
      * A simple Game
      */
@@ -309,11 +310,14 @@ public abstract class Game
 	}
 	public PhysicsEngine getPhysicsEngine()
 	{
-		for(EngineComponent c : components)
+		if(hasPhysics)
 		{
-			if(c.getType() == EngineComponent.ComponentType.physics)
+			for(EngineComponent c : components)
 			{
-				return (PhysicsEngine) c;
+				if(c.getType() == EngineComponent.ComponentType.physics)
+				{
+					return (PhysicsEngine) c;
+				}
 			}
 		}
 		return null;
