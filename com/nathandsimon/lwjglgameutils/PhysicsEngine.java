@@ -282,7 +282,4 @@ public class PhysicsEngine extends EngineComponent {
 		objs.get(index).getMomentum().y = (float) (objs.get(index).getVelocity().y * objs.get(index).getMass());
 		objs.get(index).getMomentum().z = (float) (objs.get(index).getVelocity().z * objs.get(index).getMass());
 	}
-	
-
-
 }
