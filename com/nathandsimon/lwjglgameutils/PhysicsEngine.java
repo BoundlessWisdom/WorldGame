@@ -15,7 +15,6 @@ public class PhysicsEngine extends EngineComponent {
 	private boolean frictionEnabled = true;
 	private static final double rho = .02;
 	private static final float g = .17f;
-	static 
 	{
 		Game.getInstance().hasPhysics = true;
 	}
