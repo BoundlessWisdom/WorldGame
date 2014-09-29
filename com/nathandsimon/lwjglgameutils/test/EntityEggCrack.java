@@ -5,7 +5,7 @@ import com.nathandsimon.lwjglgameutils.Entity;
 public class EntityEggCrack extends Entity {
 
 	public EntityEggCrack(float x, float y, float z) {
-		super(x, y, z, 2, "src/res/egg_crack.obj", "egg_crack");
+		super(x, y, z, 2, "res/egg_crack.obj", "egg_crack");
 	}
 
 	@Override

@@ -14,8 +14,8 @@ import org.lwjgl.opengl.Display;
  */
 public class RenderingEngine extends EngineComponent{
 	private ArrayList<IObject> m_objs = new ArrayList<IObject>();
-	private static final String VERTEX_SHADER_LOCATION = "src/res/vertex_phong_lighting.vs";
-	private static final String FRAGMENT_SHADER_LOCATION = "src/res/vertex_phong_lighting.fs";
+	private static final String VERTEX_SHADER_LOCATION = "res/vertex_phong_lighting.vs";
+	private static final String FRAGMENT_SHADER_LOCATION = "res/vertex_phong_lighting.fs";
 	private int shaderProgram;
 	private ArrayList<Integer> vboVertexHandle = new ArrayList<Integer>();
 	private ArrayList<Integer> vboNormalHandle = new ArrayList<Integer>();
