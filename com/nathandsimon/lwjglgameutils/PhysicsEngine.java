@@ -15,9 +15,6 @@ public class PhysicsEngine extends EngineComponent {
 	private boolean frictionEnabled = true;
 	private static final double rho = .02;
 	private static final float g = .17f;
-	{
-		Game.getInstance().hasPhysics = true;
-	}
 	public PhysicsEngine()
 	{
 		init();
@@ -166,7 +163,7 @@ public class PhysicsEngine extends EngineComponent {
 	 */
 	private void applyForce(int index, Vector3f force, boolean add, boolean impulse)
 	{
-		if(index < objs.size())
+		if(index <= objs.size())
 		{
 			if(add)
 			{
@@ -268,7 +265,7 @@ public class PhysicsEngine extends EngineComponent {
 	 */
 	private void applyGravity(int i)
 	{
-		applyForce(i, new Vector3f(0f, (float) (-g*objs.get(i).getMass()),0f), false);	
+		applyForce(i, new Vector3f(forces.get(i).x, (float) (-g*objs.get(i).getMass()),forces.get(i).z), false);	
 	}
 	/**
 	 * Updates the momentum values of an object.

@@ -21,7 +21,8 @@ public abstract class Game
     private static long delta;
     private ArrayList<EngineComponent> components = new ArrayList<EngineComponent>();
     private ArrayList<IObject> objs = new ArrayList<IObject>();
-    public boolean hasPhysics = false;
+    private PhysicsEngine phys = new PhysicsEngine();
+    private RenderingEngine ren;
     /**
      * A simple Game
      */
@@ -234,8 +235,9 @@ public abstract class Game
      */
     public void init()
     {
-    	addEngineComponent(new PhysicsEngine());
-		addEngineComponent(new RenderingEngine());
+    	ren = new RenderingEngine();
+    	addEngineComponent(phys);
+		addEngineComponent(ren);
     }
 
     /**
@@ -245,10 +247,8 @@ public abstract class Game
      */
     public void update(long elapsedTime)
     {
-    	for(EngineComponent c : getEngineComponents())
-		{
-			c.run(elapsedTime);
-		}
+    	phys.run(elapsedTime);
+    	ren.run(elapsedTime);
     }
 
     /**
@@ -310,27 +310,10 @@ public abstract class Game
 	}
 	public PhysicsEngine getPhysicsEngine()
 	{
-		if(hasPhysics)
-		{
-			for(EngineComponent c : components)
-			{
-				if(c.getType() == EngineComponent.ComponentType.physics)
-				{
-					return (PhysicsEngine) c;
-				}
-			}
-		}
-		return null;
+		return phys;
 	}
 	public RenderingEngine getRenderingEngine()
 	{
-		for(EngineComponent c : components)
-		{
-			if(c.getType() == EngineComponent.ComponentType.render)
-			{
-				return (RenderingEngine) c;
-			}
-		}
-		return null;
+		return ren;
 	}
 }
