@@ -1,4 +1,4 @@
-package jar;
+package pizazz;
 
 public enum ECastType {
 
@@ -8,6 +8,7 @@ FIRE("FIRE"),
 WATER("WATER"),
 ICE("ICE"),
 CLOUD("CLOUD"),
+MAGMA("MAGMA"),
 //PLANT("PLANT"),
 NULL("NULL");
 
