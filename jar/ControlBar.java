@@ -1,6 +1,6 @@
-package pizazz;
+package jar;
 
-import static pizazz.ECastType.*;
+import static jar.ECastType.*;
 
 public class ControlBar {
 	ECastType type;
