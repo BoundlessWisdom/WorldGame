@@ -1,4 +1,4 @@
-package pizazz;
+package jar;
 
 public class ArchonEntity extends Entity {
 	

@@ -1,4 +1,4 @@
-package pizazz;
+package jar;
 
 public abstract class Location {
 	public int x;

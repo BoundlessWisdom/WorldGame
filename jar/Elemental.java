@@ -1,7 +1,6 @@
-package pizazz;
+package jar;
 
-import static pizazz.ECastType.*;
-
+import static jar.ECastType.*;
 public class Elemental extends Base {
 	
 	public static final Elemental[] airElementals = new Elemental[256];

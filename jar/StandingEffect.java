@@ -1,4 +1,4 @@
-package pizazz;
+package jar;
 
 public class StandingEffect extends Effect {
 	public Tile location;

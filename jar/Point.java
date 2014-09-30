@@ -1,4 +1,4 @@
-package pizazz;
+package jar;
 
 public class Point extends Location {
 	float y;

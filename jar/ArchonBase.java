@@ -1,4 +1,4 @@
-package pizazz;
+package jar;
 
 public class ArchonBase extends CasterBase {
 	

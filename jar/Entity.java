@@ -1,4 +1,4 @@
-package pizazz;
+package jar;
 
 public abstract class Entity {
 protected Base base;
