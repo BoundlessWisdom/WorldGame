@@ -5,8 +5,8 @@ import java.util.HashMap;
 import org.lwjgl.util.vector.Vector3f;
 
 
-public abstract class CompoundObject<T extends IObject> implements IObject{
-	private HashMap<String, T> children = new HashMap<String, T>();
+public abstract class CompoundObject implements IObject{
+	private HashMap<String, IObject> children = new HashMap<String, IObject>();
 	private Vector3f m_pos = new Vector3f();
 	//For physics
 	private double mass = 0;
@@ -17,20 +17,20 @@ public abstract class CompoundObject<T extends IObject> implements IObject{
 	private Vector3f P = new Vector3f(0,0,0);
 	private int index;
 	private boolean flying = false;
-	public HashMap<String, T> getChildren(){
+	public HashMap<String, IObject> getChildren(){
 		return children;
 	}
-	public void addChild(String key, T child){
+	public void addChild(String key, IObject child){
 		children.put(key, child);
 	}
-	public T getChild(String key){
+	public IObject getChild(String key){
 		return children.get(key);
 	}
 	@Override
 	public Model getSprite()
 	{
 		Model ret = new Model();
-		for(T t : children.values())
+		for(IObject t : children.values())
 		{
 			ret.getVertices().addAll(t.getSprite().getVertices());
 			ret.getNormals().addAll(t.getSprite().getNormals());
@@ -51,7 +51,7 @@ public abstract class CompoundObject<T extends IObject> implements IObject{
 		m_pos.x+=x;
 		m_pos.y+=y;
 		m_pos.z+=z;
-		for(T t : children.values())
+		for(IObject t : children.values())
 		{
 			t.move(x, y, z);
 		}
@@ -70,7 +70,7 @@ public abstract class CompoundObject<T extends IObject> implements IObject{
 	public void setAcceleration(Vector3f accel)
 	{
 		a = accel;
-		for(T t : children.values())
+		for(IObject t : children.values())
 		{
 			t.setAcceleration(accel);
 		}
@@ -84,7 +84,7 @@ public abstract class CompoundObject<T extends IObject> implements IObject{
 	public void setVelocity(Vector3f vel)
 	{
 		v = vel;
-		for(T t : children.values())
+		for(IObject t : children.values())
 		{
 			t.setVelocity(vel);
 		}
@@ -122,7 +122,7 @@ public abstract class CompoundObject<T extends IObject> implements IObject{
 		{
 			v.y = 0;
 		}
-		for(T t : children.values())
+		for(IObject t : children.values())
 		{
 			t.setFlying(flying);
 		}
