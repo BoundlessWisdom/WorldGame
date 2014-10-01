@@ -23,3 +23,5 @@
 /ShaderProgram.class
 /Texture.class
 /Transform.class
+/ICompoundObject.class
+/CompoundObject.class
