@@ -6,5 +6,9 @@ public class ElementalEntity extends Entity {
 		super(b, size);
 	}
 	
+	ElementalEntity(Base b, EntClass e, float size) {
+		super(b, e, size);
+	}
+	
 
 }
