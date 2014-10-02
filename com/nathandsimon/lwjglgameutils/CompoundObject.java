@@ -47,6 +47,9 @@ public abstract class CompoundObject implements IObject{
 			int tccurr = ret.getTextureCoordinates().size();
 			for(Vector3f vec : t.getSprite().getVertices())
 			{
+				vec.x += t.getPos().x;
+				vec.y += t.getPos().y;
+				vec.z += t.getPos().z;
 				Matrix4f mat = new Matrix4f();
 				mat.m03 = vec.x;
 				mat.m13 = vec.y;
@@ -57,10 +60,6 @@ public abstract class CompoundObject implements IObject{
 				vec.x = mat.m03;
 				vec.y = mat.m13;
 				vec.z = mat.m23;
-				vec.x += t.getPos().x;
-				vec.y += t.getPos().y;
-				vec.z += t.getPos().z;
-			
 			}
 			ret.getVertices().addAll(t.getSprite().getVertices());
 			ret.getNormals().addAll(t.getSprite().getNormals());
