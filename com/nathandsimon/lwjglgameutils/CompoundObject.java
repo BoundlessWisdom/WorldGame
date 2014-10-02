@@ -79,17 +79,41 @@ public abstract class CompoundObject implements IObject{
 			ret.getMaterials().putAll(t.getSprite().getMaterials());
 			ret.getTextureCoordinates().addAll(t.getSprite().getTextureCoordinates());
 		}
-		float lowest = 9000;
+		float lowesty = 9000;
 		for(Vector3f vec : ret.getVertices())
 		{
-			if(vec.y < lowest)
+			if(vec.y < lowesty)
 			{
-				lowest = vec.y;
+				lowesty = vec.y;
 			}
 		}
 		for(Vector3f vec : ret.getVertices())
 		{
-			vec.y -= lowest;
+			vec.y -= lowesty;
+		}
+		float lowestx = 9000;
+		for(Vector3f vec : ret.getVertices())
+		{
+			if(vec.x < lowestx)
+			{
+				lowestx = vec.x;
+			}
+		}
+		for(Vector3f vec : ret.getVertices())
+		{
+			vec.x -= lowestx;
+		}
+		float lowestz = 9000;
+		for(Vector3f vec : ret.getVertices())
+		{
+			if(vec.z < lowestz)
+			{
+				lowestz = vec.z;
+			}
+		}
+		for(Vector3f vec : ret.getVertices())
+		{
+			vec.z -= lowestz;
 		}
 		return ret;
 	}
