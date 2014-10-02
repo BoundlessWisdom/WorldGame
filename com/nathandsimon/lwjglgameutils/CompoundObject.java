@@ -2,6 +2,7 @@ package com.nathandsimon.lwjglgameutils;
 
 import java.util.HashMap;
 
+import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.nathandsimon.lwjglgameutils.Model.Face;
@@ -46,9 +47,20 @@ public abstract class CompoundObject implements IObject{
 			int tccurr = ret.getTextureCoordinates().size();
 			for(Vector3f vec : t.getSprite().getVertices())
 			{
+				Matrix4f mat = new Matrix4f();
+				mat.m03 = vec.x;
+				mat.m13 = vec.y;
+				mat.m23 = vec.z;
+				mat.rotate((float) Math.toRadians(t.getRotation(2)), new Vector3f(0,0,1));
+				mat.rotate((float) Math.toRadians(t.getRotation(1)), new Vector3f(0,1,0));
+				mat.rotate((float) Math.toRadians(t.getRotation(0)), new Vector3f(1,0,0));
+				vec.x = mat.m03;
+				vec.y = mat.m13;
+				vec.z = mat.m23;
 				vec.x += t.getPos().x;
 				vec.y += t.getPos().y;
 				vec.z += t.getPos().z;
+			
 			}
 			ret.getVertices().addAll(t.getSprite().getVertices());
 			ret.getNormals().addAll(t.getSprite().getNormals());
@@ -167,6 +179,52 @@ public abstract class CompoundObject implements IObject{
 		for(IObject t : children.values())
 		{
 			t.setFlying(flying);
+		}
+	}
+	private float thetax = 0;
+	private float thetay = 0;
+	private float thetaz = 0;
+	public float getRotation(int axis)
+	{
+		switch(axis)
+		{
+		case 0: 
+			return thetax;
+		case 1:
+			return thetay;
+		case 2:
+			return thetaz;
+		default: 
+			return 0;
+		}
+	}
+	public void rotate(float rotation, int axis)
+	{
+		switch(axis)
+		{
+		case 0: 
+			thetax += rotation;
+			for(IObject t : children.values())
+			{
+				t.rotate(rotation,0);
+			}
+			break;
+		case 1:
+			thetay += rotation;
+			for(IObject t : children.values())
+			{
+				t.rotate(rotation,1);
+			}
+			break;
+		case 2:
+			thetaz += rotation;
+			for(IObject t : children.values())
+			{
+				t.rotate(rotation,2);
+			}
+			break;
+		default: 
+			break;
 		}
 	}
 }

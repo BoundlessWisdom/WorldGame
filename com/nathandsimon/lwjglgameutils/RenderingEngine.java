@@ -140,6 +140,9 @@ public class RenderingEngine extends EngineComponent{
 		glLoadIdentity();
 	    cam.applyTranslations();
 	    glTranslatef(obj.getPos().x, obj.getPos().y, obj.getPos().z);
+	    glRotatef((float)Math.toRadians(obj.getRotation(0)), 1, 0, 0);
+	    glRotatef((float)Math.toRadians(obj.getRotation(1)), 0, 1, 0);
+	    glRotatef((float)Math.toRadians(obj.getRotation(2)), 0, 0, 1);
 	    glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(cam.x(), cam.y(), cam.z(), 1));
 	    glDrawArrays(GL_TRIANGLES, 0, obj.getSprite().getFaces().size() * 3);
 	}

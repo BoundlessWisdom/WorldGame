@@ -154,4 +154,38 @@ public abstract class Item implements IObject{
 			v.y = 0;
 		}
 	}
+	private float thetax = 0;
+	private float thetay = 0;
+	private float thetaz = 0;
+	public float getRotation(int axis)
+	{
+		switch(axis)
+		{
+		case 0: 
+			return thetax;
+		case 1:
+			return thetay;
+		case 2:
+			return thetaz;
+		default: 
+			return 0;
+		}
+	}
+	public void rotate(float rotation, int axis)
+	{
+		switch(axis)
+		{
+		case 0: 
+			thetax += rotation;
+			break;
+		case 1:
+			thetay += rotation;
+			break;
+		case 2:
+			thetaz += rotation;
+			break;
+		default: 
+			break;
+		}
+	}
 }

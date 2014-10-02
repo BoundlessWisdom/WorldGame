@@ -21,4 +21,9 @@ public interface IObject {
 	public double getCrossSectionArea();
 	public boolean isFlying();
 	public void setFlying(boolean flying);
+	public float getRotation(int axis);
+	public void rotate(float rotation, int axis);
+	static int X_AXIS = 0;
+	static int Y_AXIS = 1;
+	static int Z_AXIS = 2;
 }
