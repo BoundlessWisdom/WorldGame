@@ -20,31 +20,17 @@ public abstract class CompoundObject implements IObject{
 	private Vector3f P = new Vector3f(0,0,0);
 	private int index;
 	private boolean flying = false;
+	private Model sprite = new Model();
 	public CompoundObject(float x, float y, float z, String name, double mass)
 	{
 		m_pos.set(x, y, z);
 		this.name = name;
 		this.mass = mass;
-	}
-	public HashMap<String, IObject> getChildren(){
-		return children;
-	}
-	public void addChild(String key, IObject child){
-		children.put(key, child);
-	}
-	public IObject getChild(String key){
-		return children.get(key);
-	}
-	@Override
-	public Model getSprite()
-	{
-		
-		Model ret = new Model();
 		for(IObject t : children.values())
 		{
-			int vcurr = ret.getVertices().size();
-			int ncurr = ret.getNormals().size();
-			int tccurr = ret.getTextureCoordinates().size();
+			int vcurr = sprite.getVertices().size();
+			int ncurr = sprite.getNormals().size();
+			int tccurr = sprite.getTextureCoordinates().size();
 			for(Vector3f vec : t.getSprite().getVertices())
 			{
 				vec.x += t.getPos().x;
@@ -61,8 +47,14 @@ public abstract class CompoundObject implements IObject{
 				vec.y = mat.m13;
 				vec.z = mat.m23;
 			}
-			ret.getVertices().addAll(t.getSprite().getVertices());
-			ret.getNormals().addAll(t.getSprite().getNormals());
+			for(Vector3f vert : t.getSprite().getVertices())
+			{
+				sprite.getVertices().add(vert);
+			}
+			for(Vector3f norm : t.getSprite().getVertices())
+			{
+				sprite.getNormals().add(norm);
+			}
 			for(Face f : t.getSprite().getFaces())
 			{
 				f.getVertexIndices()[0] += vcurr;
@@ -75,47 +67,119 @@ public abstract class CompoundObject implements IObject{
 				f.getTextureCoordinateIndices()[1] += tccurr;
 				f.getTextureCoordinateIndices()[2] += tccurr;
 			}
-			ret.getFaces().addAll(t.getSprite().getFaces());
-			ret.getMaterials().putAll(t.getSprite().getMaterials());
-			ret.getTextureCoordinates().addAll(t.getSprite().getTextureCoordinates());
+			sprite.getFaces().addAll(t.getSprite().getFaces());
+			sprite.getMaterials().putAll(t.getSprite().getMaterials());
+			sprite.getTextureCoordinates().addAll(t.getSprite().getTextureCoordinates());
 		}
 		float lowesty = 9000;
-		for(Vector3f vec : ret.getVertices())
+		for(Vector3f vec : sprite.getVertices())
 		{
 			if(vec.y < lowesty)
 			{
 				lowesty = vec.y;
 			}
 		}
-		for(Vector3f vec : ret.getVertices())
+		for(Vector3f vec : sprite.getVertices())
 		{
 			vec.y -= lowesty;
 		}
 		float lowestx = 9000;
-		for(Vector3f vec : ret.getVertices())
+		for(Vector3f vec : sprite.getVertices())
 		{
 			if(vec.x < lowestx)
 			{
 				lowestx = vec.x;
 			}
 		}
-		for(Vector3f vec : ret.getVertices())
+		for(Vector3f vec : sprite.getVertices())
 		{
 			vec.x -= lowestx;
 		}
 		float lowestz = 9000;
-		for(Vector3f vec : ret.getVertices())
+		for(Vector3f vec : sprite.getVertices())
 		{
 			if(vec.z < lowestz)
 			{
 				lowestz = vec.z;
 			}
 		}
-		for(Vector3f vec : ret.getVertices())
+		for(Vector3f vec : sprite.getVertices())
 		{
 			vec.z -= lowestz;
 		}
-		return ret;
+	}
+	public HashMap<String, IObject> getChildren(){
+		return children;
+	}
+	public void addChild(String key, IObject child){
+		children.put(key, child);
+	}
+	public IObject getChild(String key){
+		return children.get(key);
+	}
+	@Override
+	public Model getSprite()
+	{
+		int base = 0;
+		for(IObject t : getChildren().values())
+		{
+			int numcurr = t.getSprite().getVertices().size();
+			for(int i = base; i < numcurr; i++)
+			{
+				Vector3f vec = sprite.getVertices().get(i);
+				vec.x += t.getPos().x;
+				vec.y += t.getPos().y;
+				vec.z += t.getPos().z;
+				Matrix4f mat = new Matrix4f();
+				mat.m03 = vec.x;
+				mat.m13 = vec.y;
+				mat.m23 = vec.z;
+				mat.rotate((float) Math.toRadians(t.getRotation(2)), new Vector3f(0,0,1));
+				mat.rotate((float) Math.toRadians(t.getRotation(1)), new Vector3f(0,1,0));
+				mat.rotate((float) Math.toRadians(t.getRotation(0)), new Vector3f(1,0,0));
+				vec.x = mat.m03;
+				vec.y = mat.m13;
+				vec.z = mat.m23;
+			}
+			base += numcurr;
+		}
+		float lowesty = 9000;
+		for(Vector3f vec : sprite.getVertices())
+		{
+			if(vec.y < lowesty)
+			{
+				lowesty = vec.y;
+			}
+		}
+		for(Vector3f vec : sprite.getVertices())
+		{
+			vec.y -= lowesty;
+		}
+		float lowestx = 9000;
+		for(Vector3f vec : sprite.getVertices())
+		{
+			if(vec.x < lowestx)
+			{
+				lowestx = vec.x;
+			}
+		}
+		for(Vector3f vec : sprite.getVertices())
+		{
+			vec.x -= lowestx;
+		}
+		float lowestz = 9000;
+		for(Vector3f vec : sprite.getVertices())
+		{
+			if(vec.z < lowestz)
+			{
+				lowestz = vec.z;
+			}
+		}
+		for(Vector3f vec : sprite.getVertices())
+		{
+			vec.z -= lowestz;
+		}
+		return sprite;
 	}
 	@Override
 	public Vector3f getPos()
