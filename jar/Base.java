@@ -3,6 +3,19 @@ package jar;
 public abstract class Base {
 protected Entity entity;
 
+public Base(float mh, int a) {
+	this.maxHealth = mh;
+	this.health = maxHealth;
+	this.attack = a;
+}
+
+public Base(float mh, float h, int a) {
+	this(mh, a);
+	this.health = h;
+}
+
+public final float maxHealth;
+public float health;
 protected int attack;
 
 public void attack() {
@@ -26,6 +39,6 @@ public int getTeamID() {
 	return teamID;
 }
 
-public abstract void update();
+public abstract void update(long dtime);
 
 }
