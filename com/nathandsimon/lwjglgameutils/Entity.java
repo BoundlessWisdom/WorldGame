@@ -7,7 +7,7 @@ import org.lwjgl.util.vector.Vector3f;
 /**
  * @author Nathan
  */
-public abstract class Entity implements IObject {
+public abstract class Entity implements IAlive {
 	private Vector3f m_pos = new Vector3f();
 	private Model m_sprite = null;
 	//For physics

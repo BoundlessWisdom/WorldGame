@@ -250,4 +250,5 @@ public abstract class CompoundObject implements IObject{
 			break;
 		}
 	}
+	
 }
