@@ -188,4 +188,8 @@ public abstract class Item implements IObject{
 			break;
 		}
 	}
+	public boolean isCompound()
+	{
+		return true;
+	}
 }

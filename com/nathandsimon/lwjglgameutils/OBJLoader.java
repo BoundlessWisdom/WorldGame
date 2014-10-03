@@ -92,13 +92,22 @@ public class OBJLoader {
         int vboNormalHandle = glGenBuffers();
         FloatBuffer vertices = reserveData(model.getFaces().size() * 9);
         FloatBuffer normals = reserveData(model.getFaces().size() * 9);
-        for (Model.Face face : model.getFaces()) {
-            vertices.put(asFloats(model.getVertices().get(face.getVertexIndices()[0] - 1)));
-            vertices.put(asFloats(model.getVertices().get(face.getVertexIndices()[1] - 1)));
-            vertices.put(asFloats(model.getVertices().get(face.getVertexIndices()[2] - 1)));
-            normals.put(asFloats(model.getNormals().get(face.getNormalIndices()[0] - 1)));
-            normals.put(asFloats(model.getNormals().get(face.getNormalIndices()[1] - 1)));
-            normals.put(asFloats(model.getNormals().get(face.getNormalIndices()[2] - 1)));
+        int i = 0;
+        try{
+        	for (Model.Face face : model.getFaces()) {
+        		vertices.put(asFloats(model.getVertices().get(face.getVertexIndices()[0] - 1)));
+        		vertices.put(asFloats(model.getVertices().get(face.getVertexIndices()[1] - 1)));
+        		vertices.put(asFloats(model.getVertices().get(face.getVertexIndices()[2] - 1)));
+        		normals.put(asFloats(model.getNormals().get(face.getNormalIndices()[0] - 1)));
+        		normals.put(asFloats(model.getNormals().get(face.getNormalIndices()[1] - 1)));
+        		normals.put(asFloats(model.getNormals().get(face.getNormalIndices()[2] - 1)));
+        		i++;
+        	}
+        } catch(IndexOutOfBoundsException e)
+        {
+        	e.printStackTrace();
+        	System.out.println("/n"+i);
+        	Game.end();
         }
         vertices.flip();
         normals.flip();

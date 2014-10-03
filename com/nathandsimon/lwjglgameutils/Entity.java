@@ -232,4 +232,8 @@ public abstract class Entity implements IAlive {
 			break;
 		}
 	}
+	public boolean isCompound()
+	{
+		return true;
+	}
 }
