@@ -64,8 +64,9 @@ public abstract class CompoundObject implements IObject{
 				ret.getVertices().add(new Vector3f(vec));
 			}
 			ret.getNormals().addAll(t.getSprite().getNormals());
-			for(Face f : t.getSprite().getFaces())
+			for(Face fs : t.getSprite().getFaces())
 			{
+				Face f = new Face(fs.getVertexIndices(),fs.getNormalIndices(),fs.getTextureCoordinateIndices(),fs.getMaterial());
 				f.getVertexIndices()[0] += vcurr;
 				f.getVertexIndices()[1] += vcurr;
 				f.getVertexIndices()[2] += vcurr;
@@ -76,18 +77,6 @@ public abstract class CompoundObject implements IObject{
 				f.getTextureCoordinateIndices()[1] += tccurr;
 				f.getTextureCoordinateIndices()[2] += tccurr;
 				ret.getFaces().add(new Face(f.getVertexIndices(),f.getNormalIndices(),f.getTextureCoordinateIndices(),f.getMaterial()));
-			}
-			for(Face f : t.getSprite().getFaces())
-			{
-				f.getVertexIndices()[0] -= vcurr;
-				f.getVertexIndices()[1] -= vcurr;
-				f.getVertexIndices()[2] -= vcurr;
-				f.getNormalIndices()[0] -= ncurr;
-				f.getNormalIndices()[1] -= ncurr;
-				f.getNormalIndices()[2] -= ncurr;
-				f.getTextureCoordinateIndices()[0] -= tccurr;
-				f.getTextureCoordinateIndices()[1] -= tccurr;
-				f.getTextureCoordinateIndices()[2] -= tccurr;
 			}
 			ret.getMaterials().putAll(t.getSprite().getMaterials());
 			ret.getTextureCoordinates().addAll(t.getSprite().getTextureCoordinates());
