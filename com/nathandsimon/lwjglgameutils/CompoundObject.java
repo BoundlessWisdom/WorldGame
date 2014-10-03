@@ -81,43 +81,43 @@ public abstract class CompoundObject implements IObject{
 			ret.getMaterials().putAll(t.getSprite().getMaterials());
 			ret.getTextureCoordinates().addAll(t.getSprite().getTextureCoordinates());
 		}
-		float lowesty = 9000;
-		for(Vector3f vec : ret.getVertices())
-		{
-			if(vec.y < lowesty)
-			{
-				lowesty = vec.y;
-			}
-		}
-		for(Vector3f vec :  ret.getVertices())
-		{
-			vec.y -= lowesty;
-		}
-		float lowestx = 9000;
-		for(Vector3f vec : ret.getVertices())
-		{
-			if(vec.x < lowestx)
-			{
-				lowestx = vec.x;
-			}
-		}
-		for(Vector3f vec : ret.getVertices())
-		{
-			vec.x -= lowestx;
-		}
-		float lowestz = 9000;
-		for(Vector3f vec : ret.getVertices())
-		{
-			if(vec.z < lowestz)
-			{
-				lowestz = vec.z;
-			}
-		}
-		for(Vector3f vec : ret.getVertices())
-		{
-			vec.z -= lowestz;
-		}
-		return ret;
+//		float lowesty = 9000;
+//		for(Vector3f vec : ret.getVertices())
+//		{
+//			if(vec.y < lowesty)
+//			{
+//				lowesty = vec.y;
+//			}
+//		}
+//		for(Vector3f vec :  ret.getVertices())
+//		{
+//			vec.y -= lowesty;
+//		}
+//		float lowestx = 9000;
+//		for(Vector3f vec : ret.getVertices())
+//		{
+//			if(vec.x < lowestx)
+//			{
+//				lowestx = vec.x;
+//			}
+//		}
+//		for(Vector3f vec : ret.getVertices())
+//		{
+//			vec.x -= lowestx;
+//		}
+//		float lowestz = 9000;
+//		for(Vector3f vec : ret.getVertices())
+//		{
+//			if(vec.z < lowestz)
+//			{
+//				lowestz = vec.z;
+//			}
+//		}
+//		for(Vector3f vec : ret.getVertices())
+//		{
+//			vec.z -= lowestz;
+//		}
+    	return ret;
 	}
 	@Override
 	public Vector3f getPos()
