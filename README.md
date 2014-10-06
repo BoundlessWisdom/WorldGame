@@ -1,6 +1,6 @@
 WorldGame
 ================
 
+Nathan, this is a reminder for you to eventually improve the PhysicsEngine class, by replacing the constant ArrayList calls.<br><br><br>
 Proposition: We add stairs. <br><br>
 <br>
-Note: Browse commits every once in a while.
