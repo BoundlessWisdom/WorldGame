@@ -1,0 +1,71 @@
+package com.engine.game;
+
+import java.util.ArrayList;
+
+import org.lwjgl.input.Keyboard;
+
+import info.engine.extra.physics.PhysicsEngine;
+
+import com.engine.components.BaseLight;
+import com.engine.components.MeshRenderer;
+import com.engine.components.SpotLight;
+import com.engine.core.CoreEngine;
+import com.engine.core.EntityObject;
+import com.engine.core.GameInstance;
+import com.engine.core.GameObject;
+import com.engine.core.Input;
+import com.engine.core.Time;
+import com.engine.core.Vector3f;
+import com.engine.rendering.Material;
+import com.engine.rendering.Mesh;
+import com.engine.rendering.RenderingEngine;
+import com.engine.rendering.Texture;
+
+public class OurGame extends GameInstance 
+{
+	Monkey monkey = new Monkey(new GameObject(), 10, "Monkey");
+	GameObject lightObj;
+	
+	public OurGame() {
+		super();
+	}
+	
+	@Override
+	public void init() 
+	{
+		super.init();
+		Mesh mesh = new Mesh("test1.obj");
+		Material material = new Material(new Texture("texture.png"), new Vector3f(1.0f, 1.0f, 1.0f), 2, 8);
+		
+		MeshRenderer renderer = new MeshRenderer(mesh, material);
+	
+		monkey.addComponent(renderer);
+		BaseLight light = new SpotLight(new Vector3f(0, 1, 1), 0.4f, new Vector3f(0, 0, 0.1f),
+				new Vector3f(0, 0, 1), 0.7f);
+		monkey.getTransform().setPos(0, 0, 10f);
+		
+		lightObj = new GameObject();
+		lightObj.addComponent(light);
+		
+		//entityIndicies.add(getRootObject().addChild(monkey));
+		addEntity(monkey);
+		addObject(lightObj);
+	}
+	
+	@Override
+	public void update(float delta) 
+	{
+		super.update(delta);
+		double time = Time.getTime();
+		float x = (float)(Math.sin(time * 3) * Math.cos(time));
+		float y = (float)(Math.sin(3 * time) * Math.sin(time));
+		
+		lightObj.getTransform().setPos(getRenderingEngine().getMainCamera().getPos());
+		//monkey.getTransform().setPos(new Vector3f(x, y, 0));
+		
+		if(Input.getKey(Keyboard.KEY_F))
+		{
+			getPhysicsEngine().force(monkey, new Vector3f(0.01f, 0f, 0f));
+		}
+	}
+}
