@@ -17,6 +17,7 @@ public abstract class Item implements IObject{
 	private Vector3f P = new Vector3f(0,0,0);
 	private int index;
 	private boolean flying = false;
+	private boolean updated = false;
 	/**
 	 * @param x x-coordinate
 	 * @param y y-coordinate
@@ -187,9 +188,19 @@ public abstract class Item implements IObject{
 		default: 
 			break;
 		}
+		updated = true;
 	}
 	public boolean isCompound()
 	{
 		return true;
+	}
+	public boolean hasUpdated()
+	{
+		if(updated)
+		{
+			updated = false;
+			return true;
+		}
+		return false;
 	}
 }

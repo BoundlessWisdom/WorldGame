@@ -11,7 +11,7 @@ public class EngineTest extends Game {
 	@Override
 	public void init() {
 		super.init();
-		crack = new EntityEggCrack(0,10,0);
+		crack = new EntityEggCrack(0,0,0);
 		bunny = new EntityBunny(10,10,0);
 		addObject(crack);
 		addObject(bunny);

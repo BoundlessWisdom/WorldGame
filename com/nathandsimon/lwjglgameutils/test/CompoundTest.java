@@ -10,13 +10,11 @@ public class CompoundTest extends Game {
 	public void init()
 	{
 		super.init();
-		eb = new CompoundEggBunny(0,10,0,new EntityBunny(0,15,0), new EntityEggCrack(0,10,0));
-		eb.getChild("bunny").rotate(30, 2);
+		eb = new CompoundEggBunny(0,10,0,new EntityBunny(0,15,0), new EntityEggCrack(0,0,0));
 		addObject(eb);
 	}
 	public void update(long elapsedTime)
 	{
-		super.update(elapsedTime);
 		if(Keyboard.isKeyDown(Keyboard.KEY_RETURN))
 		{
 			eb.die();
@@ -36,6 +34,7 @@ public class CompoundTest extends Game {
 		{
 			eb.getChild("bunny").rotate(15, IObject.Y_AXIS);
 		}
+		super.update(elapsedTime);
 	}
 	public static void main(String[] args) {
 		new CompoundTest();

@@ -23,6 +23,7 @@ public abstract class Entity implements IAlive {
 	//For the game
 	private int health = 10000;
 	private boolean flying = false;
+	private boolean updated = false;
 	/**
 	 * @param x x-coordinate.
 	 * @param y y-coordinate.
@@ -231,9 +232,19 @@ public abstract class Entity implements IAlive {
 		default: 
 			break;
 		}
+		updated = true;
 	}
 	public boolean isCompound()
 	{
 		return true;
+	}
+	public boolean hasUpdated()
+	{
+		if(updated)
+		{
+			updated = false;
+			return true;
+		}
+		return false;
 	}
 }

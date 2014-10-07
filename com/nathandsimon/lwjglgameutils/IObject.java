@@ -27,4 +27,5 @@ public interface IObject {
 	static int X_AXIS = 0;
 	static int Y_AXIS = 1;
 	static int Z_AXIS = 2;
+	public boolean hasUpdated();
 }

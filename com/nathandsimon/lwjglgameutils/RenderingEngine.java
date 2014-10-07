@@ -124,14 +124,25 @@ public class RenderingEngine extends EngineComponent{
 	 */
 	private void prepare(int objectindex)
 	{
-		FloatBuffer[] buffs = OBJLoader.getVBO(m_objs.get(objectindex).getSprite());
-		glBindBuffer(GL_ARRAY_BUFFER, vboVertexHandle.get(objectindex));
-		glBufferSubData(GL_ARRAY_BUFFER, 0L, buffs[0]);
-		glVertexPointer(3, GL_FLOAT, 0, 0L);
-		glBindBuffer(GL_ARRAY_BUFFER, vboNormalHandle.get(objectindex));
-		glBufferSubData(GL_ARRAY_BUFFER, 0L, buffs[1]);
-		glNormalPointer(GL_FLOAT, 0, 0L);
-		glBindBuffer(GL_ARRAY_BUFFER,0);
+		if(m_objs.get(objectindex).hasUpdated())
+		{
+			FloatBuffer[] buffs = OBJLoader.getVBO(m_objs.get(objectindex).getSprite());
+			glBindBuffer(GL_ARRAY_BUFFER, vboVertexHandle.get(objectindex));
+			glBufferSubData(GL_ARRAY_BUFFER, 0L, buffs[0]);
+			glVertexPointer(3, GL_FLOAT, 0, 0L);
+			glBindBuffer(GL_ARRAY_BUFFER, vboNormalHandle.get(objectindex));
+			glBufferSubData(GL_ARRAY_BUFFER, 0L, buffs[1]);
+			glNormalPointer(GL_FLOAT, 0, 0L);
+			glBindBuffer(GL_ARRAY_BUFFER,0);
+		}
+		else
+		{
+			glBindBuffer(GL_ARRAY_BUFFER, vboVertexHandle.get(objectindex));
+			glVertexPointer(3, GL_FLOAT, 0, 0L);
+			glBindBuffer(GL_ARRAY_BUFFER, vboNormalHandle.get(objectindex));
+			glNormalPointer(GL_FLOAT, 0, 0L);
+			glBindBuffer(GL_ARRAY_BUFFER,0);
+		}
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_NORMAL_ARRAY);
 	}
