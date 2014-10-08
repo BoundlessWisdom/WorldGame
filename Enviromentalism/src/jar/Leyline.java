@@ -22,11 +22,11 @@ public class Leyline implements Updateable {
 	private float upperz = 0;
 	private float lowerz = 0;
 	
-	public Leyline(SustainedCast cast, ECastType type, int midx, int midz, int x1, int z1, int x2, int z2) {
+	public Leyline(SustainedCast cast, ECastType type, int x1, int z1, int x2, int z2) {
 		this.cast = cast;
 		this.type = type;
-		this.midx = midx;
-		this.midz = midz;
+		this.midx = x1;
+		this.midz = z1;
 		
 		boolean LtoR;
 		

@@ -13,4 +13,7 @@ public class Game {
 	 * 																						*
 	 * 										   Nesh.										*
 	 ****************************************************************************************/
+	
+	//Notice: CastLeyline needs work.
+	//Notice: Leyline needs work.
 }
