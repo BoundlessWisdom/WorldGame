@@ -125,6 +125,11 @@ public class Leyline implements Updateable {
 		return power * (1 - distanceFromLeyline);
 	}
 	
+	/************************************************************************************************/
+	
+	float growthRate;
+	
+	
 	private void grow(long growTime) {
 		
 	}
