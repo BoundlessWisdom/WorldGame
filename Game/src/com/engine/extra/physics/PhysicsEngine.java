@@ -1,4 +1,4 @@
-package info.engine.extra.physics;
+package com.engine.extra.physics;
 
 import com.engine.core.*;
 
@@ -104,7 +104,7 @@ public class PhysicsEngine
 					objs.get(i).getVelocity().setY(0);
 					objs.get(i).getPos().setY(0);
 				}
-				Vector3f velocity = objs.get(i).getVelocity();
+				//Vector3f velocity = objs.get(i).getVelocity();
 				
 				objs.get(i).getAcceleration().set(new Vector3f(
 						(float)(forces.get(i).getX()/objs.get(i).getMass()),

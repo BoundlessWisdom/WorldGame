@@ -1,9 +1,8 @@
 package com.engine.core;
 
-import info.engine.extra.physics.PhysicsEngine;
-
 import org.lwjgl.input.Keyboard;
 
+import com.engine.extra.physics.PhysicsEngine;
 import com.engine.rendering.RenderingEngine;
 import com.engine.rendering.Window;
 import com.game.OurGame;
