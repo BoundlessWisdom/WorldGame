@@ -84,6 +84,15 @@ public class Vector3f
 	
 	public Vector3f add(Vector3f r)
 	{
+		this.x += r.getX();
+		this.y += r.getY();
+		this.z += r.getZ();
+		
+		return this;
+	}
+	
+	public Vector3f added(Vector3f r)
+	{
 		return new Vector3f(x + r.getX(), y + r.getY(), z + r.getZ());
 	}
 	

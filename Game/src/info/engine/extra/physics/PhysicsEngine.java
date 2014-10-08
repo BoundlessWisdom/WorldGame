@@ -9,10 +9,11 @@ public class PhysicsEngine
 	private ArrayList<Vector3f> forces;
 	private ArrayList<EntityObject> objs;
 	private boolean gravityEnabled = true;
-	private boolean airEnabled = true;
-	private boolean frictionEnabled = true;
-	private static final double rho = .02;
-	private static final float g = .17f;
+	private boolean airEnabled = false;
+	private boolean frictionEnabled = false;
+	public static final double rho = .02;
+	public static final float g = .17f;
+	boolean freeFall = false;
 	
 	private static PhysicsEngine instance = new PhysicsEngine();
 	
@@ -65,8 +66,19 @@ public class PhysicsEngine
 	{
 			for(int i = 0; i < objs.size(); i++)
 			{
+				/*if(objs.get(i).getPos().getY() > .1 && Math.abs(objs.get(i).getVelocity().getY()) > 0)
+				{
+					freeFall = true;
+				}
+				else
+					freeFall = false;*/
+				
+				//if(objs.get(i).getVelocity().getY() < .1 && objs.get(i).getPos().getY() > 9.5 && objs.get(i).getPos().getY() < 10.5)
+					//System.out.println("Woo");
+				
 				if(gravityEnabled && !objs.get(i).isFlying())
 					applyGravity(i);
+				
 				if(frictionEnabled)
 					applyMovingFriction(i);
 				if(airEnabled)
@@ -74,19 +86,25 @@ public class PhysicsEngine
 				updateMomentum(i);
 				if(objs.get(i).getVelocity().getY() <= -objs.get(i).getPos().getY() && forces.get(i).getY() < 0)
 				{
+					//System.out.println(objs.get(i).getPos().getY());
 					if(Math.abs(objs.get(i).getVelocity().getY()) < 0.45)
 					{
 						objs.get(i).getMomentum().setY(0);
 						objs.get(i).getVelocity().setY(0);
 					}
-					applyForce(i, new Vector3f((float)(forces.get(i).getX()),
-							(float)(-objs.get(i).getMomentum().getY()*objs.get(i)
-									.getElasticConstant()),
-							(float)(forces.get(i).getZ())) ,false,true);
+					
+					float ec = (float)objs.get(i).getElasticConstant();
+					float fy = (float)-forces.get(i).getY();//-forces.get(i).getY();
+					float nY = fy * ec;
+					
+					applyForce(i, 
+							new Vector3f((float)(forces.get(i).getX()), nY/*(float)(-forces.get(i).getY()*objs.get(i).getElasticConstant())*/,(float)(forces.get(i).getZ())),
+							false,true);
 					
 					objs.get(i).getVelocity().setY(0);
 					objs.get(i).getPos().setY(0);
 				}
+				Vector3f velocity = objs.get(i).getVelocity();
 				
 				objs.get(i).getAcceleration().set(new Vector3f(
 						(float)(forces.get(i).getX()/objs.get(i).getMass()),
@@ -96,7 +114,7 @@ public class PhysicsEngine
 				
 				objs.get(i).getVelocity().add(new Vector3f(
 						objs.get(i).getAcceleration().getX(),
-						objs.get(i).getAcceleration().getY(),
+						objs.get(i).getAcceleration().getY()* .1f,
 						objs.get(i).getAcceleration().getZ()
 				));
 				
@@ -221,9 +239,11 @@ public class PhysicsEngine
 				impulse.getZ()
 		));
 		
-		objs.get(index).getVelocity().set((float) (impulse.getX() / objs.get(index).getMass()), 
-				(float) (impulse.getY() / objs.get(index).getMass()), 
-				(float) (impulse.getZ() / objs.get(index).getMass()));
+		Vector3f momentum = objs.get(index).getMomentum();
+		
+		objs.get(index).getVelocity().set((float) (momentum.getX() / objs.get(index).getMass()), 
+				(float) (momentum.getY() / objs.get(index).getMass()), 
+				(float) (momentum.getZ() / objs.get(index).getMass()));
 	}
 	/**
 	 * Applies friction to a moving object.

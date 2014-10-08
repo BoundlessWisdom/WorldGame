@@ -1,7 +1,7 @@
 package com.engine.rendering.shaders;
 
-import com.engine.components.BaseLight;
-import com.engine.components.DirectionalLight;
+import com.engine.components.lighting.BaseLight;
+import com.engine.components.lighting.DirectionalLight;
 import com.engine.core.Matrix4f;
 import com.engine.core.Transform;
 import com.engine.rendering.Material;

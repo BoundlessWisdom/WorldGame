@@ -2,9 +2,9 @@ package com.game;
 
 import org.lwjgl.input.Keyboard;
 
-import com.engine.components.BaseLight;
 import com.engine.components.MeshRenderer;
-import com.engine.components.SpotLight;
+import com.engine.components.lighting.BaseLight;
+import com.engine.components.lighting.SpotLight;
 import com.engine.core.GameInstance;
 import com.engine.core.GameObject;
 import com.engine.core.Input;
@@ -16,7 +16,7 @@ import com.engine.rendering.Texture;
 
 public class OurGame extends GameInstance 
 {
-	Monkey monkey = new Monkey(new GameObject(), 10, "Monkey");
+	Monkey monkey = new Monkey(new GameObject(), 100.0, "Monkey");
 	GameObject lightObj;
 	
 	public OurGame() {
@@ -35,7 +35,7 @@ public class OurGame extends GameInstance
 		monkey.addComponent(renderer);
 		BaseLight light = new SpotLight(new Vector3f(0, 1, 1), 0.4f, new Vector3f(0, 0, 0.1f),
 				new Vector3f(0, 0, 1), 0.7f);
-		monkey.getTransform().setPos(0, 0, 10f);
+		monkey.getTransform().setPos(0, 5f, 10f);
 		
 		lightObj = new GameObject();
 		lightObj.addComponent(light);
@@ -50,8 +50,8 @@ public class OurGame extends GameInstance
 	{
 		super.update(delta);
 		double time = Time.getTime();
-		float x = (float)(Math.sin(time * 3) * Math.cos(time));
-		float y = (float)(Math.sin(3 * time) * Math.sin(time));
+//		float x = (float)(Math.sin(time * 3) * Math.cos(time));
+//		float y = (float)(Math.sin(3 * time) * Math.sin(time));
 		
 		lightObj.getTransform().setPos(getRenderingEngine().getMainCamera().getPos());
 		//monkey.getTransform().setPos(new Vector3f(x, y, 0));

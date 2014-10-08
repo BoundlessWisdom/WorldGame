@@ -1,8 +1,8 @@
 package com.engine.rendering.shaders;
 
-import com.engine.components.BaseLight;
-import com.engine.components.PointLight;
-import com.engine.components.SpotLight;
+import com.engine.components.lighting.BaseLight;
+import com.engine.components.lighting.PointLight;
+import com.engine.components.lighting.SpotLight;
 import com.engine.core.Matrix4f;
 import com.engine.core.Transform;
 import com.engine.rendering.Material;
