@@ -2,9 +2,9 @@ package com.game;
 
 import org.lwjgl.input.Keyboard;
 
-import com.engine.components.MeshRenderer;
 import com.engine.components.lighting.BaseLight;
 import com.engine.components.lighting.SpotLight;
+import com.engine.components.renderObjs.MeshRenderer;
 import com.engine.core.GameInstance;
 import com.engine.core.GameObject;
 import com.engine.core.Input;

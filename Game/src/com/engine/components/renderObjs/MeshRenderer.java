@@ -1,5 +1,6 @@
-package com.engine.components;
+package com.engine.components.renderObjs;
 
+import com.engine.components.GameComponent;
 import com.engine.rendering.Material;
 import com.engine.rendering.Mesh;
 import com.engine.rendering.shaders.Shader;
