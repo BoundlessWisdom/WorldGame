@@ -4,9 +4,10 @@ import com.engine.core.EntityObject;
 import com.engine.core.GameObject;
 
 public class Monkey extends EntityObject 
-{
+{	
 	public Monkey(GameObject gameObj, double mass, String name) {
 		super(gameObj, mass, name);
+		fixElastic(1.0);
 	}
 
 	/*@Override
@@ -27,7 +28,7 @@ public class Monkey extends EntityObject
 
 	@Override
 	public double getElasticConstant() {
-		return 0;
+		return elasticConstant;
 	}
 
 	@Override

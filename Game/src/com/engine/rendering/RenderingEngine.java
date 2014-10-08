@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
 
 import java.util.ArrayList;
 
-import com.engine.components.BaseLight;
+import com.engine.components.lighting.BaseLight;
 import com.engine.core.GameObject;
 import com.engine.core.Vector3f;
 import com.engine.rendering.shaders.ForwardAmbient;

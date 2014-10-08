@@ -1,6 +1,7 @@
 package com.engine.core;
 
 import info.engine.extra.physics.IObject;
+import info.engine.extra.physics.PhysicsEngine;
 
 import com.engine.rendering.Mesh;
 
@@ -18,6 +19,8 @@ public abstract class EntityObject extends GameObject implements IObject
 	
 	private int health = 10000;
 	private boolean flying = false;
+	
+	protected double elasticConstant = 0.0;
 	
 	@Override
 	public void update(float delta) {
@@ -71,7 +74,7 @@ public abstract class EntityObject extends GameObject implements IObject
 
 	@Override
 	public void move(float x, float y, float z) {
-		getTransform().setPos(getTransform().getPos().add(new Vector3f(x, y, z)));
+		getTransform().getPos().add(new Vector3f(x, y, z));
 		return;
 	}
 
@@ -152,5 +155,16 @@ public abstract class EntityObject extends GameObject implements IObject
 		this.components = gameObj.components;
 		this.children = gameObj.children;
 		this.transform = gameObj.transform;
+	}
+	
+	@Override
+	public double getElasticConstant() 
+	{
+		return elasticConstant;
+	}
+	
+	public void fixElastic(double elastic)
+	{
+		this.elasticConstant = 150 * PhysicsEngine.g * elastic;
 	}
 }
