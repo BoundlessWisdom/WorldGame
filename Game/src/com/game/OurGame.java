@@ -8,7 +8,6 @@ import com.engine.components.renderObjs.MeshRenderer;
 import com.engine.core.GameInstance;
 import com.engine.core.GameObject;
 import com.engine.core.Input;
-import com.engine.core.Time;
 import com.engine.core.Vector3f;
 import com.engine.rendering.Material;
 import com.engine.rendering.Mesh;
@@ -49,10 +48,6 @@ public class OurGame extends GameInstance
 	public void update(float delta) 
 	{
 		super.update(delta);
-		double time = Time.getTime();
-//		float x = (float)(Math.sin(time * 3) * Math.cos(time));
-//		float y = (float)(Math.sin(3 * time) * Math.sin(time));
-		
 		lightObj.getTransform().setPos(getRenderingEngine().getMainCamera().getPos());
 		//monkey.getTransform().setPos(new Vector3f(x, y, 0));
 		

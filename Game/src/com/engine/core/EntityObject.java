@@ -1,8 +1,7 @@
 package com.engine.core;
 
-import info.engine.extra.physics.IObject;
-import info.engine.extra.physics.PhysicsEngine;
-
+import com.engine.extra.physics.IObject;
+import com.engine.extra.physics.PhysicsEngine;
 import com.engine.rendering.Mesh;
 
 public abstract class EntityObject extends GameObject implements IObject
