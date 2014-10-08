@@ -9,9 +9,6 @@ import com.engine.components.lighting.BaseLight;
 import com.engine.core.GameObject;
 import com.engine.core.Vector3f;
 import com.engine.rendering.shaders.ForwardAmbient;
-import com.engine.rendering.shaders.ForwardDirectional;
-import com.engine.rendering.shaders.ForwardPoint;
-import com.engine.rendering.shaders.ForwardSpot;
 import com.engine.rendering.shaders.Shader;
 
 public class RenderingEngine 

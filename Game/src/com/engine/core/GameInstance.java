@@ -1,9 +1,8 @@
 package com.engine.core;
 
-import info.engine.extra.physics.PhysicsEngine;
-
 import java.util.ArrayList;
 
+import com.engine.extra.physics.PhysicsEngine;
 import com.engine.rendering.RenderingEngine;
 
 public class GameInstance extends Game
