@@ -256,18 +256,12 @@ public class PhysicsEngine
 		{
 			double mu = objs.get(index).getMu();
 			double fN = objs.get(index).getPos().getY() <= 0 ? forces.get(index).getY() : 0;
-			double percentXMotion = objs.get(index).getVelocity().getX()  != 0 ? objs.get(index).
-					getVelocity().getX() / (objs.get(index).getVelocity().getX() + objs.get(index).
-							getVelocity().getY()  + objs.get(index).getVelocity().getZ()) : 0;
-			double percentYMotion = objs.get(index).getVelocity().getY()  != 0 ? objs.get(index).
-					getVelocity().getY() / (objs.get(index).getVelocity().getX() +objs.get(index).
-							getVelocity().getY()  + objs.get(index).getVelocity().getZ()) : 0;
-			double percentZMotion = objs.get(index).getVelocity().getZ()  != 0 ? objs.get(index).
-					getVelocity().getZ() / (objs.get(index).getVelocity().getX() +objs.get(index).
-							getVelocity().getY()  + objs.get(index).getVelocity().getZ()) : 0;
-			double finalX = -mu * fN * percentXMotion;
-			double finalY = -mu * fN * percentYMotion;
-			double finalZ = -mu * fN * percentZMotion;
+			double percentXMotion = objs.get(index).getVelocity().getX()  != 0 ? Math.cos(Math.atan(objs.get(index).getVelocity().getY()/objs.get(index).getVelocity().getX())) : 0;
+			double percentYMotion = objs.get(index).getVelocity().getY()  != 0 ? Math.sin(Math.atan(objs.get(index).getVelocity().getY()/objs.get(index).getVelocity().getX())) : 0;
+			double percentZMotion = objs.get(index).getVelocity().getZ()  != 0 ? Math.sin(Math.atan(objs.get(index).getVelocity().getZ()/objs.get(index).getVelocity().getX())) : 0;
+			double finalX = mu * fN * percentXMotion;
+			double finalY = mu * fN * percentYMotion;
+			double finalZ = mu * fN * percentZMotion;
 			if(objs.get(index).getVelocity().getX() == 0)
 			{
 				finalX=0;
@@ -307,15 +301,9 @@ public class PhysicsEngine
 		float dotprod = objs.get(index).getVelocity().dot(objs.get(index).getVelocity());
 		//float dotprod = Vector3f.dot(objs.get(index).getVelocity(), objs.get(index).getVelocity());
 		double halfpcda = .5 * rho * objs.get(index).getDragConstant() * objs.get(index).getCrossSectionArea();
-		double percentXMotion = objs.get(index).getVelocity().getX() != 0 ? objs.get(index).
-				getVelocity().getX() / (objs.get(index).getVelocity().getX() + objs.get(index).
-						getVelocity().getY()  + objs.get(index).getVelocity().getZ()) : 0;
-		double percentYMotion = objs.get(index).getVelocity().getY() != 0 ? objs.get(index).getVelocity().
-				getY() / (objs.get(index).getVelocity().getX() + objs.get(index).getVelocity().
-						getY() + objs.get(index).getVelocity().getZ()) : 0;
-		double percentZMotion = objs.get(index).getVelocity().getZ() != 0 ? objs.get(index).getVelocity().
-				getZ() / (objs.get(index).getVelocity().getX() +objs.get(index).getVelocity().getY() + objs.
-						get(index).getVelocity().getZ()) : 0;
+		double percentXMotion = objs.get(index).getVelocity().getX()  != 0 ? Math.cos(Math.atan(objs.get(index).getVelocity().getZ()/objs.get(index).getVelocity().getX())) : 0;
+		double percentYMotion = objs.get(index).getVelocity().getY()  != 0 ? Math.sin(Math.atan(objs.get(index).getVelocity().getY()/objs.get(index).getVelocity().getX())) : 0;
+		double percentZMotion = objs.get(index).getVelocity().getZ()  != 0 ? Math.sin(Math.atan(objs.get(index).getVelocity().getZ()/objs.get(index).getVelocity().getX())) : 0;
 		float Finalx = (float) (-dotprod*halfpcda*percentXMotion);
 		float Finaly = (float) (-dotprod*halfpcda*percentYMotion);
 		float Finalz = (float) (-dotprod*halfpcda*percentZMotion);
