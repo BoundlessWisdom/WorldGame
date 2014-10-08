@@ -35,6 +35,9 @@ public abstract class Caster extends Entity {
 	public Location target;
 	public Location[] targets;
 	
+	public ECastType castingType;
+	public ECastType[] castingTypes;
+	
 	public Elemental summoningElemental;
 	public Elemental[] summoningElementalGroup;
 	
