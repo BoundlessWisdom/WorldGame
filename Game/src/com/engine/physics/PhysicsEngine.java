@@ -12,7 +12,7 @@ public class PhysicsEngine
 	private boolean airEnabled = false;
 	private boolean frictionEnabled = false;
 	public static final double rho = .02;
-	public static final float g = .17f;
+	public static final float g = .163f;
 	//boolean freeFall = false;
 	
 	private static PhysicsEngine instance = new PhysicsEngine();
@@ -35,6 +35,7 @@ public class PhysicsEngine
 		forces  = new ArrayList<Vector3f>();
 		objs  = new ArrayList<EntityObject>();
 	}
+	
 	/**
 	 * Adds an object to the physics engine.
 	 * @param o object to add.
@@ -45,6 +46,7 @@ public class PhysicsEngine
 		objs.add(o);
 		forces.add(new Vector3f(0,0,0));
 	}
+	
 	/**
 	 * Remove an object from the physics engine.
 	 * @param o object to remove.
@@ -58,6 +60,7 @@ public class PhysicsEngine
 			objs.get(i).setIndex(i);
 		}
 	}
+	
 	/**
 	 * Updates the world.
 	 * @param elapsedTime the time elapsed since the start of the game, in frames.
@@ -66,17 +69,14 @@ public class PhysicsEngine
 	{
 			for(int i = 0; i < objs.size(); i++)
 			{
-				/*if(objs.get(i).getPos().getY() > .1 && Math.abs(objs.get(i).getVelocity().getY()) > 0)
-				{
-					freeFall = true;
-				}
-				else
-					freeFall = false;*/
+				//Streamlining variable gets.
+				Vector3f force = forces.get(i);
 				
-				//if(objs.get(i).getVelocity().getY() < .1 && objs.get(i).getPos().getY() > 9.5 && objs.get(i).getPos().getY() < 10.5)
-					//System.out.println("Woo");
+				EntityObject obj = objs.get(i);
+				Vector3f velocity = obj.getVelocity();
+				Vector3f acceleration = obj.getAcceleration();
 				
-				if(gravityEnabled && !objs.get(i).isFlying())
+				if(gravityEnabled && !obj.isFlying())
 					applyGravity(i);
 				
 				if(frictionEnabled)
@@ -84,40 +84,40 @@ public class PhysicsEngine
 				if(airEnabled)
 					applyAirResistance(i);
 				updateMomentum(i);
-				if(objs.get(i).getVelocity().getY() <= -objs.get(i).getPos().getY() && forces.get(i).getY() < 0)
+				if(velocity.getY() <= -obj.getPos().getY() && force.getY() < 0)
 				{
-					float ec = (float)objs.get(i).getElasticConstant();
-					float fy = (float)-forces.get(i).getY();//-forces.get(i).getY();
-					float nY = Math.abs(objs.get(i).getVelocity().getY()) > 0.15  ? fy * ec : 0;
+					float ec = (float)obj.getElasticConstant();
+					float fy = (float)-force.getY(); //-force.getY();
+					float nY = Math.abs(velocity.getY()) > 0.15  ? fy * ec : 0;
 					
-					applyForce(i, 
-							new Vector3f((float)(forces.get(i).getX()), nY/*(float)(-forces.get(i).getY()*objs.get(i).getElasticConstant())*/,(float)(forces.get(i).getZ())),
-							false,true);
+					applyForce(i, new Vector3f((float) (force.getX()), nY /*(float)(-force.getY()*obj.getElasticConstant())*/, (float) (force.getZ())),
+							false, true);
 					
-					objs.get(i).getVelocity().setY(0);
-					objs.get(i).getPos().setY(0);
+					velocity.setY(0);
+					obj.getPos().setY(0);
 				}
-				//Vector3f velocity = objs.get(i).getVelocity();
 				
-				objs.get(i).getAcceleration().set(new Vector3f(
-						(float)(forces.get(i).getX()/objs.get(i).getMass()),
-						(float)(forces.get(i).getY()/objs.get(i).getMass()),
-						(float)(forces.get(i).getZ()/objs.get(i).getMass())
+				acceleration.set(new Vector3f(
+						(float)(force.getX() / obj.getMass()),
+						(float)(force.getY() / obj.getMass()),
+						(float)(force.getZ() / obj.getMass())
 				));
 				
-				objs.get(i).getVelocity().add(new Vector3f(
-						objs.get(i).getAcceleration().getX(),
-						objs.get(i).getAcceleration().getY()* .1f,
-						objs.get(i).getAcceleration().getZ()
+				velocity.add(new Vector3f(
+						acceleration.getX(),
+						acceleration.getY() * .1f,
+						acceleration.getZ()
 				));
 				
-				objs.get(i).move(objs.get(i).getVelocity().getX(), 
-						objs.get(i).getVelocity().getY(), 
-						objs.get(i).getVelocity().getZ());
+				obj.move(velocity.getX(), 
+						 velocity.getY(), 
+						 velocity.getZ()
+				);
 			}
 			
 			return objs;
 	}
+	
 	/**
 	 * Clean up.
 	 */
@@ -128,6 +128,7 @@ public class PhysicsEngine
 			remove(objs.get(i));
 		}
 	}
+	
 	/**
 	 * Apply a force.
 	 * @param obj the object.
@@ -137,6 +138,7 @@ public class PhysicsEngine
 	{
 		applyForce(obj.getIndex(), force, true);
 	}
+	
 	public void zeroForce(IObject obj)
 	{
 		int i = obj.getIndex();
@@ -146,10 +148,12 @@ public class PhysicsEngine
 			applyGravity(i);
 		}
 	}
+	
 	public boolean isGravityEnabled() 
 	{
 		return gravityEnabled;
 	}
+	
 	public void setGravityEnabled(boolean enabled) 
 	{
 		this.gravityEnabled = enabled;
@@ -158,23 +162,28 @@ public class PhysicsEngine
 	{
 		return airEnabled;
 	}
+	
 	public void setAirResistanceEnabled(boolean enabled) 
 	{
 		this.airEnabled = enabled;
 	}
+	
 	public boolean isFrictionEnabled() 
 	{
 		return frictionEnabled;
 	}
+	
 	public void setFrictionEnabled(boolean enabled) 
 	{
 		this.frictionEnabled = enabled;
 	}
+	
 	/*@Override
 	public ComponentType getType() 
 	{
 		return EngineComponent.ComponentType.physics;
 	}*/
+	
 	/**
 	 * Applies a force to an object. Assumes not to apply impulse.
 	 * @param index the object's index.
@@ -183,21 +192,24 @@ public class PhysicsEngine
 	 */
 	private void applyForce(int index, Vector3f force, boolean add)
 	{
+		Vector3f netForce = forces.get(index);
+		
 		if(index < objs.size())
 		{
 			if(add)
 			{
-				forces.get(index).set(forces.get(index).getX() + force.getX(), 
-						forces.get(index).getY() + force.getY(), 
-						forces.get(index).getZ() + force.getZ());
+				netForce.set(netForce.getX() + force.getX(), 
+							 netForce.getY() + force.getY(), 
+							 netForce.getZ() + force.getZ());
 			}
 			else
 			{
-				forces.get(index).set(force);
+				netForce.set(force);
 			}
 		}
 		else return;
 	}
+	
 	/**
 	 * Applies a force to an object.
 	 * @param index index the object's index.
@@ -207,11 +219,13 @@ public class PhysicsEngine
 	 */
 	private void applyForce(int index, Vector3f force, boolean add, boolean impulse)
 	{
+		Vector3f netForce = forces.get(index);
+		
 		if(index < objs.size())
 		{
 			if(add)
 			{
-				forces.get(index).add(new Vector3f(
+				netForce.add(new Vector3f(
 						force.getX(),
 						force.getY(),
 						force.getZ()
@@ -219,7 +233,7 @@ public class PhysicsEngine
 			}
 			else
 			{
-				forces.get(index).set(force);
+				netForce.set(force);
 			}
 			if(impulse)
 			{
@@ -228,6 +242,7 @@ public class PhysicsEngine
 		}
 		else return;
 	}
+	
 	/**
 	 * Applies an impulse to an object.
 	 * @param index the object's index.
@@ -235,18 +250,22 @@ public class PhysicsEngine
 	 */
 	private void applyImpulse(int index, Vector3f impulse)
 	{
-		objs.get(index).getMomentum().add(new Vector3f(
+		EntityObject obj = objs.get(index);
+		
+		obj.getMomentum().add(new Vector3f(
 				impulse.getX(),
 				impulse.getY(),
 				impulse.getZ()
 		));
 		
-		Vector3f momentum = objs.get(index).getMomentum();
+		Vector3f momentum = obj.getMomentum();
+		double mass = obj.getMass();
 		
-		objs.get(index).getVelocity().set((float) (momentum.getX() / objs.get(index).getMass()), 
-				(float) (momentum.getY() / objs.get(index).getMass()), 
-				(float) (momentum.getZ() / objs.get(index).getMass()));
+		obj.getVelocity().set((float) (momentum.getX() / mass), 
+							  (float) (momentum.getY() / mass), 
+							  (float) (momentum.getZ() / mass));
 	}
+	
 	/**
 	 * Applies friction to a moving object.
 	 * @param index the object's index.
@@ -256,80 +275,96 @@ public class PhysicsEngine
 	{
 		if(index < objs.size())
 		{
-			double mu = objs.get(index).getMu();
-			double fN = objs.get(index).getPos().getY() <= 0 ? forces.get(index).getY() : 0;
-			double percentXMotion = objs.get(index).getVelocity().getX()  != 0 ? Math.cos(Math.atan(objs.get(index).getVelocity().getY()/objs.get(index).getVelocity().getX())) : 0;
-			double percentYMotion = objs.get(index).getVelocity().getY()  != 0 ? Math.sin(Math.atan(objs.get(index).getVelocity().getY()/objs.get(index).getVelocity().getX())) : 0;
-			double percentZMotion = objs.get(index).getVelocity().getZ()  != 0 ? Math.sin(Math.atan(objs.get(index).getVelocity().getZ()/objs.get(index).getVelocity().getX())) : 0;
+			EntityObject obj = objs.get(index);
+			Vector3f velocity = obj.getVelocity();
+			Double mass = obj.getMass();
+			
+			double mu = obj.getMu();
+			double fN = obj.getPos().getY() <= 0 ? forces.get(index).getY() : 0;
+			double percentXMotion = velocity.getX()  != 0 ? Math.cos(Math.atan(velocity.getY() / velocity.getX())) : 0;
+			double percentYMotion = velocity.getY()  != 0 ? Math.sin(Math.atan(velocity.getY() / velocity.getX())) : 0;
+			double percentZMotion = velocity.getZ()  != 0 ? Math.sin(Math.atan(velocity.getZ() / velocity.getX())) : 0;
 			double finalX = mu * fN * percentXMotion;
 			double finalY = mu * fN * percentYMotion;
 			double finalZ = mu * fN * percentZMotion;
-			if(objs.get(index).getVelocity().getX() == 0)
+			if(velocity.getX() == 0)
 			{
 				finalX=0;
 			}
-			if(objs.get(index).getVelocity().getY() == 0)
+			if(velocity.getY() == 0)
 			{
 				finalY=0;
 			}
-			if(objs.get(index).getVelocity().getZ() == 0)
+			if(velocity.getZ() == 0)
 			{
 				finalZ=0;
 			}
-			if(Math.abs(finalX / objs.get(index).getMass()) > Math.abs(objs.get(index).getVelocity().getX()))
+			if(Math.abs(finalX / mass) > Math.abs(velocity.getX()))
 			{
-				objs.get(index).getVelocity().setX(0);
+				velocity.setX(0);
 				finalX = 0;
 			}
-			if(Math.abs(finalY / objs.get(index).getMass()) > Math.abs(objs.get(index).getVelocity().getY()))
+			if(Math.abs(finalY / mass) > Math.abs(velocity.getY()))
 			{
-				objs.get(index).getVelocity().setY(0);
+				velocity.setY(0);
 				finalY = 0;
 			}
-			if(Math.abs(finalZ / objs.get(index).getMass()) > Math.abs(objs.get(index).getVelocity().getZ()))
+			if(Math.abs(finalZ / mass) > Math.abs(velocity.getZ()))
 			{
-				objs.get(index).getVelocity().setZ(0);
+				velocity.setZ(0);
 				finalZ = 0;
 			}
-			applyForce(index, new Vector3f((float)(finalX), (float)(finalY), (float)(finalZ)), true);
+			applyForce(index, new Vector3f((float)finalX, (float)finalY, (float)finalZ) , true);
 		}
 	}
+	
 	/**
 	 * Applies air resistance to an object.
 	 * @param index the object's index.
 	 */
 	private void applyAirResistance(int index)
 	{
-		float dotprod = objs.get(index).getVelocity().dot(objs.get(index).getVelocity());
-		//float dotprod = Vector3f.dot(objs.get(index).getVelocity(), objs.get(index).getVelocity());
-		double halfpcda = .5 * rho * objs.get(index).getDragConstant() * objs.get(index).getCrossSectionArea();
-		double percentXMotion = objs.get(index).getVelocity().getX()  != 0 ? Math.cos(Math.atan(objs.get(index).getVelocity().getZ()/objs.get(index).getVelocity().getX())) : 0;
-		double percentYMotion = objs.get(index).getVelocity().getY()  != 0 ? Math.sin(Math.atan(objs.get(index).getVelocity().getY()/objs.get(index).getVelocity().getX())) : 0;
-		double percentZMotion = objs.get(index).getVelocity().getZ()  != 0 ? Math.sin(Math.atan(objs.get(index).getVelocity().getZ()/objs.get(index).getVelocity().getX())) : 0;
-		float Finalx = (float) (-dotprod*halfpcda*percentXMotion);
-		float Finaly = (float) (-dotprod*halfpcda*percentYMotion);
-		float Finalz = (float) (-dotprod*halfpcda*percentZMotion);
-		applyForce(index, new Vector3f(Finalx, Finaly, Finalz), true);
+		EntityObject obj = objs.get(index);
+		Vector3f velocity = obj.getVelocity();
+		
+		float dotprod = velocity.dot(velocity);
+		//float dotprod = Vector3f.dot(velocity, velocity);
+		double halfpcda = .5 * rho * obj.getDragConstant() * obj.getCrossSectionArea();
+		double percentXMotion = velocity.getX() != 0 ? Math.cos(Math.atan(velocity.getZ()/velocity.getX())) : 0;
+		double percentYMotion = velocity.getY() != 0 ? Math.sin(Math.atan(velocity.getY()/velocity.getX())) : 0;
+		double percentZMotion = velocity.getZ() != 0 ? Math.sin(Math.atan(velocity.getZ()/velocity.getX())) : 0;
+		float FinalX = (float) (-dotprod * halfpcda * percentXMotion);
+		float FinalY = (float) (-dotprod * halfpcda * percentYMotion);
+		float FinalZ = (float) (-dotprod * halfpcda * percentZMotion);
+		applyForce(index, new Vector3f(FinalX, FinalY, FinalZ), true);
+		//Uhh, Nathan, I just capitalized the coordinate, 'cause Finaly looked like Finally.
 	}
+	
 	/**
 	 * Applies gravity to a specific object.
 	 * @param i the object's index.
 	 */
 	private void applyGravity(int i)
 	{
-		applyForce(i, new Vector3f(forces.get(i).getX(), (float) (-g*objs.get(i).getMass()),
+		applyForce(i, new Vector3f(forces.get(i).getX(), (float) (-g * objs.get(i).getMass()),
 				forces.get(i).getZ()), false);	
 	}
+	//TODO: Ask Nathan about applyGravity logic.
+	
 	/**
 	 * Updates the momentum values of an object.
 	 * @param index the object's index.
 	 */
 	private void updateMomentum(int index)
 	{
-		objs.get(index).getMomentum().set(new Vector3f(
-				(float)(objs.get(index).getVelocity().getX() * objs.get(index).getMass()),
-				(float)(objs.get(index).getVelocity().getY() * objs.get(index).getMass()),
-				(float)(objs.get(index).getVelocity().getZ() * objs.get(index).getMass())
+		EntityObject obj = objs.get(index);
+		Vector3f velocity = obj.getVelocity();
+		double mass = obj.getMass();
+		
+		obj.getMomentum().set(new Vector3f(
+				(float)(velocity.getX() * mass),
+				(float)(velocity.getY() * mass),
+				(float)(velocity.getZ() * mass)
 		));
     }
 	
