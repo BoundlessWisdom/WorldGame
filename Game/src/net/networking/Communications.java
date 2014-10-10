@@ -2,7 +2,7 @@ package net.networking;
 
 import java.io.IOException;
 import java.net.*;
-
+@SuppressWarnings("unused")
 // Magic number 5005 used throughout is arbitrary open port
 public class Communications
 {
