@@ -1,4 +1,4 @@
-package com.engine.extra.physics;
+package com.engine.physics;
 
 import com.engine.core.Vector3f;
 import com.engine.rendering.Mesh;
