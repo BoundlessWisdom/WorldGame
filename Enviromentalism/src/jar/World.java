@@ -19,34 +19,22 @@ public class World {
 	}
 	
 	public void update(long dtime) {
-		updateEntities(dtime);
+		updateObjects(dtime);
 	}
 	
-	public void updateEntities(long dtime) {
-		for(Entity e : activeObjects)
-			e.update(dtime);
-	}
-	
-	public void updateEffects(long dtime) {
-		for(StandingEffect e : standingEffects)
-			e.update(dtime);
+	public void updateObjects(long dtime) {
+		for(Updateable ao : activeObjects)
+			ao.update(dtime);
 	}
 	
 	/***************************************************************/
 	
-	private ArrayList<Entity> activeObjects = new ArrayList<Entity>();
+	private ArrayList<Updateable> activeObjects = new ArrayList<Updateable>();
 	
-	public boolean addEntity(Entity entity) {
-		activeObjects.add(entity);
+	public boolean add(Updateable object) {
+		activeObjects.add(object);
 		
 		return true;
-	}
-	
-	//Permanent and semi-permanent effects go here.
-	private ArrayList<StandingEffect> standingEffects = new ArrayList<StandingEffect>();
-	
-	public void addEffect(StandingEffect effect) {
-		standingEffects.add(effect);
 	}
 	
 	/*
