@@ -42,10 +42,15 @@ public class Communications
 		
 		buffer = new byte[256];
 		packet = new DatagramPacket(buffer, buffer.length);
-		
-		
-		socket.receive(packet);
-		
+		socket.setSoTimeout(250);
+		try
+		{
+			socket.receive(packet);
+		}
+		catch (SocketTimeoutException e)
+		{
+			return;
+		}
 		if(Input.getKey(Keyboard.KEY_C))
 			ClientContact();
 	}
