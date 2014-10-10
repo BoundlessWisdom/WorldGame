@@ -21,6 +21,7 @@ public class CastLeyline extends SustainedCast {
 
 	protected boolean activate() {
 		Game.activeWorld.add(new Leyline(this, castType, caster.x, caster.z, secondCaster.x, secondCaster.z));
+		//TODO: CastLeyline
 		//Reminder: This needs to be fixed for effect and aesthetics.
 		
 		return true;

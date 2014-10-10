@@ -1,5 +1,7 @@
 package jar;
 
+import java.util.ArrayList;
+
 import math.VectorMath;
 
 public class Leyline implements Updateable {
@@ -127,11 +129,24 @@ public class Leyline implements Updateable {
 	
 	/************************************************************************************************/
 	
-	float growthRate;
+	//TODO: Leyline: Determine what logic is necessary.
+	ArrayList<SustainedCast> boosterCasts = new ArrayList<SustainedCast>();
+	{
+		boosterCasts.add(cast);
+	}
+	ArrayList<Integer> xBoosts = new ArrayList<Integer>();
+	ArrayList<Integer> zBoosts = new ArrayList<Integer>();
 	
+	//TODO: Leyline: Write math.
+	//xgrowthRate = growthRate
+	float xgrowthRate;
+	float zgrowthRate;
 	
 	private void grow(long growTime) {
-		
+		rightx += xgrowthRate * growTime;
+		leftx -= xgrowthRate * growTime;
+		upperz += zgrowthRate * growTime;
+		lowerz -= zgrowthRate * growTime;
 	}
 	
 	public void update(long dtime) {
