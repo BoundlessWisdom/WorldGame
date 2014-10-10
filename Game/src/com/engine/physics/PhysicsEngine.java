@@ -86,16 +86,9 @@ public class PhysicsEngine
 				updateMomentum(i);
 				if(objs.get(i).getVelocity().getY() <= -objs.get(i).getPos().getY() && forces.get(i).getY() < 0)
 				{
-					//System.out.println(objs.get(i).getPos().getY());
-					if(Math.abs(objs.get(i).getVelocity().getY()) < 0.15)
-					{
-						objs.get(i).getMomentum().setY(0);
-						objs.get(i).getVelocity().setY(-objs.get(i).getVelocity().getY());
-					}
-					
 					float ec = (float)objs.get(i).getElasticConstant();
 					float fy = (float)-forces.get(i).getY();//-forces.get(i).getY();
-					float nY = fy * ec;
+					float nY = Math.abs(objs.get(i).getVelocity().getY()) > 0.15  ? fy * ec : 0;
 					
 					applyForce(i, 
 							new Vector3f((float)(forces.get(i).getX()), nY/*(float)(-forces.get(i).getY()*objs.get(i).getElasticConstant())*/,(float)(forces.get(i).getZ())),
