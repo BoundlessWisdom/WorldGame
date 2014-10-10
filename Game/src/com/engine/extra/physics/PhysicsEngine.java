@@ -13,7 +13,7 @@ public class PhysicsEngine
 	private boolean frictionEnabled = false;
 	public static final double rho = .02;
 	public static final float g = .17f;
-	boolean freeFall = false;
+	//boolean freeFall = false;
 	
 	private static PhysicsEngine instance = new PhysicsEngine();
 	
@@ -87,10 +87,10 @@ public class PhysicsEngine
 				if(objs.get(i).getVelocity().getY() <= -objs.get(i).getPos().getY() && forces.get(i).getY() < 0)
 				{
 					//System.out.println(objs.get(i).getPos().getY());
-					if(Math.abs(objs.get(i).getVelocity().getY()) < 0.45)
+					if(Math.abs(objs.get(i).getVelocity().getY()) < 0.15)
 					{
 						objs.get(i).getMomentum().setY(0);
-						objs.get(i).getVelocity().setY(0);
+						objs.get(i).getVelocity().setY(-objs.get(i).getVelocity().getY());
 					}
 					
 					float ec = (float)objs.get(i).getElasticConstant();
