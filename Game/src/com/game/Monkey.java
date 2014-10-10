@@ -7,7 +7,7 @@ public class Monkey extends EntityObject
 {	
 	public Monkey(GameObject gameObj, double mass, String name) {
 		super(gameObj, mass, name);
-		fixElastic(1.0);
+		fixElastic(0.2);
 	}
 
 	/*@Override
@@ -23,7 +23,7 @@ public class Monkey extends EntityObject
 	
 	@Override
 	public double getMu() {
-		return 0;
+		return .5;
 	}
 
 	@Override

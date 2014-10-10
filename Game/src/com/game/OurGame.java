@@ -55,5 +55,9 @@ public class OurGame extends GameInstance
 		{
 			getPhysicsEngine().force(monkey, new Vector3f(0.01f, 0f, 0f));
 		}
+		else
+		{
+			getPhysicsEngine().zeroForce(monkey);
+		}
 	}
 }

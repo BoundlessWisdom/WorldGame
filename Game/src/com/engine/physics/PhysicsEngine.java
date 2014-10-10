@@ -137,6 +137,15 @@ public class PhysicsEngine
 	{
 		applyForce(obj.getIndex(), force, true);
 	}
+	public void zeroForce(IObject obj)
+	{
+		int i = obj.getIndex();
+		applyForce(i, new Vector3f(0,0,0), false);
+		if(isGravityEnabled())
+		{
+			applyGravity(i);
+		}
+	}
 	public boolean isGravityEnabled() 
 	{
 		return gravityEnabled;
