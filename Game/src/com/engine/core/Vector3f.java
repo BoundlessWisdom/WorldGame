@@ -183,4 +183,17 @@ public class Vector3f
 	{
 		return x == r.getX() && y == r.getY() && z == r.getZ();
 	}
+	
+	public static Vector3f get0()
+	{
+		return new Vector3f(0, 0, 0);
+	}
+	
+	public Vector3f zeroed()
+	{
+		x = 0;
+		y = 0;
+		z = 0;
+		return this;
+	}
 }
