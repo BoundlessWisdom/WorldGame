@@ -66,6 +66,26 @@ public class GameObject
 			child.addToRenderingEngine(renderingEngine);
 	}
 	
+	public void removeChild(int index)
+	{
+		children.remove(index);
+	}
+	
+	public void removeChild(GameObject obj)
+	{
+		children.remove(obj);
+	}
+	
+	public void removeComponent(int index)
+	{
+		components.remove(index);
+	}
+	
+	public void removeComponent(GameComponent component)
+	{
+		components.remove(component);
+	}
+	
 	public Transform getTransform()
 	{
 		return transform;

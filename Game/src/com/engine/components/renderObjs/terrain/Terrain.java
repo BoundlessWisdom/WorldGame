@@ -5,11 +5,12 @@ import com.engine.core.GameObject;
 import com.engine.core.Vector3f;
 import com.engine.rendering.Material;
 import com.engine.rendering.Mesh;
+import com.engine.rendering.Mesh.DRAW_WAY;
+import com.engine.rendering.meshLoading.IndexedModel;
 import com.engine.rendering.meshLoading.InputModel;
 
 public class Terrain extends GameObject 
 {
-	private MeshRenderer meshRenderer;
 	private Vector3f posOrigin;
 	private OriginGravity gravity = OriginGravity.LEFT_DOWN;
 	
@@ -23,8 +24,7 @@ public class Terrain extends GameObject
 	}
 	
 	public Terrain()
-	{
-		meshRenderer = null; 
+	{ 
 		posOrigin = new Vector3f(0, 0, 0);
 	}
 	
@@ -52,9 +52,13 @@ public class Terrain extends GameObject
 		Mesh mesh = inputModel.toIndexedModel().toMesh();
 		if(mesh == null)
 			return false;
-		meshRenderer = new MeshRenderer(mesh, material);
-		if(meshRenderer == null)
-			return false;
+		
+		mesh.setDrawWay(DRAW_WAY.TRIANGLE_STRIP);
+		
+		MeshRenderer meshRenderer = new MeshRenderer(mesh, material);
+		
+		addComponent(meshRenderer);
+		
 		return true;
 	}
 	public boolean createMeshRenderer(Mesh mesh, Material material)
@@ -63,15 +67,19 @@ public class Terrain extends GameObject
 			return false;
 		if(mesh == null)
 			return false;
-		meshRenderer = new MeshRenderer(mesh, material);
-		if(meshRenderer == null)
-			return false;
+		
+		mesh.setDrawWay(DRAW_WAY.TRIANGLE_STRIP);
+		
+		MeshRenderer meshRenderer = new MeshRenderer(mesh, material);
+		
+		addComponent(meshRenderer);
+				
 		return true;
-	}
+	}	
 	
-	public MeshRenderer getMeshRenderer()
+	public void setOriginGravity(OriginGravity gravity)
 	{
-		return meshRenderer;
+		this.gravity = gravity;
 	}
 	
 	public Vector3f getPosOrigin()

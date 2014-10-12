@@ -3,20 +3,14 @@ package com.engine.components.renderObjs.terrain;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import org.newdawn.slick.opengl.ImageIOImageData;
-import org.newdawn.slick.opengl.PNGDecoder;
-import org.omg.CORBA.portable.IndirectionException;
-
 import com.engine.core.Vector2f;
 import com.engine.core.Vector3f;
-import com.engine.rendering.Mesh;
+import com.engine.rendering.Material;
 import com.engine.rendering.Texture;
 import com.engine.rendering.meshLoading.InputModel;
 import com.engine.rendering.meshLoading.OBJIndex;
@@ -36,11 +30,11 @@ public class HeightMap extends Terrain
 	{
 		png = pngFile;
 		texture = textureFile;
-	}
+		if(png != null && texture != null)
+			loadHeightMap(pngFile, texture);
+	}	 
 	
-	 
-	
-	public boolean loadHeightMap(String file)
+	public boolean loadHeightMap(String pngFile, String textureFile)
 	{
 		ArrayList<Vector3f> pos = new ArrayList<Vector3f>();
 		ArrayList<Vector2f> texCoords = new ArrayList<Vector2f>();
@@ -53,7 +47,8 @@ public class HeightMap extends Terrain
 		
 		try 
 		{
-			BufferedImage img = ImageIO.read(new File(file));
+			
+			BufferedImage img = ImageIO.read(new File("./res/maps/" + pngFile));
 			
 			int w = img.getWidth();
 			int h = img.getHeight();
@@ -71,26 +66,34 @@ public class HeightMap extends Terrain
 					pos.add(new Vector3f(x, height, z));
 					
 					texCoords.add(new Vector2f(dx * x, dz * z));
-					textureIndices.add(texCoords.size() - 1);
 					
 					normals.add(Vector3f.get0());
-					normalIndices.add(normals.size() - 1);
 				}
 			}
-			
-			for(int z = 0; z < h; z++)
+						
+			for(int z = 0; z < h - 1; z++)
 			{
-				for(int x = 0; x < w; x++)
-				{
-					int i0 = z * x + x;
-					int i1 = (z + 1) * x + x;
-					int i2 = z * x + x + 1;
-					int i3 = (z + 1) * x + x + 1;
+				for(int x = 0; x < w - 1; x++)
+				{					
+					int i0 = z * w + x;
+					int i1 = (z + 1) * w + x;
+					int i2 = z * w + x + 1;
+					int i3 = (z + 1) * w + x + 1;
 					
 					modelIndices.add(i0);
 					modelIndices.add(i1);
 					modelIndices.add(i2);
 					modelIndices.add(i3);
+					
+					textureIndices.add(i0);
+					textureIndices.add(i1);
+					textureIndices.add(i2);
+					textureIndices.add(i3);
+					
+					normalIndices.add(i0);
+					normalIndices.add(i1);
+					normalIndices.add(i2);
+					normalIndices.add(i3);
 				}
 			}
 			
@@ -107,11 +110,17 @@ public class HeightMap extends Terrain
 		catch (IOException e) 
 		{
 			e.printStackTrace();
+			return false;
 		}
 		
 		InputModel iModel = new InputModel(pos, texCoords, null, indices);
 		
-		createMeshRenderer(iModel, null);
+		Material material = new Material(new Texture(textureFile), null);
+		
+		if(!createMeshRenderer(iModel, material))
+		{
+			return false;
+		}
 		
 		return true;
 	}
