@@ -106,6 +106,11 @@ public class Vector3f
 		return new Vector3f(x - r.getX(), y - r.getY(), z - r.getZ());
 	}
 	
+	public Vector3f sub(float dx, float dy, float dz)
+	{
+		return sub(new Vector3f(dx, dy, dz));
+	}
+	
 	public Vector3f sub(float r)
 	{
 		return new Vector3f(x - r, y - r, z - r);

@@ -1,8 +1,5 @@
 package com.game;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.lwjgl.input.Keyboard;
 
 import com.engine.components.lighting.BaseLight;
@@ -10,17 +7,14 @@ import com.engine.components.lighting.SpotLight;
 import com.engine.components.renderObjs.MeshRenderer;
 import com.engine.components.renderObjs.terrain.HeightMap;
 import com.engine.components.renderObjs.terrain.Terrain;
+import com.engine.components.renderObjs.terrain.Terrain.OriginGravity;
 import com.engine.core.GameInstance;
 import com.engine.core.GameObject;
 import com.engine.core.Input;
-import com.engine.core.Vector2f;
 import com.engine.core.Vector3f;
 import com.engine.rendering.Material;
 import com.engine.rendering.Mesh;
-import com.engine.rendering.Mesh.DRAW_WAY;
 import com.engine.rendering.Texture;
-import com.engine.rendering.meshLoading.InputModel;
-import com.engine.rendering.meshLoading.OBJIndex;
 
 public class OurGame extends GameInstance 
 {
@@ -52,7 +46,9 @@ public class OurGame extends GameInstance
 		addEntity(monkey);
 		addObject(lightObj);
 		
-		Terrain terr = new HeightMap("heightmap.png", "texture.png");
+		Terrain terr = new HeightMap("heightmap2.png", "texture.png");
+		terr.setOriginGravity(OriginGravity.RIGHT_UP);
+		terr.compile();
 		getRootObject().addChild(terr);
 	}
 	

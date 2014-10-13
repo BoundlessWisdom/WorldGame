@@ -28,11 +28,23 @@ public class HeightMap extends Terrain
 	
 	public HeightMap(String pngFile, String textureFile)
 	{
+		this();
 		png = pngFile;
 		texture = textureFile;
-		if(png != null && texture != null)
-			loadHeightMap(pngFile, texture);
-	}	 
+	}
+	
+	public HeightMap(String pngFile, String textureFile, Vector3f scale)
+	{
+		this(pngFile, textureFile);
+		setScale(scale);
+	}
+	
+	@Override
+	protected void build() 
+	{
+		super.build();
+		loadHeightMap(png, texture);
+	}
 	
 	public boolean loadHeightMap(String pngFile, String textureFile)
 	{
@@ -47,11 +59,12 @@ public class HeightMap extends Terrain
 		
 		try 
 		{
-			
 			BufferedImage img = ImageIO.read(new File("./res/maps/" + pngFile));
 			
 			int w = img.getWidth();
 			int h = img.getHeight();
+			
+			terrainRadius = new Vector2f(w / 2, h / 2);
 			
 			float dx = (float)(1f / (float)w);
 			float dz = (float)(1f / (float)h);
@@ -61,9 +74,9 @@ public class HeightMap extends Terrain
 				for(int x = 0; x < w; x++)
 				{
 					Color color = new Color(img.getRGB(x, z));
-					float height = (float)color.getRed();
+					float height = (float)color.getRed() * scale.getY();
 					heights.add(height);
-					pos.add(new Vector3f(x, height, z));
+					pos.add(new Vector3f(x * scale.getX(), height, z * scale.getZ()));
 					
 					texCoords.add(new Vector2f(dx * x, dz * z));
 					
