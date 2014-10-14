@@ -12,6 +12,7 @@ import com.engine.core.GameInstance;
 import com.engine.core.GameObject;
 import com.engine.core.Input;
 import com.engine.core.Vector3f;
+import com.engine.rendering.Camera;
 import com.engine.rendering.Material;
 import com.engine.rendering.Mesh;
 import com.engine.rendering.Texture;
@@ -20,6 +21,7 @@ public class OurGame extends GameInstance
 {
 	Monkey monkey = new Monkey(new GameObject(), 100.0, "Monkey");
 	GameObject lightObj;
+	Terrain terr;
 	
 	public OurGame() {
 		super();
@@ -46,10 +48,11 @@ public class OurGame extends GameInstance
 		addEntity(monkey);
 		addObject(lightObj);
 		
-		Terrain terr = new HeightMap("heightmap2.png", "texture.png");
-		terr.setOriginGravity(OriginGravity.RIGHT_UP);
+		terr = new HeightMap("heightmap2.png", "texture.png");
 		terr.compile();
 		getRootObject().addChild(terr);
+		
+		getRenderingEngine().getMainCamera().setPos(new Vector3f(0, HeightMap.getHeight(0, 0, terr) + 1f, 0));
 	}
 	
 	@Override
@@ -59,6 +62,19 @@ public class OurGame extends GameInstance
 		lightObj.getTransform().setPos(getRenderingEngine().getMainCamera().getPos());
 		//monkey.getTransform().setPos(new Vector3f(x, y, 0));
 		
+		Vector3f pos = getRenderingEngine().getMainCamera().getPos();
+		float h = HeightMap.getHeight(pos.getX(), pos.getZ(), terr);
+		
+//		if(Math.abs(pos.getY() - h) > 1f)
+//		{
+			getRenderingEngine().getMainCamera().setPos(new Vector3f(pos.getX(), 
+					h + 1f, pos.getY()));
+//			System.out.println(pos.getY());
+//			System.out.println(HeightMap.getHeight(pos.getX(), pos.getZ(), terr));
+//		}
+		
+		//monkey.getTransform().setPos(pos.getX(), h + 1f, pos.getZ() + 1f);	
+			
 		if(Input.getKey(Keyboard.KEY_F))
 		{
 			getPhysicsEngine().force(monkey, new Vector3f(0.01f, 0f, 0f));
