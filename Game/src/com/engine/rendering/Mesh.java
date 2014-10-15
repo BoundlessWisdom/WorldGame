@@ -16,6 +16,14 @@ public class Mesh
 	private int ibo = 0;
 	private int size = 0;
 	
+	public static enum DRAW_WAY
+	{
+		TRIANGLE_STRIP,
+		TRIANGLES
+	}
+	
+	private int drawWay = GL_TRIANGLES;
+	
 	public Mesh()
 	{
 		initMeshData();
@@ -131,7 +139,7 @@ public class Mesh
 		glVertexAttribPointer(2, 3, GL_FLOAT, false, Vertex.SIZE * 4, 20);
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, 0);
+		glDrawElements(drawWay, size, GL_UNSIGNED_INT, 0);
 		
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
@@ -148,5 +156,18 @@ public class Mesh
 	
 	public int getSize() {
 		return size;
+	}
+	
+	public void setDrawWay(DRAW_WAY way)
+	{
+		switch(way)
+		{
+		case TRIANGLES:
+			drawWay = GL_TRIANGLES;
+			break;
+		case TRIANGLE_STRIP:
+			drawWay = GL_TRIANGLE_STRIP;
+			break;
+		}
 	}
 }

@@ -25,7 +25,7 @@ public class IndexedModel
 	
 	public void calcNormals()
 	{
-		for(int i = 0; i < indicies.size(); i += 3)
+		for(int i = 0; i < indicies.size() - 2; i += 3)
 		{
 			int i0 = indicies.get(i);
 			int i1 = indicies.get(i + 1);

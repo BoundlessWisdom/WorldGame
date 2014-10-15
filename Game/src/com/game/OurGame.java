@@ -5,6 +5,9 @@ import org.lwjgl.input.Keyboard;
 import com.engine.components.lighting.BaseLight;
 import com.engine.components.lighting.SpotLight;
 import com.engine.components.renderObjs.MeshRenderer;
+import com.engine.components.renderObjs.terrain.HeightMap;
+import com.engine.components.renderObjs.terrain.Terrain;
+import com.engine.components.renderObjs.terrain.Terrain.OriginGravity;
 import com.engine.core.GameInstance;
 import com.engine.core.GameObject;
 import com.engine.core.Input;
@@ -42,6 +45,11 @@ public class OurGame extends GameInstance
 		//entityIndicies.add(getRootObject().addChild(monkey));
 		addEntity(monkey);
 		addObject(lightObj);
+		
+		Terrain terr = new HeightMap("heightmap2.png", "texture.png");
+		terr.setOriginGravity(OriginGravity.RIGHT_UP);
+		terr.compile();
+		getRootObject().addChild(terr);
 	}
 	
 	@Override
@@ -54,6 +62,10 @@ public class OurGame extends GameInstance
 		if(Input.getKey(Keyboard.KEY_F))
 		{
 			getPhysicsEngine().force(monkey, new Vector3f(0.01f, 0f, 0f));
+		}
+		else
+		{
+			getPhysicsEngine().zeroForce(monkey);
 		}
 	}
 }
