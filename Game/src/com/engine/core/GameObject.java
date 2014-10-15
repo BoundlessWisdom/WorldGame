@@ -105,4 +105,10 @@ public class GameObject
 	{
 		components.set(index, component);
 	}
+	
+	protected void privatize()
+	{
+		new Exception("You can't add a child! This is a private feature to this class!").printStackTrace();
+		System.exit(1);
+	}
 }

@@ -8,6 +8,7 @@ import com.engine.components.renderObjs.MeshRenderer;
 import com.engine.components.renderObjs.terrain.HeightMap;
 import com.engine.components.renderObjs.terrain.Terrain;
 import com.engine.components.renderObjs.terrain.Terrain.OriginGravity;
+import com.engine.components.renderObjs.terrain.Tile;
 import com.engine.core.GameInstance;
 import com.engine.core.GameObject;
 import com.engine.core.Input;
@@ -31,6 +32,8 @@ public class OurGame extends GameInstance
 	public void init() 
 	{
 		super.init();
+		Tile t = new Tile();
+		t.addChild(null);
 		Mesh mesh = new Mesh("test1.obj");
 		Material material = new Material(new Texture("texture.png"), new Vector3f(1.0f, 1.0f, 1.0f), 2, 8);
 		
