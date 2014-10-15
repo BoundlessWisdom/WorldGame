@@ -9,8 +9,6 @@ import org.lwjgl.input.Keyboard;
 import com.engine.core.Input;
 
 // Magic number 5005 used throughout is arbitrary open port
-
-@SuppressWarnings("unused")
 public class Communications
 {
 	private static DatagramSocket socket;
