@@ -1,5 +1,7 @@
 package com.engine.components.renderObjs.terrain;
 
+import java.util.ArrayList;
+
 import com.engine.components.renderObjs.MeshRenderer;
 import com.engine.core.GameObject;
 import com.engine.core.Vector2f;
@@ -14,10 +16,12 @@ public class Terrain extends GameObject
 	private Vector3f posOrigin;
 	private OriginGravity gravity = OriginGravity.LEFT_DOWN;
 	private OriginGravity prevGravity = OriginGravity.LEFT_DOWN;
-	protected Vector3f scale;
+	protected Vector3f scale = new Vector3f(1, 1, 1);
 	protected Vector3f trans;
-	protected Vector2f terrainRadius; 
-	
+	protected Vector2f terrainRadius;
+	protected ArrayList<Float> heights;
+	protected float width = 0, depth = 0;
+
 	public static enum OriginGravity //what is terrain psoition based on?
 	{
 		LEFT_UP,
@@ -34,7 +38,7 @@ public class Terrain extends GameObject
 	public Terrain()
 	{ 
 		posOrigin = new Vector3f(0, 0, 0);
-		scale = new Vector3f(1, 1, 1);
+		heights = new ArrayList<Float>();
 	}
 	
 	public Terrain(Mesh mesh, Material material)
@@ -181,5 +185,27 @@ public class Terrain extends GameObject
 	public void setScale(Vector3f scale)
 	{
 		this.scale = scale;
+	}
+	
+	public float getHeight(int index)
+	{
+		if(index >= heights.size())
+		{
+			return 0;
+		}
+		
+		return heights.get(index);
+	}
+	
+	public Vector3f getScale() {
+		return scale;
+	}
+
+	public float getWidth() {
+		return width;
+	}
+
+	public float getDepth() {
+		return depth;
 	}
 }

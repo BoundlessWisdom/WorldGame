@@ -17,8 +17,6 @@ import com.engine.rendering.meshLoading.OBJIndex;
 
 public class HeightMap extends Terrain
 {	
-	ArrayList<Float> heights = new ArrayList<Float>();
-	
 	String png, texture; //files
 	
 	public HeightMap()
@@ -63,6 +61,9 @@ public class HeightMap extends Terrain
 			
 			int w = img.getWidth();
 			int h = img.getHeight();
+			
+			width = (float)w * scale.getX();
+			depth = (float)h * scale.getZ();
 			
 			terrainRadius = new Vector2f(w / 2, h / 2);
 			
@@ -136,5 +137,25 @@ public class HeightMap extends Terrain
 		}
 		
 		return true;
+	}
+	
+	public float getHeight(float x, float z) //with respect to map
+	{
+		int i = 0;
+		
+		i = (int)((z / scale.getZ()) * (width / scale.getX()) + (x / scale.getX()));
+		
+		return getHeight(i);
+	}
+	
+	public static float getHeight(float x, float z, Terrain t) //with respect to map
+	{
+		int i = 0;
+		Vector3f scale = t.getScale();
+		float width = t.getWidth();
+		
+		i = (int)((z / scale.getZ()) * (width / scale.getX()) + (x / scale.getX()));
+		
+		return t.getHeight(i);
 	}
 }
