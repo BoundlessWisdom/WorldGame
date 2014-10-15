@@ -4,19 +4,26 @@ import com.engine.core.GameObject;
 
 public class CompleteTerrain extends GameObject 
 {
-	private CompleteTerrain instance = new CompleteTerrain();
+	private static CompleteTerrain instance = new CompleteTerrain();
 	
 	private CompleteTerrain() 
 	{
 	}
 	
-	public CompleteTerrain getInstance()
+	public static CompleteTerrain getInstance()
 	{
 		return instance;
 	}
 	
-	public boolean addTerrain(Tile t)
+	@Override
+	public void addChild(GameObject gObj) 
 	{
+		privatize();
+	}
+	
+	public boolean addTile(Tile t)
+	{
+		super.addChild(t);
 		return true;
 	}
 }

@@ -5,15 +5,14 @@ import org.lwjgl.input.Keyboard;
 import com.engine.components.lighting.BaseLight;
 import com.engine.components.lighting.SpotLight;
 import com.engine.components.renderObjs.MeshRenderer;
+import com.engine.components.renderObjs.terrain.CompleteTerrain;
 import com.engine.components.renderObjs.terrain.HeightMap;
 import com.engine.components.renderObjs.terrain.Terrain;
-import com.engine.components.renderObjs.terrain.Terrain.OriginGravity;
 import com.engine.components.renderObjs.terrain.Tile;
 import com.engine.core.GameInstance;
 import com.engine.core.GameObject;
 import com.engine.core.Input;
 import com.engine.core.Vector3f;
-import com.engine.rendering.Camera;
 import com.engine.rendering.Material;
 import com.engine.rendering.Mesh;
 import com.engine.rendering.Texture;
@@ -23,6 +22,7 @@ public class OurGame extends GameInstance
 	Monkey monkey = new Monkey(new GameObject(), 100.0, "Monkey");
 	GameObject lightObj;
 	Terrain terr;
+	CompleteTerrain terrain = CompleteTerrain.getInstance();
 	
 	public OurGame() {
 		super();
@@ -32,8 +32,8 @@ public class OurGame extends GameInstance
 	public void init() 
 	{
 		super.init();
-		Tile t = new Tile();
-		t.addChild(null);
+		//Tile t = new Tile();
+		//t.addChild(null);
 		Mesh mesh = new Mesh("test1.obj");
 		Material material = new Material(new Texture("texture.png"), new Vector3f(1.0f, 1.0f, 1.0f), 2, 8);
 		
@@ -53,6 +53,12 @@ public class OurGame extends GameInstance
 		
 		terr = new HeightMap("heightmap2.png", "texture.png");
 		terr.compile();
+		
+		Tile t = new Tile();
+		t.addTerrain(terr);
+		
+		terrain.addTile(t);
+		
 		getRootObject().addChild(terr);
 		
 		getRenderingEngine().getMainCamera().setPos(new Vector3f(0, HeightMap.getHeight(0, 0, terr) + 1f, 0));
