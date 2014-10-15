@@ -2,15 +2,20 @@ package net.networking;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.ArrayList;
+
+import org.lwjgl.input.Keyboard;
+
+import com.engine.core.Input;
 
 // Magic number 5005 used throughout is arbitrary open port
-
-@SuppressWarnings("unused")
 public class Communications
 {
 	private static DatagramSocket socket;
 	private static DatagramPacket packet;
 	private static InetAddress group;
+	public ArrayList<InetAddress> addresses;
+
 	byte[] buffer;
 	
 	private Communications() throws UnknownHostException
@@ -30,6 +35,26 @@ public class Communications
 		return new Communications();
 	}
 	
+	public void ClientListen() throws IOException
+	{
+		socket = new MulticastSocket(5005);
+		((MulticastSocket) socket).joinGroup(group);
+		
+		buffer = new byte[256];
+		packet = new DatagramPacket(buffer, buffer.length);
+		socket.setSoTimeout(250);
+		try
+		{
+			socket.receive(packet);
+		}
+		catch (SocketTimeoutException e)
+		{
+			return;
+		}
+		if(Input.getKey(Keyboard.KEY_C))
+			ClientContact();
+	}
+	
 	private void BroadcastServer() throws IOException
 	{
 		String servername = "Some identifier";
@@ -40,8 +65,7 @@ public class Communications
 	
 	private void ClientContact() throws IOException
 	{
-		socket = new MulticastSocket(5005);
-		((MulticastSocket) socket).joinGroup(group);
+		addresses.add(packet.getAddress());
 		
 		String request = "You wanna go, bro? " + InetAddress.getLocalHost().getHostName();
 		buffer = request.getBytes();
