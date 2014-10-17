@@ -1,0 +1,22 @@
+We need to:
+
+Create library of effects
+Create library of elementals
+Create library of casts
+
+Create special effects:
+	wisps
+
+
+Create logic for modifiers
+
+Create logic for controlbars and casting
+
+Create logic for flying objects
+
+
+!Create interface
+
+
+!!Connect game logic to engine
+!!Connect game logic to networking
