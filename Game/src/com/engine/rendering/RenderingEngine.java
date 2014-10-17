@@ -51,6 +51,9 @@ public class RenderingEngine
 		
 		//Shader.setGlobalRenderingEngine(this);
 	//	clearLightList();
+		
+		
+		
 		lights.clear();
 		object.addToRenderingEngine(this);
 		
@@ -58,6 +61,7 @@ public class RenderingEngine
 		forwardAmbient.setRenderingEngine(this);
 		object.render(forwardAmbient);
 		
+		glEnable(GL_SMOOTH);
 		glEnable(GL_BLEND);		
 		glBlendFunc(GL_ONE, GL_ONE); //first * 1 + second * one
 		glDepthMask(false);
@@ -73,6 +77,7 @@ public class RenderingEngine
 		glDepthFunc(GL_LESS);
 		glDepthMask(true);
 		glDisable(GL_BLEND);
+		glDisable(GL_SMOOTH);
 }
 	
 //	private void clearLightList()

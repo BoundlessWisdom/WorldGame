@@ -83,6 +83,16 @@ public class Transform
 	{
 		this.scale = new Vector3f(x, y, z);
 	}
+	
+	public void translate(Vector3f trans)
+	{
+		pos.add(trans);
+	}
+	
+	public void translate(float x, float y, float z)
+	{
+		translate(new Vector3f(x, y, z));
+	}
 
 //	public static Camera getCamera() {
 //		return camera;

@@ -5,6 +5,10 @@ import org.lwjgl.input.Keyboard;
 import com.engine.components.lighting.BaseLight;
 import com.engine.components.lighting.SpotLight;
 import com.engine.components.renderObjs.MeshRenderer;
+import com.engine.components.renderObjs.terrain.CompleteTerrain;
+import com.engine.components.renderObjs.terrain.HeightMap;
+import com.engine.components.renderObjs.terrain.Terrain;
+import com.engine.components.renderObjs.terrain.TerrainTile;
 import com.engine.core.GameInstance;
 import com.engine.core.GameObject;
 import com.engine.core.Input;
@@ -17,6 +21,8 @@ public class OurGame extends GameInstance
 {
 	Monkey monkey = new Monkey(new GameObject(), 100.0, "Monkey");
 	GameObject lightObj;
+	Terrain terr;
+	CompleteTerrain terrain = CompleteTerrain.getInstance();
 	
 	public OurGame() {
 		super();
@@ -39,9 +45,22 @@ public class OurGame extends GameInstance
 		lightObj = new GameObject();
 		lightObj.addComponent(light);
 		
-		//entityIndicies.add(getRootObject().addChild(monkey));
 		addEntity(monkey);
 		addObject(lightObj);
+		
+		terr = new HeightMap("heightmap.png", "texture.png").compile();
+		
+		TerrainTile t = new TerrainTile();
+		if(!t.addTerrain(terr))
+		{
+			System.out.println("Ouch");
+		}
+		
+		terrain.addTile(t);
+		
+		terrain.compile();
+		
+		getRenderingEngine().getMainCamera().setPos(new Vector3f(0, HeightMap.getHeight(0, 0, terr) + 7f, 0));
 	}
 	
 	@Override
@@ -51,6 +70,19 @@ public class OurGame extends GameInstance
 		lightObj.getTransform().setPos(getRenderingEngine().getMainCamera().getPos());
 		//monkey.getTransform().setPos(new Vector3f(x, y, 0));
 		
+		Vector3f pos = getRenderingEngine().getMainCamera().getPos();
+		float h = HeightMap.getHeight(pos.getX(), pos.getZ(), terr);
+		
+		if(Math.abs(pos.getY() - h) > 9f)
+		{
+			getRenderingEngine().getMainCamera().setPos(new Vector3f(pos.getX(), 
+					h + 7f, pos.getZ()));
+			System.out.println(pos.getY());
+			System.out.println(HeightMap.getHeight(pos.getX(), pos.getZ(), terr));
+		}
+		
+		//monkey.getTransform().setPos(pos.getX(), h + 1f, pos.getZ() + 1f);	
+			
 		if(Input.getKey(Keyboard.KEY_F))
 		{
 			getPhysicsEngine().force(monkey, new Vector3f(0.01f, 0f, 0f));

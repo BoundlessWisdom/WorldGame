@@ -19,6 +19,7 @@ public class InputModel
 	public InputModel(ArrayList<Vector3f> positions, ArrayList<Vector2f> texCoords, ArrayList<Vector3f> normals,
 			ArrayList<OBJIndex> indicies) 
 	{
+		this();
 		this.positions = positions;
 		this.texCoords = texCoords;
 		this.normals = normals;
@@ -33,8 +34,28 @@ public class InputModel
 		indicies = new ArrayList<OBJIndex>();
 	}
 	
+	public int max()
+	{
+		int m = 0;
+		
+		for(int i = 0; i < indicies.size() - 1; i++)
+		{
+			OBJIndex currIndex = indicies.get(i);
+			OBJIndex nextIndex = indicies.get(i + 1);
+			
+			m = Math.max(currIndex.vertexIndex, nextIndex.vertexIndex);
+		}
+		
+		return m;
+	}
+	
 	public IndexedModel toIndexedModel()
 	{
+		if(texCoords != null)
+			hasTexCoord = true;
+		if(normals != null)
+			hasNormals = true;
+		
 		IndexedModel res = new IndexedModel();
 		IndexedModel normalModel = new IndexedModel();
 		
@@ -46,6 +67,13 @@ public class InputModel
 		{
 			OBJIndex currentIndex = indicies.get(i);
 			
+			if(currentIndex.vertexIndex >= positions.size())
+			{
+				System.out.println(currentIndex.vertexIndex);
+				System.out.println(indicies.size());
+				System.out.println(positions.size());
+				System.out.println(max());
+			}
 			Vector3f currentPos = positions.get(currentIndex.vertexIndex);
 			Vector2f currentTex;
 			Vector3f currentNorm;

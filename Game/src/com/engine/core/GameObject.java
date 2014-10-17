@@ -12,6 +12,8 @@ public class GameObject
 	protected ArrayList<GameComponent> components;
 	protected Transform transform;
 	
+	private boolean doRender = true;
+	
 	public GameObject()
 	{
 		children = new ArrayList<GameObject>();
@@ -50,6 +52,9 @@ public class GameObject
 	
 	public void render(Shader shader)
 	{
+		if(!doRender)
+			return;
+		
 		for(GameComponent component : components)
 			component.render(shader);
 		
@@ -64,6 +69,26 @@ public class GameObject
 		
 		for(GameObject child : children)
 			child.addToRenderingEngine(renderingEngine);
+	}
+	
+	public void removeChild(int index)
+	{
+		children.remove(index);
+	}
+	
+	public void removeChild(GameObject obj)
+	{
+		children.remove(obj);
+	}
+	
+	public void removeComponent(int index)
+	{
+		components.remove(index);
+	}
+	
+	public void removeComponent(GameComponent component)
+	{
+		components.remove(component);
 	}
 	
 	public Transform getTransform()
@@ -84,5 +109,16 @@ public class GameObject
 	public void setComponent(int index, GameComponent component)
 	{
 		components.set(index, component);
+	}
+	
+	protected void privatize()
+	{
+		new Exception("You can't add a child! This is a private feature to this class!").printStackTrace();
+		System.exit(1);
+	}
+	
+	public void shouldRender(boolean doRender)
+	{
+		this.doRender = doRender;
 	}
 }

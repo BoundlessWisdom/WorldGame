@@ -106,6 +106,11 @@ public class Vector3f
 		return new Vector3f(x - r.getX(), y - r.getY(), z - r.getZ());
 	}
 	
+	public Vector3f sub(float dx, float dy, float dz)
+	{
+		return sub(new Vector3f(dx, dy, dz));
+	}
+	
 	public Vector3f sub(float r)
 	{
 		return new Vector3f(x - r, y - r, z - r);
@@ -182,5 +187,23 @@ public class Vector3f
 	public boolean equals(Vector3f r)
 	{
 		return x == r.getX() && y == r.getY() && z == r.getZ();
+	}
+	
+	public static Vector3f get0()
+	{
+		return new Vector3f(0, 0, 0);
+	}
+	
+	public Vector3f zeroed()
+	{
+		x = 0;
+		y = 0;
+		z = 0;
+		return this;
+	}
+	
+	public Vector3f makePositive()
+	{
+		return new Vector3f(Math.abs(x), Math.abs(y), Math.abs(z));
 	}
 }
