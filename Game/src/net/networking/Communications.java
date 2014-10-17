@@ -1,3 +1,7 @@
+//File used in order to have a player contact all other players
+//Their addresses will be used to send the same data to all players
+//In the update function
+
 package net.networking;
 
 import java.io.IOException;
@@ -55,9 +59,8 @@ public class Communications
 		if(Input.getKey(Keyboard.KEY_C)) //dummy operation for choosing to contact; gui later
 			ClientContact();
 	}
-	
-	@SuppressWarnings("unused")
-	private void BroadcastServer() throws IOException
+
+	private void BroadcastServer() throws IOException // Call repeatedly until satisfied
 	{
 		String servername = "Some identifier";
 		buffer = servername.getBytes();
@@ -67,9 +70,9 @@ public class Communications
 	
 	private void ClientContact() throws IOException
 	{
-		addresses.add(packet.getAddress());
+		addresses.add(packet.getAddress()); // Not sure if this will be client IP or Class D group, hopefully client IP
 		
-		String request = "Request; " + InetAddress.getLocalHost().getHostName();
+		String request = "Request " + InetAddress.getLocalHost().getHostName();
 		buffer = request.getBytes();
 		
 		packet = new DatagramPacket(buffer, buffer.length);
@@ -77,23 +80,22 @@ public class Communications
 		// Send packet that a server will receive in ServerAccept()
 	}
 	
-	@SuppressWarnings("unused")
 	private void ServerAccept() throws IOException
 	{
 		buffer = new byte[256];
 		packet = new DatagramPacket(buffer, buffer.length);
 		
 		socket.receive(packet);
-		addresses.add(packet.getAddress());
+		String s = buffer.toString(); // Display in GUI such that the client can by identified
+		if(s.contains("Request"))
+			addresses.add(packet.getAddress());
 	}
 	
-	@SuppressWarnings("unused")
 	private void ClientSortAddresses() throws IOException // Player must be able to contact all other non-hosts
 	{
 		socket.receive(packet);
 	}
 	
-	@SuppressWarnings("unused")
 	private void ServerSendAddressList() throws IOException // Server has addresses of all players, must send to other players 
 	{
 		socket.close();
@@ -112,7 +114,23 @@ public class Communications
 		}
 	}
 	
-	@SuppressWarnings("unused")
+	private void ClientListPlayers() throws IOException
+	{
+		String data;
+		while(true)
+		{
+			buffer = new byte[256];
+			packet = new DatagramPacket(buffer, buffer.length);
+			socket.receive(packet);
+			data = buffer.toString();
+			
+			if(data == "Ready")
+				break;
+			else
+				addresses.add(InetAddress.getByName(data));
+		}
+	}
+
 	private void Destroy()
 	{
 		socket.close();
