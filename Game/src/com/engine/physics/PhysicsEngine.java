@@ -51,7 +51,7 @@ public class PhysicsEngine
 	 * Remove an object from the physics engine.
 	 * @param o object to remove.
 	 */
-	public void remove(IObject o)
+	public void remove(EntityObject o)
 	{
 		objs.remove(o.getIndex());
 		forces.remove(o.getIndex());
@@ -134,12 +134,12 @@ public class PhysicsEngine
 	 * @param obj the object.
 	 * @param force the force vector.
 	 */
-	public void force(IObject obj, Vector3f force)
+	public void force(EntityObject obj, Vector3f force)
 	{
 		applyForce(obj.getIndex(), force, true);
 	}
 	
-	public void zeroForce(IObject obj)
+	public void zeroForce(EntityObject obj)
 	{
 		int i = obj.getIndex();
 		applyForce(i, new Vector3f(0,0,0), false);

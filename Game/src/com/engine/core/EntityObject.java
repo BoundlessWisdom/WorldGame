@@ -1,10 +1,9 @@
 package com.engine.core;
 
-import com.engine.physics.IObject;
 import com.engine.physics.PhysicsEngine;
 import com.engine.rendering.Mesh;
 
-public abstract class EntityObject extends GameObject implements IObject
+public abstract class EntityObject extends GameObject
 {
 	String name;
 	
@@ -46,73 +45,59 @@ public abstract class EntityObject extends GameObject implements IObject
 		set(gameObj);
 	}
 
-	@Override
 	public double getMass() {
 		return mass;
 	}
 
-	@Override
 	public String getName() {
 		return name;
 	}
 
-	@Override
 	public Vector3f getPos() {
 		return getTransform().getPos();
 	}
 
-	@Override
 	public Mesh getSprite() {
 		return null;
 	}
 
-	@Override
 	public Vector3f getMomentum() {
 		return P;
 	}
 
-	@Override
 	public void move(float x, float y, float z) {
 		getTransform().getPos().add(new Vector3f(x, y, z));
 		return;
 	}
 
-	@Override
 	public void setAcceleration(Vector3f accel) {
 		a = accel;
 	}
 
-	@Override
 	public Vector3f getAcceleration() {
 		return a;
 	}
 
-	@Override
 	public void setVelocity(Vector3f vel) {
 		v = vel;
 	}
 
-	@Override
 	public Vector3f getVelocity() {
 		return v;
 	}
 
-	@Override
 	public int getIndex() {
 		return index;
 	}
 
-	@Override
 	public void setIndex(int index) {
 		this.index = index;
 	}
 
-	@Override
 	public boolean isFlying() {
 		return flying;
 	}
 
-	@Override
 	public void setFlying(boolean flying) {
 		this.flying = flying;
 		if(flying)
@@ -155,8 +140,7 @@ public abstract class EntityObject extends GameObject implements IObject
 		this.children = gameObj.children;
 		this.transform = gameObj.transform;
 	}
-	
-	@Override
+
 	public double getElasticConstant() 
 	{
 		return elasticConstant;
@@ -165,5 +149,17 @@ public abstract class EntityObject extends GameObject implements IObject
 	public void fixElastic(double elastic)
 	{
 		this.elasticConstant = 150 * PhysicsEngine.g * elastic;
+	}
+
+	public double getDragConstant() {
+		return 0;
+	}
+
+	public double getCrossSectionArea() {
+		return 0;
+	}	
+
+	public double getMu() {
+		return 0;
 	}
 }
