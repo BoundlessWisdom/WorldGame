@@ -8,6 +8,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.engine.core.Input;
 
+@SuppressWarnings("unused")
 // Magic number 5005 used throughout is arbitrary open port
 public class Communications
 {
