@@ -68,7 +68,7 @@ public abstract class EntityObject extends GameObject implements IObject
 
 	@Override
 	public Vector3f getMomentum() {
-		return P;
+		return p;
 	}
 
 	@Override
