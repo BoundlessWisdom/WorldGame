@@ -11,7 +11,7 @@ public abstract class EntityObject extends GameObject
 	
 	private Vector3f a = new Vector3f(0,0,0);
 	private Vector3f v = new Vector3f(0,0,0);
-	private Vector3f P = new Vector3f(0,0,0); //momentum
+	private Vector3f p = new Vector3f(0,0,0); //momentum
 	
 	private int index;
 	
