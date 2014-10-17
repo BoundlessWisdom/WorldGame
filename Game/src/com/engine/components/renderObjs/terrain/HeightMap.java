@@ -37,6 +37,13 @@ public class HeightMap extends Terrain
 		setScale(scale);
 	}
 	
+	public HeightMap(String pngFile, String textureFile, Vector3f scale, OriginGravity gravity)
+	{
+		this(pngFile, textureFile, scale);
+		setOriginGravity(gravity);
+		compile();
+	}
+	
 	@Override
 	protected void build() 
 	{

@@ -1,10 +1,12 @@
 package com.engine.components.renderObjs.terrain;
 
+import java.util.ArrayList;
+
 import com.engine.components.renderObjs.terrain.Terrain.OriginGravity;
 import com.engine.core.GameObject;
 import com.engine.core.Vector3f;
 
-public class Tile extends GameObject 
+public class TerrainTile extends GameObject 
 {
 	private float width = 0;
 	private float depth = 0;
@@ -16,8 +18,11 @@ public class Tile extends GameObject
 	
 	OriginGravity gravity;
 	
-	public Tile() 
+	ArrayList<Terrain> terrains;
+	
+	public TerrainTile() 
 	{
+		terrains = new ArrayList<Terrain>();
 	}
 	
 	@Override
@@ -62,7 +67,7 @@ public class Tile extends GameObject
 			scale = t.getScale();
 			
 			gravity = t.getOriginGravity();
-			children.add(t);
+			terrains.add(t);
 			numTerrains++;
 		}
 		
@@ -88,10 +93,20 @@ public class Tile extends GameObject
 				return false;
 			}
 			
-			super.addChild(t);
+			terrains.add(t);
 			numTerrains++;
 		}
 		
 		return true;
+	}
+	
+	public void compile()
+	{
+		for(Terrain t : terrains)
+		{
+			super.addChild(t);
+		}
+		
+		terrains.clear();
 	}
 }

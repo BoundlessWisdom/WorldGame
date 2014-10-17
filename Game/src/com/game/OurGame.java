@@ -8,7 +8,7 @@ import com.engine.components.renderObjs.MeshRenderer;
 import com.engine.components.renderObjs.terrain.CompleteTerrain;
 import com.engine.components.renderObjs.terrain.HeightMap;
 import com.engine.components.renderObjs.terrain.Terrain;
-import com.engine.components.renderObjs.terrain.Tile;
+import com.engine.components.renderObjs.terrain.TerrainTile;
 import com.engine.core.GameInstance;
 import com.engine.core.GameObject;
 import com.engine.core.Input;
@@ -47,19 +47,20 @@ public class OurGame extends GameInstance
 		lightObj = new GameObject();
 		lightObj.addComponent(light);
 		
-		//entityIndicies.add(getRootObject().addChild(monkey));
 		addEntity(monkey);
 		addObject(lightObj);
 		
-		terr = new HeightMap("heightmap2.png", "texture.png");
-		terr.compile();
+		terr = new HeightMap("heightmap2.png", "texture.png").compile();
 		
-		Tile t = new Tile();
-		t.addTerrain(terr);
+		TerrainTile t = new TerrainTile();
+		if(!t.addTerrain(terr))
+		{
+			System.out.println("Ouch");
+		}
 		
 		terrain.addTile(t);
 		
-		getRootObject().addChild(terr);
+		terrain.compile();
 		
 		getRenderingEngine().getMainCamera().setPos(new Vector3f(0, HeightMap.getHeight(0, 0, terr) + 1f, 0));
 	}

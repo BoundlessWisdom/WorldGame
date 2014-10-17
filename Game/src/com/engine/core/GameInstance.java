@@ -2,6 +2,7 @@ package com.engine.core;
 
 import java.util.ArrayList;
 
+import com.engine.components.renderObjs.terrain.CompleteTerrain;
 import com.engine.physics.PhysicsEngine;
 import com.engine.rendering.RenderingEngine;
 
@@ -24,7 +25,7 @@ public class GameInstance extends Game
 	
 	public void init()
 	{
-	
+		getRootObject().addChild(CompleteTerrain.getInstance());
 	}
 	
 	@Override

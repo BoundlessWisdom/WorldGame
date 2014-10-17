@@ -8,7 +8,6 @@ public abstract class Game
 	
 	public void init() 
 	{
-		
 	}	
 	
 	public void input(float delta) 

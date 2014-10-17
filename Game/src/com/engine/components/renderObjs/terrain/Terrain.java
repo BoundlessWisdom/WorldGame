@@ -159,11 +159,12 @@ public class Terrain extends GameObject
 	{
 	}
 	
-	public void compile()
+	public Terrain compile()
 	{
 		build();
 		trans = getTranslate(prevGravity, gravity);
 		transform.setPos(transform.getPos().added(trans));
+		return this;
 	}
 	
 	public void setOriginGravity(OriginGravity gravity)
