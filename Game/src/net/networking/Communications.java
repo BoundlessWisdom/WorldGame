@@ -51,10 +51,11 @@ public class Communications
 		{
 			return;
 		}
-		if(Input.getKey(Keyboard.KEY_C))
+		if(Input.getKey(Keyboard.KEY_C)) //dummy operation for choosing to contact; gui later
 			ClientContact();
 	}
 	
+	@SuppressWarnings("unused")
 	private void BroadcastServer() throws IOException
 	{
 		String servername = "Some identifier";
@@ -67,21 +68,50 @@ public class Communications
 	{
 		addresses.add(packet.getAddress());
 		
-		String request = "You wanna go, bro? " + InetAddress.getLocalHost().getHostName();
+		String request = "Request; " + InetAddress.getLocalHost().getHostName();
 		buffer = request.getBytes();
 		
 		packet = new DatagramPacket(buffer, buffer.length);
+		
+		// Send packet that a server will receive in ServerAccept()
 	}
 	
+	@SuppressWarnings("unused")
 	private void ServerAccept() throws IOException
 	{
 		buffer = new byte[256];
 		packet = new DatagramPacket(buffer, buffer.length);
 		
 		socket.receive(packet);
-		
+		addresses.add(packet.getAddress());
 	}
 	
+	@SuppressWarnings("unused")
+	private void ClientSortAddresses() throws IOException // Player must be able to contact all other non-hosts
+	{
+		socket.receive(packet);
+	}
+	
+	@SuppressWarnings("unused")
+	private void ServerSendAddressList() throws IOException // Server has addresses of all players, must send to other players 
+	{
+		socket.close();
+		socket = new DatagramSocket();
+		for(InetAddress i : addresses)
+		{
+			for(InetAddress j : addresses)
+			{
+				if(i != j)
+				{
+					buffer = i.getHostAddress().getBytes();
+					packet = new DatagramPacket(buffer, buffer.length, j, 5005);
+					socket.send(packet);
+				}
+			}
+		}
+	}
+	
+	@SuppressWarnings("unused")
 	private void Destroy()
 	{
 		socket.close();
