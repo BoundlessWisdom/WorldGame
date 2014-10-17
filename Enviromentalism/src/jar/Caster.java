@@ -38,12 +38,25 @@ public abstract class Caster extends Entity {
 	public ECastType castingType;
 	public ECastType[] castingTypes;
 	
+	public Caster peerCaster;
+	public Caster[] peerCasters;
+	
+	public Leyline targetLeyline;
+	public Leyline[] targetLeylineConvergence;
+	
 	public Elemental summoningElemental;
 	public Elemental[] summoningElementalGroup;
 	
 	public Projectile launchingProjectile;
 	public Projectile[] launchingProjectiles;
 	
-	public Caster peerCaster;
-	public Caster[] peerCasters;
+	public int stat1;
+	public int stat2;
+	public int stat3;
+	
+	public int[] statArray1;
+	public int[] statArray2;
+	public int[] statArray3;
+	
+	public int[][] statArrayArray1;
 }

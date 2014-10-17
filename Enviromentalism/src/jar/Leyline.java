@@ -99,7 +99,7 @@ public class Leyline implements Updateable {
 				distanceFromLeyline = VectorMath.cProduct2D(1, zslope, l.x - midx, l.z - midz) / VectorMath.abs(1, zslope);
 		}
 		
-		if (distanceFromLeyline >= 1.0001)
+		if (distanceFromLeyline > 1.00001)
 			return 0;
 		
 		distanceFromLeyline -= 0.5f;

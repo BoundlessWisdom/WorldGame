@@ -43,4 +43,10 @@ public class World {
 	 * 
 	 * Note: Either way, a good way to check for targets would be with the Minecraft Material properties technique.
 	 */
+	
+	/***************************************************************/
+	
+	public Tile getTile(int x, int z) {  //Using tile coordinate system.
+		return (Tile) worldMap[2 * x - 1][2 * z - 1];
+	}
 }

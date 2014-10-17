@@ -1,6 +1,6 @@
 package jar;
 
-public class CastLeyline extends SustainedCast {
+public class CastLeyline extends MultiphaseCast {
 	ECastType castType;
 	Caster secondCaster;
 
@@ -25,6 +25,19 @@ public class CastLeyline extends SustainedCast {
 		//Reminder: This needs to be fixed for effect and aesthetics.
 		
 		return true;
+	}
+
+	protected void onPhaseEnd() {
+	}
+
+	protected void onNextPhase() {
+	}
+
+	protected void hibernate(long htime) {
+	}
+
+	public void terminate() {
+		//Explode!
 	}
 
 }

@@ -6,8 +6,6 @@ public abstract class SustainedCast extends Cast implements Updateable {
 		super(caster);
 	}
 	
-	public void onTerminate() {
-		
-	}
+	public abstract void terminate();
 
 }

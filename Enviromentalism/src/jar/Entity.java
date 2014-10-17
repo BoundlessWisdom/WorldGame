@@ -43,7 +43,7 @@ public Entity place(int x, int z) {
 	this.x = x;
 	this.z = z;
 	
-	//w.worldMap[x][z].add(this);
+	//w.getTile(x, z).place(this);
 	
 	/***********************************************************************************
 	 * 									IMPORTANT!!!								   *
@@ -57,15 +57,17 @@ public void update(long dtime) {
 	
 }
 
-public boolean move() {
-	return false;   //Write this up here.
+public boolean moveTo(int x, int z) {
+	this.x = x;
+	this.z = z;
+	return true;   //Rewrite if necessary.
 }
 
 public void attack() {
 	
 }
 
-public void die() {   //Write this up here.
+public void die() {   //Write this up here.  TODO: Entity.die()
 
 }
 
