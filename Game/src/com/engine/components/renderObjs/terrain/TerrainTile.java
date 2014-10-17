@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.engine.components.renderObjs.terrain.Terrain.OriginGravity;
 import com.engine.core.GameObject;
+import com.engine.core.Vector2f;
 import com.engine.core.Vector3f;
 
 public class TerrainTile extends GameObject 
@@ -108,5 +109,17 @@ public class TerrainTile extends GameObject
 		}
 		
 		terrains.clear();
+	}
+	
+	public boolean inTile(Vector3f pos)
+	{
+		Vector2f dif = this.pos.GetXY().sub(pos.GetXY()).abs().sub(new Vector2f(width, depth));
+		
+		if(dif.getX() <= 0 && dif.getY() <= 0)
+		{
+			return true;
+		}
+		
+		return false;
 	}
 }

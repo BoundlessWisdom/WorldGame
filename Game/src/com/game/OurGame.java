@@ -32,8 +32,6 @@ public class OurGame extends GameInstance
 	public void init() 
 	{
 		super.init();
-		//Tile t = new Tile();
-		//t.addChild(null);
 		Mesh mesh = new Mesh("test1.obj");
 		Material material = new Material(new Texture("texture.png"), new Vector3f(1.0f, 1.0f, 1.0f), 2, 8);
 		
@@ -50,7 +48,7 @@ public class OurGame extends GameInstance
 		addEntity(monkey);
 		addObject(lightObj);
 		
-		terr = new HeightMap("heightmap2.png", "texture.png").compile();
+		terr = new HeightMap("heightmap.png", "texture.png").compile();
 		
 		TerrainTile t = new TerrainTile();
 		if(!t.addTerrain(terr))
@@ -62,7 +60,7 @@ public class OurGame extends GameInstance
 		
 		terrain.compile();
 		
-		getRenderingEngine().getMainCamera().setPos(new Vector3f(0, HeightMap.getHeight(0, 0, terr) + 1f, 0));
+		getRenderingEngine().getMainCamera().setPos(new Vector3f(0, HeightMap.getHeight(0, 0, terr) + 7f, 0));
 	}
 	
 	@Override
@@ -75,13 +73,13 @@ public class OurGame extends GameInstance
 		Vector3f pos = getRenderingEngine().getMainCamera().getPos();
 		float h = HeightMap.getHeight(pos.getX(), pos.getZ(), terr);
 		
-//		if(Math.abs(pos.getY() - h) > 1f)
-//		{
+		if(Math.abs(pos.getY() - h) > 9f)
+		{
 			getRenderingEngine().getMainCamera().setPos(new Vector3f(pos.getX(), 
-					h + 1f, pos.getY()));
-//			System.out.println(pos.getY());
-//			System.out.println(HeightMap.getHeight(pos.getX(), pos.getZ(), terr));
-//		}
+					h + 7f, pos.getZ()));
+			System.out.println(pos.getY());
+			System.out.println(HeightMap.getHeight(pos.getX(), pos.getZ(), terr));
+		}
 		
 		//monkey.getTransform().setPos(pos.getX(), h + 1f, pos.getZ() + 1f);	
 			

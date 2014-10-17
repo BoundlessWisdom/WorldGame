@@ -201,4 +201,9 @@ public class Vector3f
 		z = 0;
 		return this;
 	}
+	
+	public Vector3f makePositive()
+	{
+		return new Vector3f(Math.abs(x), Math.abs(y), Math.abs(z));
+	}
 }

@@ -12,6 +12,8 @@ public class GameObject
 	protected ArrayList<GameComponent> components;
 	protected Transform transform;
 	
+	private boolean doRender = true;
+	
 	public GameObject()
 	{
 		children = new ArrayList<GameObject>();
@@ -50,6 +52,9 @@ public class GameObject
 	
 	public void render(Shader shader)
 	{
+		if(!doRender)
+			return;
+		
 		for(GameComponent component : components)
 			component.render(shader);
 		
@@ -110,5 +115,10 @@ public class GameObject
 	{
 		new Exception("You can't add a child! This is a private feature to this class!").printStackTrace();
 		System.exit(1);
+	}
+	
+	public void shouldRender(boolean doRender)
+	{
+		this.doRender = doRender;
 	}
 }
