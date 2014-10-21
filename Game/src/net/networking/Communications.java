@@ -28,13 +28,13 @@ public class Communications
 		group = InetAddress.getByName("225.235.245.255");
 	}
 	
-	public Communications Server() throws UnknownHostException, SocketException
+	public static Communications Server() throws UnknownHostException, SocketException
 	{
 		socket = new DatagramSocket();
 		return new Communications();
 	}
 	
-	public Communications Client() throws IOException
+	public static Communications Client() throws IOException
 	{
 		socket = new MulticastSocket(5005);
 		return new Communications();
