@@ -29,7 +29,7 @@ public abstract class Elemental extends Entity {
 	
 	public static final Elemental[] waterElemental = new Elemental[256];
 	
-	public static final Elemental sprayfish = new ElementalSprayfish(WATER, 0, 0.2f, 0, 0);
+	public static final Elemental sprayfish = new ElementalSprayfish(WATER, 0, 0.2f, 0);
 	
 	
 	public static final Elemental[] iceElementals = new Elemental[256];
