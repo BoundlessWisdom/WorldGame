@@ -1,20 +1,26 @@
 package com.engine.rendering;
 
-
-
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-import com.engine.core.Input;
-//TODO: Maybe find a better place for this file
 import com.game.OurGame;
+
+//import com.engine.core.Input;
+//TODO: Maybe find a better place for this file
 
 public class Menu // Actions triggered by mouse clicks
 {
+	
+	public boolean isopen = true;
 	public Menu() // Creates menu and displays
 	{
-		
 		// Display menu here, probably a 2-D overlay still image
-		Update();
+		while(isopen)
+		{
+			Update();
+		}
 	}
 	
 	public void MuliplayerStart() // Begins network contact procedures
@@ -24,25 +30,28 @@ public class Menu // Actions triggered by mouse clicks
 	
 	public void SinglePlayerStart() // For free roam, or at LEAST for testing without networking
 	{
-		
+		OurGame.menuselection = 1;
+		Close();
 	}
 	
 	public void Update() // Handles mouse clicks
 	{
-			Input.update();
-			if(Input.getMousePosition() != null)
-			{
-				System.out.println(Input.getMousePosition().getX());
-				System.out.println(Input.getMousePosition().getY());
-				System.out.println(OurGame.state);
-			}
-			if((Input.getMousePosition().getX() < Display.getWidth()/2) && (Input.getMousePosition().getY() < Display.getHeight()/2))
+		Display.update();
+		//Input.update();
+		System.out.println(isopen);
+			//if(Input.getMousePosition() != null)
+			//{
+				System.out.println(Mouse.getX());
+				System.out.println(Mouse.getY());
+			//}
+			
+			if((Mouse.getX() < Display.getWidth()/2) && (Mouse.getY() < Display.getHeight()/2))
 			{
 				System.out.println("Hovering over button!");
-				if(Input.getMouse(1)) // Menu setup currently runs on right-clicks in order to avoid meddling with mouse-centering system.
+				if(Mouse.isButtonDown(1)) // Menu setup currently runs on right-clicks in order to avoid meddling with mouse-centering system.
 				{
-					OurGame.state = true;
 					System.out.printf("Clicking!\n");
+					SinglePlayerStart();
 				}
 			}
 	}
@@ -54,6 +63,6 @@ public class Menu // Actions triggered by mouse clicks
 	
 	public void Close() // Closes menu once the game is loaded, not by immediate mouse click
 	{
-		
+		isopen = false;
 	}
 }
