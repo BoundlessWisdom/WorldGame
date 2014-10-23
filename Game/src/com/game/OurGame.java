@@ -19,6 +19,7 @@ import com.engine.rendering.Texture;
 
 public class OurGame extends GameInstance 
 {
+	public static boolean state;
 	Monkey monkey = new Monkey(new GameObject(), 100.0, "Monkey");
 	GameObject lightObj;
 	Terrain terr;
