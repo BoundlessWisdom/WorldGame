@@ -6,6 +6,7 @@ import com.engine.physics.PhysicsEngine;
 import com.engine.rendering.RenderingEngine;
 import com.engine.rendering.Window;
 import com.game.OurGame;
+import com.engine.rendering.Menu;
 
 public class CoreEngine 
 {	
@@ -55,6 +56,8 @@ public class CoreEngine
 		Window.createWindow(w, h, title);
 		renderEngine = RenderingEngine.getInstance();
 		System.out.println(RenderingEngine.getOpenGLVersion());
+		
+		Menu mainmenu = new Menu();
 	}
 	
 	public void start()

@@ -1,7 +1,5 @@
 package com.engine.rendering;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
@@ -45,15 +43,15 @@ public class Menu // Actions triggered by mouse clicks
 				System.out.println(Mouse.getY());
 			//}
 			
-			if((Mouse.getX() < Display.getWidth()/2) && (Mouse.getY() < Display.getHeight()/2))
+		if((Mouse.getX() < Display.getWidth()/2) && (Mouse.getY() < Display.getHeight()/2))
+		{
+			System.out.println("Hovering over button!");
+			if(Mouse.isButtonDown(1)) // Menu setup currently runs on right-clicks in order to avoid meddling with mouse-centering system.
 			{
-				System.out.println("Hovering over button!");
-				if(Mouse.isButtonDown(1)) // Menu setup currently runs on right-clicks in order to avoid meddling with mouse-centering system.
-				{
-					System.out.printf("Clicking!\n");
-					SinglePlayerStart();
-				}
+				System.out.printf("Clicking!\n");
+				SinglePlayerStart();
 			}
+		}
 	}
 	
 	public void Quit() // For people too lazy to click the X in the top corner
