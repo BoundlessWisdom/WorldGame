@@ -64,3 +64,4 @@ public class Menu // Actions triggered by mouse clicks
 		isopen = false;
 	}
 }
+
