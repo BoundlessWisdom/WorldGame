@@ -1,6 +1,6 @@
 package ui;
 
-import com.archonica.Game;
+import com.game.Archonica;
 
 public class ChangeMenuButton extends Button {
 
@@ -19,7 +19,7 @@ public class ChangeMenuButton extends Button {
 	}
 
 	public void function() {
-		Game.activeMenu = changeTo;
+		Archonica.activeMenu = changeTo;
 	}
 
 }

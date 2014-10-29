@@ -2,6 +2,8 @@ package com.archonica;
 
 import static com.archonica.EntClass.*;
 
+import com.game.Archonica;
+
 public abstract class Entity implements Updateable {
 public final EntClass entClass;
 
@@ -15,7 +17,7 @@ protected final int maxHealth = 0;
 public float health;
 
 Entity(EntClass entClass, float size, Modifier m) {
-	this.w = Game.activeWorld;
+	this.w = Archonica.activeWorld;
 		this.health = maxHealth;
 	this.entClass = entClass;
 	this.size = size;

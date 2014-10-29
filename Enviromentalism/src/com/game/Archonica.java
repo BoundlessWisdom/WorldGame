@@ -1,10 +1,10 @@
-package com.archonica;
+package com.game;
+
+import com.archonica.World;
 
 import ui.Menu;
 
-public class Game {
-
-	
+public class Archonica {
 	
 	public static Menu activeMenu = Menu.rootMenu;
 	
@@ -12,7 +12,7 @@ public class Game {
 		activeWorld = new World(20);
 	}
 	
-	static World activeWorld;
+	public static World activeWorld;
 
 	/****************************************************************************************
 	 * 									IMPORTANT NOTICE									*
