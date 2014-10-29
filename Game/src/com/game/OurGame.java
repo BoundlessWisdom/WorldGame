@@ -24,6 +24,7 @@ public class OurGame extends GameInstance
 	GameObject lightObj;
 	Terrain terr;
 	CompleteTerrain terrain = CompleteTerrain.getInstance();
+	public static int menuselection;
 	
 	public OurGame() {
 		super();
