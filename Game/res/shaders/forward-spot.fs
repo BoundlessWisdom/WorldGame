@@ -1,11 +1,11 @@
 #version 120
 #include "lighting.fsh"
 
-uniform PointLight R_pointLight;
+uniform SpotLight R_spotLight;
 
 vec4 CalcLightingEffect(vec3 normal, vec3 worldPos)
 {
-	return CalcPointLight(R_pointLight, normal, worldPos);
+	return CalcSpotLight(R_spotLight, normal, worldPos);
 }
 
 #include "lightingMain.fsh"

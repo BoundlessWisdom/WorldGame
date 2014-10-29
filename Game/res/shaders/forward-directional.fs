@@ -1,63 +1,11 @@
-#version 330
+#version 120
+#include "lighting.fsh"
 
-in vec2 texCoord0;
-in vec3 normal0;
-in vec3 worldPos0;
+uniform DirectionalLight R_directionalLight;
 
-//out vec4 fragColor;
-
-struct BaseLight
+vec4 CalcLightingEffect(vec3 normal, vec3 worldPos)
 {
-	vec3 color;
-	float intensity;
-};
-
-struct DirectionalLight
-{
-	BaseLight base;
-	vec3 direction;
-};
-
-uniform sampler2D diffuse;
-uniform vec3 eyePos;
-
-uniform float specularIntensity;
-uniform float specularExponent;
-
-uniform DirectionalLight directionalLight;
-
-vec4 calcLight(BaseLight base, vec3 direction, vec3 normal)
-{
-	float diffuseFactor = dot(normal, -direction);
-	
-	vec4 diffuseColor = vec4(0, 0, 0, 0);
-	vec4 specularColor = vec4(0, 0, 0, 0);
-	
-	if(diffuseFactor > 0)
-	{
-		diffuseColor = vec4(base.color, 1.0) * base.intensity * diffuseFactor;
-		
-		vec3 directionToEye = normalize(eyePos - worldPos0);
-		vec3 reflectDirection = normalize(reflect(direction, normal));
-		
-		float specularFactor = dot(directionToEye, reflectDirection);
-		specularFactor = pow(specularFactor, specularExponent);
-		
-		if(specularFactor > 0)
-		{
-			specularColor = vec4(base.color, 1.0) * specularIntensity * specularFactor;
-		}
-	}
-	
-	return diffuseColor + specularColor;
+	return CalcDirectionalLight(R_directionalLight, normal, worldPos);
 }
 
-vec4 calcDirectionalLight(DirectionalLight directionalLight, vec3 normal)
-{
-	return calcLight(directionalLight.base, -directionalLight.direction, normal);
-}
-
-void main()
-{	
-	gl_FragColor = texture2D(diffuse, texCoord0.xy) * calcDirectionalLight(directionalLight, normalize(normal0));
-}
+#include "lightingMain.fsh"

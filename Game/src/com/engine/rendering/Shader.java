@@ -1,8 +1,5 @@
 package com.engine.rendering;
 
-
-
-
 import com.engine.components.lighting.*;
 import com.engine.core.*;
 import com.engine.rendering.resourceManagement.ShaderResource;
