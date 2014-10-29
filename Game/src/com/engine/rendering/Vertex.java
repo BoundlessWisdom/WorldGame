@@ -1,56 +1,78 @@
 package com.engine.rendering;
 
 
+
+
 import com.engine.core.Vector2f;
 import com.engine.core.Vector3f;
 
-public class Vertex 
+public class Vertex
 {
-	public static final int SIZE = 8;
+	public static final int SIZE = 11;
 	
-	private Vector3f pos;
-	private Vector2f texCoord;
-	private Vector3f normal;	
+	private Vector3f m_pos;
+	private Vector2f m_texCoord;
+	private Vector3f m_normal;
+	private Vector3f m_tangent;
 	
 	public Vertex(Vector3f pos)
 	{
-		this(pos, new Vector2f(0, 0));
+		this(pos, new Vector2f(0,0));
 	}
 	
 	public Vertex(Vector3f pos, Vector2f texCoord)
 	{
-		this(pos, texCoord, new Vector3f(0, 0, 0));
+		this(pos, texCoord, new Vector3f(0,0,0));
 	}
 	
 	public Vertex(Vector3f pos, Vector2f texCoord, Vector3f normal)
 	{
-		this.pos = pos;
-		this.texCoord = texCoord;
-		this.normal = normal;
+		this(pos, texCoord, normal, new Vector3f(0,0,0));
 	}
 
-	public Vector3f getPos() {
-		return pos;
+	public Vertex(Vector3f pos, Vector2f texCoord, Vector3f normal, Vector3f tangent)
+	{
+		this.m_pos = pos;
+		this.m_texCoord = texCoord;
+		this.m_normal = normal;
+		this.m_tangent = tangent;
 	}
 
-	public void setPos(Vector3f pos) {
-		this.pos = pos;
+	public Vector3f GetTangent() {
+		return m_tangent;
 	}
 
-	public Vector2f getTexCoord() {
-		return texCoord;
+	public void SetTangent(Vector3f tangent) {
+		this.m_tangent = tangent;
 	}
 
-	public void setTexCoord(Vector2f texCoord) {
-		this.texCoord = texCoord;
+	public Vector3f GetPos()
+	{
+		return m_pos;
 	}
 
-	public Vector3f getNormal() {
-		return normal;
+	public void SetPos(Vector3f pos)
+	{
+		this.m_pos = pos;
 	}
 
-	public void setNormal(Vector3f normal) {
-		this.normal = normal;
+	public Vector2f GetTexCoord()
+	{
+		return m_texCoord;
 	}
-	
+
+	public void SetTexCoord(Vector2f texCoord)
+	{
+		this.m_texCoord = texCoord;
+	}
+
+	public Vector3f GetNormal()
+	{
+		return m_normal;
+	}
+
+	public void SetNormal(Vector3f normal)
+	{
+		this.m_normal = normal;
+	}
 }

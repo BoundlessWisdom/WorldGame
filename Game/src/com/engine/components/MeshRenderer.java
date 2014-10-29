@@ -1,3 +1,4 @@
+package com.engine.components;
 /*
  * Copyright (C) 2014 Benny Bobaganoosh
  *
@@ -14,36 +15,29 @@
  * limitations under the License.
  */
 
-package com.engine.components.lighting;
 
-import com.engine.core.Vector3f;
-import com.engine.rendering.Attenuation;
+
+import com.engine.rendering.Material;
+import com.engine.rendering.Mesh;
+import com.engine.rendering.RenderingEngine;
 import com.engine.rendering.Shader;
 
-public class SpotLight extends PointLight
+public class MeshRenderer extends GameComponent
 {
-	private float m_cutoff;
-	
-	public SpotLight(Vector3f color, float intensity, Attenuation attenuation, float cutoff)
-	{
-		super(color, intensity, attenuation);
-		this.m_cutoff = cutoff;
+	private Mesh     m_mesh;
+	private Material m_material;
 
-		SetShader(new Shader("forward-spot"));
-	}
-	
-	public Vector3f GetDirection()
+	public MeshRenderer(Mesh mesh, Material material)
 	{
-		return GetTransform().GetTransformedRot().GetForward();
+		this.m_mesh = mesh;
+		this.m_material = material;
 	}
 
-	public float GetCutoff()
+	@Override
+	public void Render(Shader shader, RenderingEngine renderingEngine)
 	{
-		return m_cutoff;
-	}
-
-	public void SetCutoff(float cutoff)
-	{
-		this.m_cutoff = cutoff;
+		shader.Bind();
+		shader.UpdateUniforms(GetTransform(), m_material, renderingEngine);
+		m_mesh.Draw();
 	}
 }

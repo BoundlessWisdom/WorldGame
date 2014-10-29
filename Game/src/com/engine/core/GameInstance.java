@@ -2,36 +2,51 @@ package com.engine.core;
 
 import java.util.ArrayList;
 
-import com.engine.components.renderObjs.terrain.CompleteTerrain;
+import com.engine.components.Camera;
+import com.engine.components.FreeLook;
+import com.engine.components.FreeMove;
+import com.engine.core.GameObject;
+import com.engine.core.Matrix4f;
+import com.engine.rendering.Window;
+import com.engine.components.terrain.CompleteTerrain;
 import com.engine.physics.PhysicsEngine;
 import com.engine.rendering.RenderingEngine;
 
 public class GameInstance extends Game
 {	
-	private static GameInstance instance = new GameInstance();
+	//private static GameInstance instance = new GameInstance();
 	
 	private static ArrayList<EntityObject> entities = new ArrayList<EntityObject>();
 	private static ArrayList<Integer> entityIndicies = new ArrayList<Integer>();
 	
-	public static GameInstance getInstance()
+	/*public static GameInstance getInstance()
 	{
 		return instance;
-	}
+	}*/
 	
-	protected GameInstance()
+	public GameInstance()
 	{
 		
 	}
 	
-	public void init()
+	@Override
+	public void Init()
 	{
-		getRootObject().addChild(CompleteTerrain.getInstance());
+		super.Init();
+		GetRootObject().SetEngine(CoreEngine.getInstance());
+		
+		AddObject(new GameObject().AddComponent(new FreeLook(0.5f)).AddComponent(new FreeMove(10.0f))
+				.AddComponent(new Camera(new Matrix4f().InitPerspective(
+						(float) Math.toRadians(70.0f), (float) Window.GetWidth() / (float) Window.GetHeight(), 
+						0.01f, 1000.0f))));
+		
+		GetRootObject().AddChild(CompleteTerrain.getInstance());
 	}
 	
 	@Override
-	public void update(float delta) 
+	public void Update(float delta) 
 	{
-		super.update(delta);
+		super.Update(delta);
 	}
 	
 	public void updateEntities()
@@ -39,19 +54,19 @@ public class GameInstance extends Game
 		for(int i = 0; i < entities.size(); i++)
 		{
 			int index = entityIndicies.get(i);
-			getRootObject().setChild(index, entities.get(i));
+			GetRootObject().setChild(index, entities.get(i));
 		}
 	}
 	
-	public void addEntity(EntityObject entity)
+	public void AddEntity(EntityObject entity)
 	{
 		entities.add(entity);
-		getRootObject().addChild(entity);
+		GetRootObject().AddChild(entity);
 		getPhysicsEngine().add(entity);
-		entityIndicies.add(getRootObject().childrenSize() - 1);
+		entityIndicies.add(GetRootObject().getNumberChildrenAttatched() - 1);
 	}
 	
-	public void removeEntity(EntityObject entity) 
+	public void RemoveEntity(EntityObject entity) 
 	{
 		entities.remove(entity);
 		getPhysicsEngine().remove(entity);
@@ -75,16 +90,11 @@ public class GameInstance extends Game
 	
 	public static PhysicsEngine getPhysicsEngine()
 	{
-		return CoreEngine.getPhysicsEngine();
+		return CoreEngine.GetPhysicsEngine();
 	}
 	
 	public static RenderingEngine getRenderingEngine()
 	{
-		return CoreEngine.getRenderingEngine();
-	}
-	
-	public void addObject(GameObject obj)
-	{
-		getRootObject().addChild(obj);
+		return CoreEngine.GetRenderingEngine();
 	}
 }

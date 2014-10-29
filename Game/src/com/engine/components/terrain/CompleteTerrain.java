@@ -1,4 +1,4 @@
-package com.engine.components.renderObjs.terrain;
+package com.engine.components.terrain;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class CompleteTerrain extends GameObject
 	}
 	
 	@Override
-	public void addChild(GameObject gObj) 
+	public void AddChild(GameObject gObj) 
 	{
 		privatize();
 	}
@@ -39,7 +39,7 @@ public class CompleteTerrain extends GameObject
 		for(TerrainTile t : tiles)
 		{
 			t.compile();
-			super.addChild(t);
+			super.AddChild(t);
 		}
 		
 		tiles.clear();

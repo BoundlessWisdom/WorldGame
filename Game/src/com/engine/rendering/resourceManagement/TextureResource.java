@@ -14,36 +14,38 @@
  * limitations under the License.
  */
 
-package com.engine.components.lighting;
+package com.engine.rendering.resourceManagement;
 
-import com.engine.core.Vector3f;
-import com.engine.rendering.Attenuation;
-import com.engine.rendering.Shader;
+import static org.lwjgl.opengl.GL11.glGenTextures;
+import static org.lwjgl.opengl.GL15.glDeleteBuffers;
 
-public class SpotLight extends PointLight
+public class TextureResource
 {
-	private float m_cutoff;
-	
-	public SpotLight(Vector3f color, float intensity, Attenuation attenuation, float cutoff)
-	{
-		super(color, intensity, attenuation);
-		this.m_cutoff = cutoff;
+	private int m_id;
+	private int m_refCount;
 
-		SetShader(new Shader("forward-spot"));
-	}
-	
-	public Vector3f GetDirection()
+	public TextureResource()
 	{
-		return GetTransform().GetTransformedRot().GetForward();
+		this.m_id = glGenTextures();
+		this.m_refCount = 1;
 	}
 
-	public float GetCutoff()
+	@Override
+	protected void finalize()
 	{
-		return m_cutoff;
+		glDeleteBuffers(m_id);
 	}
 
-	public void SetCutoff(float cutoff)
+	public void AddReference()
 	{
-		this.m_cutoff = cutoff;
+		m_refCount++;
 	}
+
+	public boolean RemoveReference()
+	{
+		m_refCount--;
+		return m_refCount == 0;
+	}
+
+	public int GetId() { return m_id; }
 }

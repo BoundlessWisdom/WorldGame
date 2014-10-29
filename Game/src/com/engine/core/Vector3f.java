@@ -1,209 +1,182 @@
+/*
+ * Copyright (C) 2014 Benny Bobaganoosh
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.engine.core;
 
 public class Vector3f 
 {
-	private float x, y, z;
+	private float m_x;
+	private float m_y;
+	private float m_z;
 	
-	public Vector3f(float x, float y, float z) 
+	public Vector3f(float x, float y, float z)
 	{
-		this.x = x;
-		this.y = y;
-		this.z = z;
+		this.m_x = x;
+		this.m_y = y;
+		this.m_z = z;
+	}
+
+	public float Length()
+	{
+		return (float)Math.sqrt(m_x * m_x + m_y * m_y + m_z * m_z);
+	}
+
+	public float Max()
+	{
+		return Math.max(m_x, Math.max(m_y, m_z));
+	}
+
+	public float Dot(Vector3f r)
+	{
+		return m_x * r.GetX() + m_y * r.GetY() + m_z * r.GetZ();
 	}
 	
-	public void set(Vector3f val)
+	public Vector3f Cross(Vector3f r)
 	{
-		x = val.getX();
-		y = val.getY();
-		z = val.getZ();
-	}
-	
-	public void set(float x, float y, float z) 
-	{
-		this.x = x;
-		this.y = y;
-		this.z = z;
-	}
-	
-	public Vector3f rotate(float angle, Vector3f axis)
-	{
-		float sinHalfAngle = (float)Math.sin(Math.toRadians(angle / 2));
-		float cosHalfAngle = (float)Math.cos(Math.toRadians(angle / 2));
-		
-		float rX = axis.getX() * sinHalfAngle;
-		float rY = axis.getY() * sinHalfAngle;
-		float rZ = axis.getZ() * sinHalfAngle;
-		float rW = cosHalfAngle;
-		
-		Quaternion rot = new Quaternion(rX, rY, rZ, rW);
-		Quaternion conjugate = rot.conjugate();
-		
-		Quaternion res = rot.mul(this).mul(conjugate);
-		
-		x = res.getX();
-		y = res.getY();
-		z = res.getZ();
-		
-		return this;
-	}
-	
-	public Vector3f lerp(Vector3f dest, float lerpFactor)
-	{
-		return dest.sub(this).mul(lerpFactor).add(this);
-	}
-	
-	public float length()
-	{
-		return (float)Math.sqrt(x*x + y*y + z*z);
-	}
-	
-	public float dot(Vector3f r)
-	{
-		return x * r.getX() + y * r.getY() + z * r.getZ();
-	}
-	
-	public Vector3f cross(Vector3f r)
-	{
-		float x_ = y * r.getZ() - z * r.getY();
-		float y_ = z * r.getX() - x * r.getZ();
-		float z_ = x * r.getY() - y * r.getX();
+		float x_ = m_y * r.GetZ() - m_z * r.GetY();
+		float y_ = m_z * r.GetX() - m_x * r.GetZ();
+		float z_ = m_x * r.GetY() - m_y * r.GetX();
 		
 		return new Vector3f(x_, y_, z_);
 	}
 	
-	public Vector3f normalize()
+	public Vector3f Normalized()
 	{
-		float l = length();
+		float length = Length();
 		
-		x /= l;
-		y /= l;
-		z /= l;
-				
-		return this;
-	}
-	
-	public Vector3f add(Vector3f r)
-	{
-		this.x += r.getX();
-		this.y += r.getY();
-		this.z += r.getZ();
-		
-		return this;
-	}
-	
-	public Vector3f added(Vector3f r)
-	{
-		return new Vector3f(x + r.getX(), y + r.getY(), z + r.getZ());
-	}
-	
-	public Vector3f add(float r)
-	{
-		return new Vector3f(x + r, y + r, z + r);
-	}
-	
-	public Vector3f sub(Vector3f r)
-	{
-		return new Vector3f(x - r.getX(), y - r.getY(), z - r.getZ());
-	}
-	
-	public Vector3f sub(float dx, float dy, float dz)
-	{
-		return sub(new Vector3f(dx, dy, dz));
-	}
-	
-	public Vector3f sub(float r)
-	{
-		return new Vector3f(x - r, y - r, z - r);
-	}
-	
-	public Vector3f mul(Vector3f r)
-	{
-		return new Vector3f(x * r.getX(), y * r.getY(), z * r.getZ());
-	}
-	
-	public Vector3f mul(float r)
-	{
-		return new Vector3f(x * r, y * r, z * r);
-	}
-	
-	public Vector3f div(Vector3f r)
-	{
-		return new Vector3f(x / r.getX(), y / r.getY(), z / r.getZ());
-	}
-	
-	public Vector3f div(float r)
-	{
-		return new Vector3f(x / r, y / r, z / r);
-	}
-	
-	public float max()
-	{
-		return Math.max(x, Math.max(y, z));
-	}
-	
-	public float getX() {
-		return x;
+		return new Vector3f(m_x / length, m_y / length, m_z / length);
 	}
 
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	public float getY() {
-		return y;
-	}
-
-	public void setY(float y) {
-		this.y = y;
-	}
-
-	public float getZ() {
-		return z;
-	}
-
-	public void setZ(float z) {
-		this.z = z;
-	}
-	
-	public Vector3f abs()
+	public Vector3f Rotate(Vector3f axis, float angle)
 	{
-		return new Vector3f(Math.abs(x), Math.abs(y), Math.abs(z));
+		float sinAngle = (float)Math.sin(-angle);
+		float cosAngle = (float)Math.cos(-angle);
+
+		return this.Cross(axis.Mul(sinAngle)).Add(           //Rotation on local X
+				(this.Mul(cosAngle)).Add(                     //Rotation on local Z
+						axis.Mul(this.Dot(axis.Mul(1 - cosAngle))))); //Rotation on local Y
+	}
+
+	public Vector3f Rotate(Quaternion rotation)
+	{
+		Quaternion conjugate = rotation.Conjugate();
+
+		Quaternion w = rotation.Mul(this).Mul(conjugate);
+
+		return new Vector3f(w.GetX(), w.GetY(), w.GetZ());
+	}
+
+	public Vector3f Lerp(Vector3f dest, float lerpFactor)
+	{
+		return dest.Sub(this).Mul(lerpFactor).Add(this);
+	}
+
+	public Vector3f Add(Vector3f r)
+	{
+		return new Vector3f(m_x + r.GetX(), m_y + r.GetY(), m_z + r.GetZ());
 	}
 	
-	@Override
-	public String toString() {
-		return "(" + x + "," + y + "," + z + ")";
+	public Vector3f Add(float r)
+	{
+		return new Vector3f(m_x + r, m_y + r, m_z + r);
 	}
 	
-	//swizzling
-	public Vector2f GetXY(){return new Vector2f(x, y);}
-	public Vector2f GetYZ(){return new Vector2f(y, z);}
-	public Vector2f GetXZ(){return new Vector2f(x, z);}
+	public Vector3f Sub(Vector3f r)
+	{
+		return new Vector3f(m_x - r.GetX(), m_y - r.GetY(), m_z - r.GetZ());
+	}
 	
-	public Vector2f GetYX(){return new Vector2f(y, x);}
-	public Vector2f GetZY(){return new Vector2f(z, y);}
-	public Vector2f GetZX(){return new Vector2f(z, x);}
+	public Vector3f Sub(float r)
+	{
+		return new Vector3f(m_x - r, m_y - r, m_z - r);
+	}
 	
+	public Vector3f Mul(Vector3f r)
+	{
+		return new Vector3f(m_x * r.GetX(), m_y * r.GetY(), m_z * r.GetZ());
+	}
+	
+	public Vector3f Mul(float r)
+	{
+		return new Vector3f(m_x * r, m_y * r, m_z * r);
+	}
+	
+	public Vector3f Div(Vector3f r)
+	{
+		return new Vector3f(m_x / r.GetX(), m_y / r.GetY(), m_z / r.GetZ());
+	}
+	
+	public Vector3f Div(float r)
+	{
+		return new Vector3f(m_x / r, m_y / r, m_z / r);
+	}
+	
+	public Vector3f Abs()
+	{
+		return new Vector3f(Math.abs(m_x), Math.abs(m_y), Math.abs(m_z));
+	}
+	
+	public String toString()
+	{
+		return "(" + m_x + " " + m_y + " " + m_z + ")";
+	}
+
+	public Vector2f GetXY() { return new Vector2f(m_x, m_y); }
+	public Vector2f GetYZ() { return new Vector2f(m_y, m_z); }
+	public Vector2f GetZX() { return new Vector2f(m_z, m_x); }
+
+	public Vector2f GetYX() { return new Vector2f(m_y, m_x); }
+	public Vector2f GetZY() { return new Vector2f(m_z, m_y); }
+	public Vector2f GetXZ() { return new Vector2f(m_x, m_z); }
+
+	public Vector3f Set(float x, float y, float z) { this.m_x = x; this.m_y = y; this.m_z = z; return this; }
+	public Vector3f Set(Vector3f r) { Set(r.GetX(), r.GetY(), r.GetZ()); return this; }
+
+	public float GetX()
+	{
+		return m_x;
+	}
+
+	public void SetX(float x)
+	{
+		this.m_x = x;
+	}
+
+	public float GetY()
+	{
+		return m_y;
+	}
+
+	public void SetY(float y)
+	{
+		this.m_y = y;
+	}
+
+	public float GetZ()
+	{
+		return m_z;
+	}
+
+	public void SetZ(float z)
+	{
+		this.m_z = z;
+	}
+
 	public boolean equals(Vector3f r)
 	{
-		return x == r.getX() && y == r.getY() && z == r.getZ();
-	}
-	
-	public static Vector3f get0()
-	{
-		return new Vector3f(0, 0, 0);
-	}
-	
-	public Vector3f zeroed()
-	{
-		x = 0;
-		y = 0;
-		z = 0;
-		return this;
-	}
-	
-	public Vector3f makePositive()
-	{
-		return new Vector3f(Math.abs(x), Math.abs(y), Math.abs(z));
+		return m_x == r.GetX() && m_y == r.GetY() && m_z == r.GetZ();
 	}
 }

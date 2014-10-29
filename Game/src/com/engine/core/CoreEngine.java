@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2014 Benny Bobaganoosh
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.engine.core;
 
 import org.lwjgl.input.Keyboard;
@@ -5,159 +21,149 @@ import org.lwjgl.input.Keyboard;
 import com.engine.physics.PhysicsEngine;
 import com.engine.rendering.RenderingEngine;
 import com.engine.rendering.Window;
-import com.game.OurGame;
-import com.engine.rendering.Menu;
 
-public class CoreEngine 
-{	
-	private boolean isRunning;
-	private OurGame game;
-	private int w, h;
-	private double frameTime;
+public class CoreEngine
+{
+	private static final CoreEngine instance = new CoreEngine();
 	
-	private static CoreEngine instance = null;
-	private static RenderingEngine renderEngine = null;
-	private static PhysicsEngine physicsEngine = null;
+	private static boolean         m_isRunning = false;
+	private static Game    			m_game;
+	private static RenderingEngine m_renderingEngine;
+	private static PhysicsEngine m_physicsEngine;
+	private static int             m_width;
+	private static int             m_height;
+	private static double          m_frameTime;
+	
+	private CoreEngine()
+	{
+		
+	}
+	
+	private CoreEngine(int width, int height, double framerate, Game game)
+	{
+	
+	}
 	
 	public static CoreEngine getInstance()
 	{
 		return instance;
 	}
 	
-	public static RenderingEngine getRenderingEngine()
+	public static void CreateEngine(int width, int height, double framerate, Game game)
 	{
-		return renderEngine;
+		m_isRunning = false;
+		m_game = game;
+		m_width = width;
+		m_height = height;
+		m_frameTime = 1.0/framerate;
+		m_game.SetEngine(CoreEngine.getInstance());
 	}
-	
-	public static PhysicsEngine getPhysicsEngine()
+
+	public static void CreateWindow(String title)
 	{
-		return physicsEngine;
+		Window.CreateWindow(m_width, m_height, title);
+		m_renderingEngine = RenderingEngine.getInstance();
+		m_physicsEngine = PhysicsEngine.GetInstance();
 	}
-	
-	public static CoreEngine initiate(int w, int h, double frameRate, OurGame game)
+
+	public static void Start()
 	{
-		instance = new CoreEngine();
-		instance.game = game;
-		instance.w = w;
-		instance.h = h;
-		instance.frameTime = 1.0 / frameRate;
-		
-		return instance;
-	}
-	
-	private CoreEngine()
-	{
-		this.isRunning = false;
-		physicsEngine = PhysicsEngine.getInstance();
-	}
-	
-	public void createWindow(String title)
-	{
-		Window.createWindow(w, h, title);
-		renderEngine = RenderingEngine.getInstance();
-		System.out.println(RenderingEngine.getOpenGLVersion());
-		
-		Menu mainmenu = new Menu();
-	}
-	
-	public void start()
-	{
-		if(isRunning)
+		if(m_isRunning)
 			return;
 		
-		run();
+		Run();
 	}
 	
-	public void stop()
+	public static void Stop()
 	{
-		if(!isRunning)
+		if(!m_isRunning)
 			return;
 		
-		isRunning = false;
+		m_isRunning = false;
 	}
 	
-	private void run()
+	private static void Run()
 	{
-		isRunning = true;
+		m_isRunning = true;
 		
-		int frame = 0;
+		int frames = 0;
 		double frameCounter = 0;
+
+		m_game.Init();
+
+		double lastTime = Time.GetTime();
+		double unprocessedTime = 0;
 		
-		game.init();
-		
-		double lastTime = Time.getTime();
-		double unprocessedTime = 0; //how much time i still need to process		
-		
-		while(isRunning)
+		while(m_isRunning)
 		{
-			if(Input.getKey(Keyboard.KEY_ESCAPE))
-				stop();
+			if(Input.GetKey(Keyboard.KEY_ESCAPE))
+			{
+				m_isRunning = false;
+			}
 			
 			boolean render = false;
-			
-			double startTime = Time.getTime();
+
+			double startTime = Time.GetTime();
 			double passedTime = startTime - lastTime;
 			lastTime = startTime;
 			
 			unprocessedTime += passedTime;
 			frameCounter += passedTime;
 			
-			while(unprocessedTime > frameTime)
+			while(unprocessedTime > m_frameTime)
 			{
 				render = true;
 				
-				unprocessedTime -= frameTime;
+				unprocessedTime -= m_frameTime;
 				
-				if(Window.isCloseRequested())
-					stop();
+				if(Window.IsCloseRequested())
+					Stop();
+
+				m_game.Input((float) m_frameTime);
+				Input.Update();
 				
-				Input.update();
+				m_game.Update((float) m_frameTime);
 				
-				game.input((float)frameTime);
-				renderEngine.input((float)frameTime);
-				
-				Input.update();
-				
-				physicsEngine.run(frameTime);
-				
-				game.update((float)frameTime);
-				
-				if(frameCounter >= 1)
+				if(frameCounter >= 1.0)
 				{
-					System.out.println(frame);
-					frame = 0;
+					System.out.println(frames);
+					frames = 0;
 					frameCounter = 0;
-				}				
+				}
 			}
 			if(render)
 			{
-				renderEngine.render(game.getRootObject());
-				Window.render();
-//				render();
-				frame++;
+				m_game.Render(m_renderingEngine);
+				Window.Render();
+				frames++;
 			}
 			else
 			{
-				try {
+				try
+				{
 					Thread.sleep(1);
-				} catch (InterruptedException e) {
+				}
+				catch (InterruptedException e)
+				{
 					e.printStackTrace();
 				}
 			}
 		}
 		
-		cleanup();
+		CleanUp();
+	}
+
+	private static void CleanUp()
+	{
+		Window.Dispose();
+	}
+
+	public static RenderingEngine GetRenderingEngine() {
+		return m_renderingEngine;
 	}
 	
-//	private void render()
-//	{
-//		RenderUtil.clearScreen();
-//		game.render();
-//		Window.render();
-//	}
-	
-	private void cleanup()
+	public static PhysicsEngine GetPhysicsEngine()
 	{
-		Window.dispose();
+		return m_physicsEngine;
 	}
 }

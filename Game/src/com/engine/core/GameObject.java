@@ -1,124 +1,143 @@
-package com.engine.core;
+/*
+ * Copyright (C) 2014 Benny Bobaganoosh
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import java.util.ArrayList;
+package com.engine.core;
 
 import com.engine.components.GameComponent;
 import com.engine.rendering.RenderingEngine;
-import com.engine.rendering.shaders.Shader;
+import com.engine.rendering.Shader;
 
-public class GameObject 
+import java.util.ArrayList;
+
+public class GameObject
 {
-	protected ArrayList<GameObject> children;
-	protected ArrayList<GameComponent> components;
-	protected Transform transform;
-	
-	private boolean doRender = true;
-	
+	protected ArrayList<GameObject> m_children;
+	protected ArrayList<GameComponent> m_components;
+	protected Transform m_transform;
+	protected CoreEngine m_engine;
+
 	public GameObject()
 	{
-		children = new ArrayList<GameObject>();
-		components = new ArrayList<GameComponent>();
-		transform = new Transform();
+		m_children = new ArrayList<GameObject>();
+		m_components = new ArrayList<GameComponent>();
+		m_transform = new Transform();
+		m_engine = null;
+	}
+
+	public void AddChild(GameObject child)
+	{
+		m_children.add(child);
+		child.SetEngine(m_engine);
+		child.GetTransform().SetParent(m_transform);
+	}
+
+	public GameObject AddComponent(GameComponent component)
+	{
+		m_components.add(component);
+		component.SetParent(this);
+
+		return this;
+	}
+
+	public void InputAll(float delta)
+	{
+		Input(delta);
+
+		for(GameObject child : m_children)
+			child.InputAll(delta);
+	}
+
+	public void UpdateAll(float delta)
+	{
+		Update(delta);
+
+		for(GameObject child : m_children)
+			child.UpdateAll(delta);
+	}
+
+	public void RenderAll(Shader shader, RenderingEngine renderingEngine)
+	{
+		Render(shader, renderingEngine);
+
+		for(GameObject child : m_children)
+			child.RenderAll(shader, renderingEngine);
+	}
+
+	public void Input(float delta)
+	{
+		m_transform.Update();
+
+		for(GameComponent component : m_components)
+			component.Input(delta);
+	}
+
+	public void Update(float delta)
+	{
+		for(GameComponent component : m_components)
+			component.Update(delta);
+	}
+
+	public void Render(Shader shader, RenderingEngine renderingEngine)
+	{
+		for(GameComponent component : m_components)
+			component.Render(shader, renderingEngine);
+	}
+
+	public ArrayList<GameObject> GetAllAttached()
+	{
+		ArrayList<GameObject> result = new ArrayList<GameObject>();
+
+		for(GameObject child : m_children)
+			result.addAll(child.GetAllAttached());
+
+		result.add(this);
+		return result;
+	}
+
+	public Transform GetTransform()
+	{
+		return m_transform;
+	}
+
+	public void SetEngine(CoreEngine engine)
+	{
+		if(this.m_engine != engine)
+		{
+			this.m_engine = engine;
+
+			for(GameComponent component : m_components)
+				component.AddToEngine(engine);
+
+			for(GameObject child : m_children)
+				child.SetEngine(engine);
+		}
 	}
 	
-	public void addChild(GameObject gObj)
+	public void privatize()
 	{
-		children.add(gObj); 
-	}
-	
-	public void addComponent(GameComponent gComp)
-	{
-		gComp.setParent(this);
-		components.add(gComp);
-	}
-	
-	public void input(float delta)
-	{
-		for(GameComponent component : components)
-			component.input(delta);
-		
-		for(GameObject child : children)
-			child.input(delta);
-	}
-	
-	public void update(float delta)
-	{
-		for(GameComponent component : components)
-			component.update(delta);
-		
-		for(GameObject child : children)
-			child.update(delta);
-	}
-	
-	public void render(Shader shader)
-	{
-		if(!doRender)
-			return;
-		
-		for(GameComponent component : components)
-			component.render(shader);
-		
-		for(GameObject child : children)
-			child.render(shader);
-	}
-	
-	public void addToRenderingEngine(RenderingEngine renderingEngine) 
-	{
-		for(GameComponent component : components)
-			component.addToRenderingEngine(renderingEngine);
-		
-		for(GameObject child : children)
-			child.addToRenderingEngine(renderingEngine);
-	}
-	
-	public void removeChild(int index)
-	{
-		children.remove(index);
-	}
-	
-	public void removeChild(GameObject obj)
-	{
-		children.remove(obj);
-	}
-	
-	public void removeComponent(int index)
-	{
-		components.remove(index);
-	}
-	
-	public void removeComponent(GameComponent component)
-	{
-		components.remove(component);
-	}
-	
-	public Transform getTransform()
-	{
-		return transform;
-	}
-	
-	public int childrenSize()
-	{
-		return children.size();
+		new Exception("This method is private for this extender!").printStackTrace();
 	}
 	
 	public void setChild(int index, GameObject obj)
 	{
-		children.set(index, obj);
+		m_children.set(index, obj);
 	}
 	
-	public void setComponent(int index, GameComponent component)
+	public int getNumberChildrenAttatched()
 	{
-		components.set(index, component);
-	}
-	
-	protected void privatize()
-	{
-		new Exception("You can't add a child! This is a private feature to this class!").printStackTrace();
-		System.exit(1);
-	}
-	
-	public void shouldRender(boolean doRender)
-	{
-		this.doRender = doRender;
+		return m_children.size();
 	}
 }

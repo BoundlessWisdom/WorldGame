@@ -1,25 +1,35 @@
+/*
+ * Copyright (C) 2014 Benny Bobaganoosh
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.engine.components.lighting;
 
 import com.engine.core.Vector3f;
-import com.engine.rendering.shaders.ForwardDirectional;
+import com.engine.rendering.Shader;
 
-public class DirectionalLight extends BaseLight 
+public class DirectionalLight extends BaseLight
 {
-	private Vector3f direction;
-	
-	public DirectionalLight(Vector3f color, float intensity, Vector3f direction)
+	public DirectionalLight(Vector3f color, float intensity)
 	{
 		super(color, intensity);
-		this.direction = direction.normalize();
-		
-		setShader(ForwardDirectional.getInstance());
+
+		SetShader(new Shader("forward-directional"));
 	}
 
-	public Vector3f getDirection() {
-		return direction;
-	}
-
-	public void setDirection(Vector3f direction) {
-		this.direction = direction;
+	public Vector3f GetDirection()
+	{
+		return GetTransform().GetTransformedRot().GetForward();
 	}
 }

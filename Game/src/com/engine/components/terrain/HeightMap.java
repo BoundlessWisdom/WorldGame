@@ -1,4 +1,4 @@
-package com.engine.components.renderObjs.terrain;
+package com.engine.components.terrain;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -34,13 +34,13 @@ public class HeightMap extends Terrain
 	public HeightMap(String pngFile, String textureFile, Vector3f scale)
 	{
 		this(pngFile, textureFile);
-		setScale(scale);
+		SetScale(scale);
 	}
 	
 	public HeightMap(String pngFile, String textureFile, Vector3f scale, OriginGravity gravity)
 	{
 		this(pngFile, textureFile, scale);
-		setOriginGravity(gravity);
+		SetOriginGravity(gravity);
 		compile();
 	}
 	
@@ -69,8 +69,8 @@ public class HeightMap extends Terrain
 			int w = img.getWidth();
 			int h = img.getHeight();
 			
-			width = (float)w * scale.getX();
-			depth = (float)h * scale.getZ();
+			width = (float)w * scale.GetX();
+			depth = (float)h * scale.GetZ();
 			
 			terrainRadius = new Vector2f(w / 2, h / 2);
 			
@@ -82,13 +82,13 @@ public class HeightMap extends Terrain
 				for(int x = 0; x < w; x++)
 				{
 					Color color = new Color(img.getRGB(x, z));
-					float height = (float)color.getRed() * scale.getY();
+					float height = (float)color.getRed() * scale.GetY();
 					heights.add(height);
-					pos.add(new Vector3f(x * scale.getX(), height, z * scale.getZ()));
+					pos.add(new Vector3f(x * scale.GetX(), height, z * scale.GetZ()));
 					
 					texCoords.add(new Vector2f(dx * x, dz * z));
 					
-					normals.add(Vector3f.get0());
+					normals.add(new Vector3f(0, 0, 0));
 				}
 			}
 						
@@ -136,7 +136,7 @@ public class HeightMap extends Terrain
 		
 		InputModel iModel = new InputModel(pos, texCoords, null, indices);
 		
-		Material material = new Material(new Texture(textureFile), null);
+		Material material = new Material(new Texture(textureFile), 1, 8, null, null, 0.03f, -0.5f);
 		
 		if(!createMeshRenderer(iModel, material))
 		{
@@ -150,19 +150,19 @@ public class HeightMap extends Terrain
 	{
 		int i = 0;
 		
-		i = (int)((z / scale.getZ()) * (width / scale.getX()) + (x / scale.getX()));
+		i = (int)((z / scale.GetZ()) * (width / scale.GetX()) + (x / scale.GetX()));
 		
-		return getHeight(i);
+		return GetHeight(i);
 	}
 	
-	public static float getHeight(float x, float z, Terrain t) //with respect to map
+	public static float GetHeight(float x, float z, Terrain t) //with respect to map
 	{
 		int i = 0;
-		Vector3f scale = t.getScale();
-		float width = t.getWidth();
+		Vector3f scale = t.GetScale();
+		float width = t.GetWidth();
 		
-		i = (int)((z / scale.getZ()) * (width / scale.getX()) + (x / scale.getX()));
+		i = (int)((z / scale.GetZ()) * (width / scale.GetX()) + (x / scale.GetX()));
 		
-		return t.getHeight(i);
+		return t.GetHeight(i);
 	}
 }

@@ -1,172 +1,177 @@
 package com.engine.rendering;
 
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*; 
-import static org.lwjgl.opengl.GL20.*; 
+
 
 import com.engine.core.Util;
 import com.engine.core.Vector3f;
 import com.engine.rendering.meshLoading.IndexedModel;
 import com.engine.rendering.meshLoading.OBJModel;
+import com.engine.rendering.resourceManagement.MeshResource;
 
-public class Mesh 
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.opengl.GL20.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Mesh
 {
-	private int vbo = 0;
-	private int ibo = 0;
-	private int size = 0;
+	private static HashMap<String, MeshResource> s_loadedModels = new HashMap<String, MeshResource>();
+	private MeshResource m_resource;
+	private String       m_fileName;
+	private int dWay = GL_TRIANGLES;
 	
-	public static enum DRAW_WAY
+	public enum DRAW_WAY
 	{
-		TRIANGLE_STRIP,
-		TRIANGLES
+		TRIANGLES,
+		TRIANGLE_STRIP
 	}
 	
-	private int drawWay = GL_TRIANGLES;
-	
-	public Mesh()
+	public Mesh(String fileName)
 	{
-		initMeshData();
+		this.m_fileName = fileName;
+		MeshResource oldResource = s_loadedModels.get(fileName);
+
+		if(oldResource != null)
+		{
+			m_resource = oldResource;
+			m_resource.AddReference();
+		}
+		else
+		{
+			LoadMesh(fileName);
+			s_loadedModels.put(fileName, m_resource);
+		}
+	}
+	
+	public Mesh(Vertex[] vertices, int[] indices)
+	{
+		this(vertices, indices, false);
+	}
+	
+	public Mesh(Vertex[] vertices, int[] indices, boolean calcNormals)
+	{
+		m_fileName = "";
+		AddVertices(vertices, indices, calcNormals);
 	}
 
-	public Mesh(Mesh mesh)
-	{		
-		vbo = mesh.getVbo();
-		ibo = mesh.getIbo();
-		size = mesh.getSize();
-	}
-	
-	public Mesh(String file)
+	@Override
+	protected void finalize()
 	{
-		this(loadMesh(file));
-		//initMeshData();
+		if(m_resource.RemoveReference() && !m_fileName.isEmpty())
+		{
+			s_loadedModels.remove(m_fileName);
+		}
 	}
 	
-	public Mesh(Vertex[] verticies, int[] indicies)
-	{
-		this(verticies, indicies, false);
-	}
-	
-	public Mesh(Vertex[] verticies, int[] indicies, boolean calcNormals)
-	{
-		initMeshData();		
-		addVerticies(verticies, indicies, calcNormals);
-	}
-	
-	private void initMeshData()
-	{
-		vbo = glGenBuffers();
-		ibo = glGenBuffers();
-		size = 0;
-	}
-	
-	public void addVerticies(Vertex[] verticies, int[] indicies)
-	{		
-		addVerticies(verticies, indicies, false);
-	}
-	
-	private void addVerticies(Vertex[] verticies, int[] indicies, boolean calcNormals)
+	private void AddVertices(Vertex[] vertices, int[] indices, boolean calcNormals)
 	{
 		if(calcNormals)
 		{
-			calcNormals(verticies, indicies);
+			CalcNormals(vertices, indices);
 		}
-		
-		size = indicies.length;
-		
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, Util.createFlippedBuffer(verticies), GL_STATIC_DRAW);
-		
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, Util.createFlippedBuffer(indicies), GL_STATIC_DRAW);
-	}
-	
-	private void calcNormals(Vertex[] verticies, int[] indicies)
-	{
-		for(int i = 0; i < indicies.length; i += 3)
-		{
-			int i0 = indicies[i];
-			int i1 = indicies[i + 1];
-			int i2 = indicies[i + 2];
-			
-			Vector3f v1 = verticies[i1].getPos().sub(verticies[i0].getPos());
-			Vector3f v2 = verticies[i2].getPos().sub(verticies[i0].getPos());
-			
-			Vector3f normal = v1.cross(v2).normalize();
-			
-			verticies[i0].setNormal(verticies[i0].getNormal().add(normal));
-			verticies[i1].setNormal(verticies[i1].getNormal().add(normal));
-			verticies[i2].setNormal(verticies[i2].getNormal().add(normal));
-		}
-		
-		for(int i = 0; i < verticies.length; i++)
-		{
-			verticies[i].setNormal(verticies[i].getNormal().normalize());
-		}
-	}
-	
-	private static Mesh loadMesh(String file)
-	{
-		String[] splitArray = file.split("\\.");
-		String ext = splitArray[splitArray.length - 1];
-		
-		if(!ext.equals("obj"))
-		{
-			System.err.println("\"" + file + "\" is the wrong filetype: " + ext);
-			new Exception().printStackTrace();
-			System.exit(1);
-		}
-		
-		OBJModel test = new OBJModel("./res/models/" + file);
-		IndexedModel model = test.toIndexedModel();
-		model.calcNormals();		
-		
-		Mesh res = new Mesh(model.toMesh());
-		
-		return res;
-	}
 
+		m_resource = new MeshResource(indices.length);
+		
+		glBindBuffer(GL_ARRAY_BUFFER, m_resource.GetVbo());
+		glBufferData(GL_ARRAY_BUFFER, Util.CreateFlippedBuffer(vertices), GL_STATIC_DRAW);
+		
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_resource.GetIbo());
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, Util.CreateFlippedBuffer(indices), GL_STATIC_DRAW);
+	}
 	
-	public void draw()
+	public void Draw()
 	{
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
+		glEnableVertexAttribArray(3);
 		
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, m_resource.GetVbo());
 		glVertexAttribPointer(0, 3, GL_FLOAT, false, Vertex.SIZE * 4, 0);
-		glVertexAttribPointer(1, 2, GL_FLOAT, false, Vertex.SIZE * 4, 12); //offset in bytes
+		glVertexAttribPointer(1, 2, GL_FLOAT, false, Vertex.SIZE * 4, 12);
 		glVertexAttribPointer(2, 3, GL_FLOAT, false, Vertex.SIZE * 4, 20);
+		glVertexAttribPointer(3, 3, GL_FLOAT, false, Vertex.SIZE * 4, 32);
 		
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glDrawElements(drawWay, size, GL_UNSIGNED_INT, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_resource.GetIbo());
+		glDrawElements(dWay, m_resource.GetSize(), GL_UNSIGNED_INT, 0);
 		
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
-	}
-
-	public int getVbo() {
-		return vbo;
-	}
-
-	public int getIbo() {
-		return ibo;
+		glDisableVertexAttribArray(3);
 	}
 	
-	public int getSize() {
-		return size;
-	}
-	
-	public void setDrawWay(DRAW_WAY way)
+	private void CalcNormals(Vertex[] vertices, int[] indices)
 	{
-		switch(way)
+		for(int i = 0; i < indices.length; i += 3)
 		{
+			int i0 = indices[i];
+			int i1 = indices[i + 1];
+			int i2 = indices[i + 2];
+			
+			Vector3f v1 = vertices[i1].GetPos().Sub(vertices[i0].GetPos());
+			Vector3f v2 = vertices[i2].GetPos().Sub(vertices[i0].GetPos());
+			
+			Vector3f normal = v1.Cross(v2).Normalized();
+			
+			vertices[i0].SetNormal(vertices[i0].GetNormal().Add(normal));
+			vertices[i1].SetNormal(vertices[i1].GetNormal().Add(normal));
+			vertices[i2].SetNormal(vertices[i2].GetNormal().Add(normal));
+		}
+		
+		for(int i = 0; i < vertices.length; i++)
+			vertices[i].SetNormal(vertices[i].GetNormal().Normalized());
+	}
+	
+	private Mesh LoadMesh(String fileName)
+	{
+		String[] splitArray = fileName.split("\\.");
+		String ext = splitArray[splitArray.length - 1];
+
+		if(!ext.equals("obj"))
+		{
+			System.err.println("Error: '" + ext + "' file format not supported for mesh data.");
+			new Exception().printStackTrace();
+			System.exit(1);
+		}
+
+		OBJModel test = new OBJModel("./res/models/" + fileName);
+		IndexedModel model = test.ToIndexedModel();
+
+		ArrayList<Vertex> vertices = new ArrayList<Vertex>();
+
+		for(int i = 0; i < model.GetPositions().size(); i++)
+		{
+			vertices.add(new Vertex(model.GetPositions().get(i),
+					model.GetTexCoords().get(i),
+					model.GetNormals().get(i),
+					model.GetTangents().get(i)));
+		}
+
+		Vertex[] vertexData = new Vertex[vertices.size()];
+		vertices.toArray(vertexData);
+
+		Integer[] indexData = new Integer[model.GetIndices().size()];
+		model.GetIndices().toArray(indexData);
+
+		AddVertices(vertexData, Util.ToIntArray(indexData), false);
+		
+		return this;
+	}
+
+	public void setDrawWay(DRAW_WAY dWay) 
+	{
+		switch (dWay) {
 		case TRIANGLES:
-			drawWay = GL_TRIANGLES;
+			this.dWay = GL_TRIANGLES;
 			break;
 		case TRIANGLE_STRIP:
-			drawWay = GL_TRIANGLE_STRIP;
+			this.dWay = GL_TRIANGLE_STRIP;
+			break;
+		default:
 			break;
 		}
 	}

@@ -22,22 +22,22 @@ public class Monkey extends EntityObject
 	}*/
 	
 	@Override
-	public double getMu() {
+	public double GetMu() {
 		return .5;
 	}
 
 	@Override
-	public double getElasticConstant() {
+	public double GetElasticConstant() {
 		return elasticConstant;
 	}
 
 	@Override
-	public double getDragConstant() {
+	public double GetDragConstant() {
 		return 0;
 	}
 
 	@Override
-	public double getCrossSectionArea() {
+	public double GetCrossSectionArea() {
 		return 0;
 	}	
 }

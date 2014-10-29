@@ -1,10 +1,9 @@
-package com.engine.components.renderObjs.terrain;
+package com.engine.components.terrain;
 
 import java.util.ArrayList;
 
-import com.engine.components.renderObjs.terrain.Terrain.OriginGravity;
+import com.engine.components.terrain.Terrain.OriginGravity;
 import com.engine.core.GameObject;
-import com.engine.core.Vector2f;
 import com.engine.core.Vector3f;
 
 public class TerrainTile extends GameObject 
@@ -27,31 +26,31 @@ public class TerrainTile extends GameObject
 	}
 	
 	@Override
-	public void addChild(GameObject gObj) 
+	public void AddChild(GameObject gObj) 
 	{
 		privatize();
 	}
 	
 	public boolean addTerrain(Terrain t, boolean autoAlign, boolean autoGravity, boolean autoScale, boolean autoStretch)
 	{
-		if(t.getWidth() != width || t.getDepth() != depth)
+		if(t.GetWidth() != width || t.GetDepth() != depth)
 		{
 			return false;
 		}
 		
-		if(t.getOriginGravity() != gravity)
+		if(t.GetOriginGravity() != gravity)
 		{
-			t.setOriginGravity(gravity);
+			t.SetOriginGravity(gravity);
 		}
 		
-		if(t.getPosOrigin().getX() != pos.getX() || t.getPosOrigin().getZ() != pos.getZ())
+		if(t.GetPosOrigin().GetX() != pos.GetX() || t.GetPosOrigin().GetZ() != pos.GetZ())
 		{
-			t.setOriginPos(new Vector3f(pos.getX(), t.getPosOrigin().getY(), pos.getZ()));
+			t.SetOriginPos(new Vector3f(pos.GetX(), t.GetPosOrigin().GetY(), pos.GetZ()));
 		}
 		
-		if(t.getScale() != scale)
+		if(t.GetScale() != scale)
 		{
-			t.setScale(scale);
+			t.SetScale(scale);
 		}
 		
 		return addTerrain(t);
@@ -61,35 +60,35 @@ public class TerrainTile extends GameObject
 	{
 		if(numTerrains == 0)
 		{
-			width = t.getWidth();
-			depth = t.getDepth();
+			width = t.GetWidth();
+			depth = t.GetDepth();
 			
-			pos = t.getPosOrigin();
-			scale = t.getScale();
+			pos = t.GetPosOrigin();
+			scale = t.GetScale();
 			
-			gravity = t.getOriginGravity();
+			gravity = t.GetOriginGravity();
 			terrains.add(t);
 			numTerrains++;
 		}
 		
 		else
 		{
-			if(t.getOriginGravity() != gravity)
+			if(t.GetOriginGravity() != gravity)
 			{
 				return false;
 			}
 			
-			if(t.getPosOrigin().getX() != pos.getX() || t.getPosOrigin().getZ() != pos.getZ())
+			if(t.GetPosOrigin().GetX() != pos.GetX() || t.GetPosOrigin().GetZ() != pos.GetZ())
 			{
 				return false;
 			}
 			
-			if(t.getScale() != scale)
+			if(t.GetScale() != scale)
 			{
 				return false;
 			}
 			
-			if(t.getWidth() != width || t.getDepth() != depth)
+			if(t.GetWidth() != width || t.GetDepth() != depth)
 			{
 				return false;
 			}
@@ -105,21 +104,9 @@ public class TerrainTile extends GameObject
 	{
 		for(Terrain t : terrains)
 		{
-			super.addChild(t);
+			super.AddChild(t);
 		}
 		
 		terrains.clear();
-	}
-	
-	public boolean inTile(Vector3f pos)
-	{
-		Vector2f dif = this.pos.GetXY().sub(pos.GetXY()).abs().sub(new Vector2f(width, depth));
-		
-		if(dif.getX() <= 0 && dif.getY() <= 0)
-		{
-			return true;
-		}
-		
-		return false;
 	}
 }

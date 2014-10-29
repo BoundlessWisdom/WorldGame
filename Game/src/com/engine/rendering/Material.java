@@ -1,63 +1,38 @@
 package com.engine.rendering;
 
 
-import com.engine.core.Vector3f;
+import com.engine.rendering.resourceManagement.MappedValues;
 
-public class Material 
+import java.util.HashMap;
+
+public class Material extends MappedValues
 {
-	private Texture texture;
-	private Vector3f color;
-	private float specularIntensity;
-	private float specularExponent; //focused in beam or widespread
-	
-	public Material()
+	private HashMap<String, Texture> m_textureHashMap;
+
+	public Material(Texture diffuse, float specularIntensity, float specularPower, Texture normal,
+	                Texture dispMap, float dispMapScale, float dispMapOffset)
 	{
-		texture = null;
-		color = new Vector3f(1.0f, 1.0f, 1.0f);
+		super();
+		m_textureHashMap = new HashMap<String, Texture>();
+		AddTexture("diffuse", diffuse);
+		AddFloat("specularIntensity", specularIntensity);
+		AddFloat("specularPower", specularPower);
+		AddTexture("normalMap", normal);
+		AddTexture("dispMap", dispMap);
+
+		float baseBias = dispMapScale/2.0f;
+		AddFloat("dispMapScale", dispMapScale);
+		AddFloat("dispMapBias", -baseBias + baseBias * dispMapOffset);
 	}
-	
-	public Material(Texture texture, Vector3f color)
+
+	public void AddTexture(String name, Texture texture) { m_textureHashMap.put(name, texture); }
+
+	public Texture GetTexture(String name)
 	{
-		this(texture, color, 2, 32);
-	}
-	
-	public Material(Texture texture, Vector3f color, float specularIntensity, float specularExponent)
-	{
-		this.texture = texture;
-		this.color = color;
-		this.specularIntensity = specularIntensity;
-		this.specularExponent = specularExponent;
-	}
+		Texture result = m_textureHashMap.get(name);
+		if(result != null)
+			return result;
 
-	public Texture getTexture() {
-		return texture;
-	}
-
-	public void setTexture(Texture texture) {
-		this.texture = texture;
-	}
-
-	public Vector3f getColor() {
-		return color;
-	}
-
-	public void setColor(Vector3f color) {
-		this.color = color;
-	}
-
-	public float getSpecularIntensity() {
-		return specularIntensity;
-	}
-
-	public void setSpecularIntensity(float specularIntensity) {
-		this.specularIntensity = specularIntensity;
-	}
-
-	public float getSpecularExponent() {
-		return specularExponent;
-	}
-
-	public void setSpecularExponent(float specularExponent) {
-		this.specularExponent = specularExponent;
+		return new Texture("test.png");
 	}
 }

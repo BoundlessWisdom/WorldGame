@@ -11,7 +11,7 @@ public abstract class EntityObject extends GameObject
 	
 	private Vector3f a = new Vector3f(0,0,0);
 	private Vector3f v = new Vector3f(0,0,0);
-	private Vector3f p = new Vector3f(0,0,0); //momentum
+	private Vector3f P = new Vector3f(0,0,0); //momentum
 	
 	private int index;
 	
@@ -21,8 +21,8 @@ public abstract class EntityObject extends GameObject
 	protected double elasticConstant = 0.0;
 	
 	@Override
-	public void update(float delta) {
-		super.update(delta);
+	public void Update(float delta) {
+		super.Update(delta);
 	}
 	
 	public EntityObject()
@@ -32,7 +32,7 @@ public abstract class EntityObject extends GameObject
 	
 	public EntityObject(EntityObject nObj)
 	{
-		this(nObj, nObj.getMass(), nObj.getName());
+		this(nObj, nObj.GetMass(), nObj.GetName());
 	}
 	
 	public EntityObject(GameObject gameObj, double mass, String name)
@@ -42,55 +42,55 @@ public abstract class EntityObject extends GameObject
 		this.mass = mass;
 		this.name = name;
 		
-		set(gameObj);
+		Set(gameObj);
 	}
 
-	public double getMass() {
+	public double GetMass() {
 		return mass;
 	}
 
-	public String getName() {
+	public String GetName() {
 		return name;
 	}
 
-	public Vector3f getPos() {
-		return getTransform().getPos();
+	public Vector3f GetPos() {
+		return GetTransform().GetPos();
 	}
 
-	public Mesh getSprite() {
+	public Mesh GetSprite() {
 		return null;
 	}
 
-	public Vector3f getMomentum() {
-		return p;
+	public Vector3f GetMomentum() {
+		return P;
 	}
 
 	public void move(float x, float y, float z) {
-		getTransform().getPos().add(new Vector3f(x, y, z));
+		GetTransform().GetPos().Add(new Vector3f(x, y, z));
 		return;
 	}
 
-	public void setAcceleration(Vector3f accel) {
+	public void SetAcceleration(Vector3f accel) {
 		a = accel;
 	}
 
-	public Vector3f getAcceleration() {
+	public Vector3f GetAcceleration() {
 		return a;
 	}
 
-	public void setVelocity(Vector3f vel) {
+	public void SetVelocity(Vector3f vel) {
 		v = vel;
 	}
 
-	public Vector3f getVelocity() {
+	public Vector3f GetVelocity() {
 		return v;
 	}
 
-	public int getIndex() {
+	public int GetIndex() {
 		return index;
 	}
 
-	public void setIndex(int index) {
+	public void SetIndex(int index) {
 		this.index = index;
 	}
 
@@ -98,20 +98,20 @@ public abstract class EntityObject extends GameObject
 		return flying;
 	}
 
-	public void setFlying(boolean flying) {
+	public void SetFlying(boolean flying) {
 		this.flying = flying;
 		if(flying)
 		{
-			v.setY(0);
+			v.SetY(0);
 		}
 	}
 	
-	public int getHealth()
+	public int GetHealth()
 	{
 		return health;
 	}
 	
-	public void addHealth(int h)
+	public void AddHealth(int h)
 	{
 		health += h;
 		if(health <=0)
@@ -120,7 +120,7 @@ public abstract class EntityObject extends GameObject
 		}
 	}
 	
-	public void subtractHealth(int h)
+	public void SubtractHealth(int h)
 	{
 		health -= h;
 		if(health <= 0)
@@ -131,17 +131,17 @@ public abstract class EntityObject extends GameObject
 	
 	public void die()
 	{
-		GameInstance.getInstance().removeEntity(this);
+		//GameInstance.getInstance().removeEntity(this);
 	}
 	
-	public void set(GameObject gameObj)
+	public void Set(GameObject gameObj)
 	{
-		this.components = gameObj.components;
-		this.children = gameObj.children;
-		this.transform = gameObj.transform;
+		this.m_components = gameObj.m_components;
+		this.m_children = gameObj.m_children;
+		this.m_transform = gameObj.m_transform;
 	}
 
-	public double getElasticConstant() 
+	public double GetElasticConstant() 
 	{
 		return elasticConstant;
 	}
@@ -151,15 +151,15 @@ public abstract class EntityObject extends GameObject
 		this.elasticConstant = 150 * PhysicsEngine.g * elastic;
 	}
 
-	public double getDragConstant() {
+	public double GetDragConstant() {
 		return 0;
 	}
 
-	public double getCrossSectionArea() {
+	public double GetCrossSectionArea() {
 		return 0;
 	}	
 
-	public double getMu() {
+	public double GetMu() {
 		return 0;
 	}
 }

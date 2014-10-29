@@ -56,7 +56,7 @@ public class Communications
 		{
 			return;
 		}
-		if(Input.getKey(Keyboard.KEY_C)) //dummy operation for choosing to contact; gui later
+		if(Input.GetKey(Keyboard.KEY_C)) //dummy operation for choosing to contact; gui later
 			ClientContact();
 	}
 

@@ -1,70 +1,67 @@
 package com.engine.rendering;
 
 
+
+
+import com.engine.core.Vector2f;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
-import com.engine.core.Vector2f;
-
 public class Window 
 {
-	private static int w = 0, h = 0;
-	private static String title = "";
-	
-	public static void createWindow(int width, int height, String windowTitle)
+	public static void CreateWindow(int width, int height, String title)
 	{
-		w = width; h = height;
-		title = windowTitle;
-		
 		Display.setTitle(title);
 		try 
 		{
-			Display.setDisplayMode(new DisplayMode(w, h));
+			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.create();
 			Keyboard.create();
 			Mouse.create();
-		} catch (LWJGLException e) {
+		} 
+		catch (LWJGLException e) 
+		{
 			e.printStackTrace();
 		}
 	}
 	
-	public static void render()
+	public static void Render()
 	{
 		Display.update();
 	}
 	
-	public static void dispose()
+	public static void Dispose()
 	{
 		Display.destroy();
 		Keyboard.destroy();
 		Mouse.destroy();
 	}
 	
-	public static boolean isCloseRequested()
+	public static boolean IsCloseRequested()
 	{
 		return Display.isCloseRequested();
 	}
 	
-	public static int getWidth()
+	public static int GetWidth()
 	{
 		return Display.getDisplayMode().getWidth();
 	}
 	
-	public static int getHeight()
+	public static int GetHeight()
 	{
 		return Display.getDisplayMode().getHeight();
 	}
 	
-	public static String getTitle()
+	public static String GetTitle()
 	{
-		return title;
+		return Display.getTitle();
 	}
-	
-	public Vector2f getCenter()
+
+	public Vector2f GetCenter()
 	{
-		return new Vector2f((float)getWidth() / 2f, (float)getHeight() / 2f);
+		return new Vector2f(GetWidth()/2, GetHeight()/2);
 	}
 }

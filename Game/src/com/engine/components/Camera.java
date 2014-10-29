@@ -17,30 +17,31 @@ package com.engine.components;
 
 
 
-import com.engine.core.CoreEngine;
-import com.engine.core.GameObject;
+import com.engine.core.*;
 import com.engine.rendering.RenderingEngine;
-import com.engine.core.Transform;
-import com.engine.rendering.Shader;
 
-public abstract class GameComponent
+public class Camera extends GameComponent
 {
-	private GameObject m_parent;
+	private Matrix4f m_projection;
 
-	public void Input(float delta) {}
-	public void Update(float delta) {}
-	public void Render(Shader shader, RenderingEngine renderingEngine) {}
-
-	public void SetParent(GameObject parent)
+	public Camera(Matrix4f projection)
 	{
-		this.m_parent = parent;
+		this.m_projection = projection;
 	}
 
-	public Transform GetTransform()
+	public Matrix4f GetViewProjection()
 	{
-		return m_parent.GetTransform();
+		Matrix4f cameraRotation = GetTransform().GetTransformedRot().Conjugate().ToRotationMatrix();
+		Vector3f cameraPos = GetTransform().GetTransformedPos().Mul(-1);
+
+		Matrix4f cameraTranslation = new Matrix4f().InitTranslation(cameraPos.GetX(), cameraPos.GetY(), cameraPos.GetZ());
+
+		return m_projection.Mul(cameraRotation.Mul(cameraTranslation));
 	}
 
-	public void AddToEngine(CoreEngine engine) {}
+	@Override
+	public void AddToEngine(CoreEngine engine)
+	{
+		RenderingEngine.getInstance().AddCamera(this);
+	}
 }
-

@@ -1,90 +1,58 @@
+/*
+ * Copyright (C) 2014 Benny Bobaganoosh
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.engine.components.lighting;
 
 import com.engine.core.Vector3f;
-import com.engine.rendering.shaders.ForwardPoint;
+import com.engine.rendering.Attenuation;
+import com.engine.rendering.Shader;
 
 public class PointLight extends BaseLight
 {
 	private static final int COLOR_DEPTH = 256;
+
+	private Attenuation m_attenuation;
+	private float       m_range;
 	
-	private Vector3f atten;
-	private float range;
-	
-	public PointLight(Vector3f color, float intensity, Vector3f atten)
+	public PointLight(Vector3f color, float intensity, Attenuation attenuation)
 	{
 		super(color, intensity);
-		this.atten = atten;
-		range = calcRange();
-		
-		setShader(ForwardPoint.getInstance());
-	}
-	
-	private float calcRange()
-	{
-		float r = 0f;
-		
-		float a = atten.getZ();
-		float b = atten.getY();
-		float c = atten.getX() - COLOR_DEPTH * getIntensity() * getColor().max();
-		
-		r = (float)(-b + Math.sqrt(b*b - 4*a*c)) / (2*a); //want positive part (nothing negative in atten)
-		return r;
-	}
-	
-	public float calcRange(Vector3f attenuation)
-	{
-		float r = 0f;
-		
-		float a = attenuation.getZ();
-		float b = attenuation.getY();
-		float c = attenuation.getX() - COLOR_DEPTH * getIntensity() * getColor().max();
-		
-		r = (float)(-b + Math.sqrt(b*b - 4*a*c)) / (2*a); //want positive part (nothing negative in atten)
-		return r;
-	}
-	
-	public float getConstant()
-	{
-		return atten.getX();
-	}
-	
-	public void setConstant(float c)
-	{
-		atten.setX(c);
-	}
-	
-	public float getLinear()
-	{
-		return atten.getY();
-	}
-	
-	public void setLinear(float l)
-	{
-		atten.setY(l);
-	}
-	
-	public float getExponent()
-	{
-		return atten.getZ();
-	}
-	
-	public void setExponent(float e)
-	{
-		atten.setZ(e);
-	}
-	
-//	public Vector3f getPos() {
-//		return pos;
-//	}
-//	public void setPos(Vector3f pos) {
-//		this.pos = pos;
-//	}
+		this.m_attenuation = attenuation;
 
-	public float getRange() {
-		return range;
+		float a = attenuation.GetExponent();
+		float b = attenuation.GetLinear();
+		float c = attenuation.GetConstant() - COLOR_DEPTH * GetIntensity() * GetColor().Max();
+
+		this.m_range = (float)((-b + Math.sqrt(b * b - 4 * a * c))/(2 * a));
+
+		SetShader(new Shader("forward-point"));
 	}
 
-	public void setRange(float range) {
-		this.range = range;
+	public float GetRange()
+	{
+		return m_range;
+	}
+
+	public void SetRange(float range)
+	{
+		this.m_range = range;
+	}
+
+	public Attenuation GetAttenuation()
+	{
+		return m_attenuation;
 	}
 }

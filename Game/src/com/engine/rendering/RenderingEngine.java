@@ -1,158 +1,124 @@
 package com.engine.rendering;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
+
+
+
+import com.engine.components.lighting.*;
+import com.engine.components.Camera;
+import com.engine.core.GameObject;
+import com.engine.core.Transform;
+import com.engine.core.Vector3f;
+import com.engine.rendering.resourceManagement.MappedValues;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import com.engine.components.lighting.BaseLight;
-import com.engine.core.GameObject;
-import com.engine.core.Vector3f;
-import com.engine.rendering.shaders.ForwardAmbient;
-import com.engine.rendering.shaders.Shader;
-@SuppressWarnings("unused")
-public class RenderingEngine 
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_VERSION;
+
+public class RenderingEngine extends MappedValues
 {
-	private Camera mainCamera;
-	private Vector3f ambientLight;
+	private HashMap<String, Integer> m_samplerMap;
+	private ArrayList<BaseLight> m_lights;
+	private BaseLight m_activeLight;
+
+	private Shader m_forwardAmbient;
+	private Camera m_mainCamera;
 	
-	private ArrayList<BaseLight> lights;
-	private BaseLight activeLight;
-	
-	private static RenderingEngine instance = new RenderingEngine();
-	
-	public static RenderingEngine getInstance()
-	{
-		return instance;
-	}
-		
+	private static RenderingEngine engine = new RenderingEngine();
+
 	private RenderingEngine()
 	{
-		initGraphics();
-		 
-		lights = new ArrayList<BaseLight>();
-		
-		mainCamera = new Camera((float)Math.toRadians(70.0f), (float)Window.getWidth() / (float)Window.getHeight(), 
-				0.01f, 1000.0f);
-		
-		ambientLight = new Vector3f(0.2f, 0.2f, 0.2f);
-	}
-	
-	public void input(float delta)
-	{
-		mainCamera.input(delta);
-	}
-	
-	public void render(GameObject object)
-	{
-		clearScreen();
-		//float sin = (float)Time.getTime();
-		//Shader.setRenderingEngine(this);
-		
-		//Shader.setGlobalRenderingEngine(this);
-	//	clearLightList();
-		
-		
-		
-		lights.clear();
-		object.addToRenderingEngine(this);
-		
-		Shader forwardAmbient = ForwardAmbient.getInstance(); 		
-		forwardAmbient.setRenderingEngine(this);
-		object.render(forwardAmbient);
-		
-		glEnable(GL_SMOOTH);
-		glEnable(GL_BLEND);		
-		glBlendFunc(GL_ONE, GL_ONE); //first * 1 + second * one
-		glDepthMask(false);
-		glDepthFunc(GL_EQUAL); //will only add light to things in final image
-		
-		for(BaseLight light : lights)
-		{
-			light.getShader().setRenderingEngine(this);
-			activeLight = light;
-			object.render(light.getShader());		
-		}
-		
-		glDepthFunc(GL_LESS);
-		glDepthMask(true);
-		glDisable(GL_BLEND);
-		glDisable(GL_SMOOTH);
-}
-	
-//	private void clearLightList()
-//	{
-//		directionalLights.clear();
-//		pointLights.clear();
-//	}
-	
-	private static void clearScreen()
-	{
-		//TODO: stencil buffer
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	}
-	
-	
-	private static void setTextures(boolean enabled)
-	{
-		if(enabled)
-			glEnable(GL_TEXTURE_2D);
-		else
-			glDisable(GL_TEXTURE_2D);
-	}
-	
-	private static void initGraphics()
-	{
-		glClearColor(0f, 0f, 0f, 0f);
-		
+		super();
+		m_lights = new ArrayList<BaseLight>();
+		m_samplerMap = new HashMap<String, Integer>();
+		m_samplerMap.put("diffuse", 0);
+		m_samplerMap.put("normalMap", 1);
+		m_samplerMap.put("dispMap", 2);
+
+		AddVector3f("ambient", new Vector3f(0.1f, 0.1f, 0.1f));
+
+		m_forwardAmbient = new Shader("forward-ambient");
+
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
 		glFrontFace(GL_CW);
 		glCullFace(GL_BACK);
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
-		
-		glEnable(GL_DEPTH_CLAMP);
-		
+
+		//
+		// glEnable(GL_DEPTH_CLAMP);
+
 		glEnable(GL_TEXTURE_2D);
-		//glEnable(GL_FRAMEBUFFER_SRGB);
 	}
 	
-	public static String getOpenGLVersion()
+	
+	public static RenderingEngine getInstance()
+	{
+		return engine;
+	}
+
+	public void UpdateUniformStruct(Transform transform, Material material, Shader shader, String uniformName, String uniformType)
+	{
+		throw new IllegalArgumentException(uniformType + " is not a supported type in RenderingEngine");
+	}
+
+	public void Render(GameObject object)
+	{
+		if (GetMainCamera() == null) System.err.println("Error! Main camera not found. This is very very big bug, and game will crash.");
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		object.RenderAll(m_forwardAmbient, this);
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE);
+		glDepthMask(false);
+		glDepthFunc(GL_EQUAL);
+
+		for(BaseLight light : m_lights)
+		{
+			m_activeLight = light;
+			object.RenderAll(light.GetShader(), this);
+		}
+
+		glDepthFunc(GL_LESS);
+		glDepthMask(true);
+		glDisable(GL_BLEND);
+	}
+
+	public static String GetOpenGLVersion()
 	{
 		return glGetString(GL_VERSION);
 	}
-	
-	private static void setClearColor(Vector3f color)
+
+	public void AddLight(BaseLight light)
 	{
-		glClearColor(color.getX(), color.getY(), color.getZ(), 1.0f);
-	}
-	
-	private static void unbindTextures()
-	{
-		glBindTexture(GL_TEXTURE_2D, 0);
+		m_lights.add(light);
 	}
 
-	public Camera getMainCamera() 
+	public void AddCamera(Camera camera)
 	{
-		return mainCamera;
+		this.m_mainCamera = camera;
 	}
 
-	public void setMainCamera(Camera mainCamera) 
+	public int GetSamplerSlot(String samplerName)
 	{
-		this.mainCamera = mainCamera;
+		return m_samplerMap.get(samplerName);
 	}
-	
-	public Vector3f getAmbientLight()
+
+	public BaseLight GetActiveLight()
 	{
-		return ambientLight;
+		return m_activeLight;
 	}
-		
-	public void addLight(BaseLight light)
+
+	public Camera GetMainCamera()
 	{
-		lights.add(light);
+		return m_mainCamera;
 	}
-	
-	public BaseLight getActiveLight()
+
+	public void SetMainCamera(Camera mainCamera)
 	{
-		return activeLight;
+		this.m_mainCamera = mainCamera;
 	}
 }

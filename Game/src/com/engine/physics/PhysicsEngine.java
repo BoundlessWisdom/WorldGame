@@ -22,7 +22,7 @@ public class PhysicsEngine
 		init();
 	}
 	
-	public static PhysicsEngine getInstance()
+	public static PhysicsEngine GetInstance()
 	{
 		return instance;
 	}
@@ -42,7 +42,7 @@ public class PhysicsEngine
 	 */
 	public void add(EntityObject o)
 	{
-		o.setIndex(objs.size());
+		o.SetIndex(objs.size());
 		objs.add(o);
 		forces.add(new Vector3f(0,0,0));
 	}
@@ -53,11 +53,11 @@ public class PhysicsEngine
 	 */
 	public void remove(EntityObject o)
 	{
-		objs.remove(o.getIndex());
-		forces.remove(o.getIndex());
-		for(int i = o.getIndex(); i < objs.size(); i++)
+		objs.remove(o.GetIndex());
+		forces.remove(o.GetIndex());
+		for(int i = o.GetIndex(); i < objs.size(); i++)
 		{
-			objs.get(i).setIndex(i);
+			objs.get(i).SetIndex(i);
 		}
 	}
 	
@@ -69,49 +69,49 @@ public class PhysicsEngine
 	{
 			for(int i = 0; i < objs.size(); i++)
 			{
-				//Streamlining variable gets.
+				//Streamlining variable Gets.
 				Vector3f force = forces.get(i);
 				
 				EntityObject obj = objs.get(i);
-				Vector3f velocity = obj.getVelocity();
-				Vector3f acceleration = obj.getAcceleration();
+				Vector3f velocity = obj.GetVelocity();
+				Vector3f acceleration = obj.GetAcceleration();
 				
 				if(gravityEnabled && !obj.isFlying())
-					applyGravity(i);
+					ApplyGravity(i);
 				
 				if(frictionEnabled)
-					applyMovingFriction(i);
+					ApplyMovingFriction(i);
 				if(airEnabled)
-					applyAirResistance(i);
-				updateMomentum(i);
-				if(velocity.getY() <= -obj.getPos().getY() && force.getY() < 0)
+					ApplyAirResistance(i);
+				UpdateMomentum(i);
+				if(velocity.GetY() <= -obj.GetPos().GetY() && force.GetY() < 0)
 				{
-					float ec = (float)obj.getElasticConstant();
-					float fy = (float)-force.getY(); //-force.getY();
-					float nY = Math.abs(velocity.getY()) > 0.15  ? fy * ec : 0;
+					float ec = (float)obj.GetElasticConstant();
+					float fy = (float)-force.GetY(); //-force.GetY();
+					float nY = Math.abs(velocity.GetY()) > 0.15  ? fy * ec : 0;
 					
-					applyForce(i, new Vector3f((float) (force.getX()), nY /*(float)(-force.getY()*obj.getElasticConstant())*/, (float) (force.getZ())),
+					ApplyForce(i, new Vector3f((float) (force.GetX()), nY /*(float)(-force.GetY()*obj.GetElasticConstant())*/, (float) (force.GetZ())),
 							false, true);
 					
-					velocity.setY(0);
-					obj.getPos().setY(0);
+					velocity.SetY(0);
+					obj.GetPos().SetY(0);
 				}
 				
-				acceleration.set(new Vector3f(
-						(float)(force.getX() / obj.getMass()),
-						(float)(force.getY() / obj.getMass()),
-						(float)(force.getZ() / obj.getMass())
+				acceleration.Set(new Vector3f(
+						(float)(force.GetX() / obj.GetMass()),
+						(float)(force.GetY() / obj.GetMass()),
+						(float)(force.GetZ() / obj.GetMass())
 				));
 				
-				velocity.add(new Vector3f(
-						acceleration.getX(),
-						acceleration.getY() * .1f,
-						acceleration.getZ()
+				velocity.Add(new Vector3f(
+						acceleration.GetX(),
+						acceleration.GetY() * .1f,
+						acceleration.GetZ()
 				));
 				
-				obj.move(velocity.getX(), 
-						 velocity.getY(), 
-						 velocity.getZ()
+				obj.move(velocity.GetX(), 
+						 velocity.GetY(), 
+						 velocity.GetZ()
 				);
 			}
 			
@@ -134,52 +134,52 @@ public class PhysicsEngine
 	 * @param obj the object.
 	 * @param force the force vector.
 	 */
-	public void force(EntityObject obj, Vector3f force)
+	public void Force(EntityObject obj, Vector3f force)
 	{
-		applyForce(obj.getIndex(), force, true);
+		ApplyForce(obj.GetIndex(), force, true);
 	}
 	
-	public void zeroForce(EntityObject obj)
+	public void ZeroForce(EntityObject obj)
 	{
-		int i = obj.getIndex();
-		applyForce(i, new Vector3f(0,0,0), false);
-		if(isGravityEnabled())
+		int i = obj.GetIndex();
+		ApplyForce(i, new Vector3f(0,0,0), false);
+		if(IsGravityEnabled())
 		{
-			applyGravity(i);
+			ApplyGravity(i);
 		}
 	}
 	
-	public boolean isGravityEnabled() 
+	public boolean IsGravityEnabled() 
 	{
 		return gravityEnabled;
 	}
 	
-	public void setGravityEnabled(boolean enabled) 
+	public void SetGravityEnabled(boolean enabled) 
 	{
 		this.gravityEnabled = enabled;
 	}
-	public boolean isAirResistanceEnabled() 
+	public boolean IsAirResistanceEnabled() 
 	{
 		return airEnabled;
 	}
 	
-	public void setAirResistanceEnabled(boolean enabled) 
+	public void SetAirResistanceEnabled(boolean enabled) 
 	{
 		this.airEnabled = enabled;
 	}
 	
-	public boolean isFrictionEnabled() 
+	public boolean IsFrictionEnabled() 
 	{
 		return frictionEnabled;
 	}
 	
-	public void setFrictionEnabled(boolean enabled) 
+	public void SetFrictionEnabled(boolean enabled) 
 	{
 		this.frictionEnabled = enabled;
 	}
 	
 	/*@Override
-	public ComponentType getType() 
+	public ComponentType GetType() 
 	{
 		return EngineComponent.ComponentType.physics;
 	}*/
@@ -188,9 +188,9 @@ public class PhysicsEngine
 	 * Applies a force to an object. Assumes not to apply impulse.
 	 * @param index the object's index.
 	 * @param force the force vector.
-	 * @param add whether to add the force to the current value(true) or to set the current value to the value provided(false).
+	 * @param add whether to add the force to the current value(true) or to Set the current value to the value provided(false).
 	 */
-	private void applyForce(int index, Vector3f force, boolean add)
+	private void ApplyForce(int index, Vector3f force, boolean add)
 	{
 		Vector3f netForce = forces.get(index);
 		
@@ -198,13 +198,13 @@ public class PhysicsEngine
 		{
 			if(add)
 			{
-				netForce.set(netForce.getX() + force.getX(), 
-							 netForce.getY() + force.getY(), 
-							 netForce.getZ() + force.getZ());
+				netForce.Set(netForce.GetX() + force.GetX(), 
+							 netForce.GetY() + force.GetY(), 
+							 netForce.GetZ() + force.GetZ());
 			}
 			else
 			{
-				netForce.set(force);
+				netForce.Set(force);
 			}
 		}
 		else return;
@@ -214,10 +214,10 @@ public class PhysicsEngine
 	 * Applies a force to an object.
 	 * @param index index the object's index.
 	 * @param force the force vector.
-	 * @param add whether to add the force to the current value(true) or to set the current value to the value provided(false).
+	 * @param add whether to add the force to the current value(true) or to Set the current value to the value provided(false).
 	 * @param impulse whether to apply impulse.
 	 */
-	private void applyForce(int index, Vector3f force, boolean add, boolean impulse)
+	private void ApplyForce(int index, Vector3f force, boolean add, boolean impulse)
 	{
 		Vector3f netForce = forces.get(index);
 		
@@ -225,19 +225,19 @@ public class PhysicsEngine
 		{
 			if(add)
 			{
-				netForce.add(new Vector3f(
-						force.getX(),
-						force.getY(),
-						force.getZ()
+				netForce.Add(new Vector3f(
+						force.GetX(),
+						force.GetY(),
+						force.GetZ()
 				));
 			}
 			else
 			{
-				netForce.set(force);
+				netForce.Set(force);
 			}
 			if(impulse)
 			{
-				applyImpulse(index, force);
+				ApplyImpulse(index, force);
 			}
 		}
 		else return;
@@ -248,22 +248,22 @@ public class PhysicsEngine
 	 * @param index the object's index.
 	 * @param impulse the impulse to apply.
 	 */
-	private void applyImpulse(int index, Vector3f impulse)
+	private void ApplyImpulse(int index, Vector3f impulse)
 	{
 		EntityObject obj = objs.get(index);
 		
-		obj.getMomentum().add(new Vector3f(
-				impulse.getX(),
-				impulse.getY(),
-				impulse.getZ()
+		obj.GetMomentum().Add(new Vector3f(
+				impulse.GetX(),
+				impulse.GetY(),
+				impulse.GetZ()
 		));
 		
-		Vector3f momentum = obj.getMomentum();
-		double mass = obj.getMass();
+		Vector3f momentum = obj.GetMomentum();
+		double mass = obj.GetMass();
 		
-		obj.getVelocity().set((float) (momentum.getX() / mass), 
-							  (float) (momentum.getY() / mass), 
-							  (float) (momentum.getZ() / mass));
+		obj.GetVelocity().Set((float) (momentum.GetX() / mass), 
+							  (float) (momentum.GetY() / mass), 
+							  (float) (momentum.GetZ() / mass));
 	}
 	
 	/**
@@ -271,50 +271,50 @@ public class PhysicsEngine
 	 * @param index the object's index.
 	 * @param gndHt The height of the ground.
 	 */
-	private void applyMovingFriction(int index)
+	private void ApplyMovingFriction(int index)
 	{
 		if(index < objs.size())
 		{
 			EntityObject obj = objs.get(index);
-			Vector3f velocity = obj.getVelocity();
-			Double mass = obj.getMass();
+			Vector3f velocity = obj.GetVelocity();
+			Double mass = obj.GetMass();
 			
-			double mu = obj.getMu();
-			double fN = obj.getPos().getY() <= 0 ? forces.get(index).getY() : 0;
-			double percentXMotion = velocity.getX()  != 0 ? Math.cos(Math.atan(velocity.getY() / velocity.getX())) : 0;
-			double percentYMotion = velocity.getY()  != 0 ? Math.sin(Math.atan(velocity.getY() / velocity.getX())) : 0;
-			double percentZMotion = velocity.getZ()  != 0 ? Math.sin(Math.atan(velocity.getZ() / velocity.getX())) : 0;
+			double mu = obj.GetMu();
+			double fN = obj.GetPos().GetY() <= 0 ? forces.get(index).GetY() : 0;
+			double percentXMotion = velocity.GetX()  != 0 ? Math.cos(Math.atan(velocity.GetY() / velocity.GetX())) : 0;
+			double percentYMotion = velocity.GetY()  != 0 ? Math.sin(Math.atan(velocity.GetY() / velocity.GetX())) : 0;
+			double percentZMotion = velocity.GetZ()  != 0 ? Math.sin(Math.atan(velocity.GetZ() / velocity.GetX())) : 0;
 			double finalX = mu * fN * percentXMotion;
 			double finalY = mu * fN * percentYMotion;
 			double finalZ = mu * fN * percentZMotion;
-			if(velocity.getX() == 0)
+			if(velocity.GetX() == 0)
 			{
 				finalX=0;
 			}
-			if(velocity.getY() == 0)
+			if(velocity.GetY() == 0)
 			{
 				finalY=0;
 			}
-			if(velocity.getZ() == 0)
+			if(velocity.GetZ() == 0)
 			{
 				finalZ=0;
 			}
-			if(Math.abs(finalX / mass) > Math.abs(velocity.getX()))
+			if(Math.abs(finalX / mass) > Math.abs(velocity.GetX()))
 			{
-				velocity.setX(0);
+				velocity.SetX(0);
 				finalX = 0;
 			}
-			if(Math.abs(finalY / mass) > Math.abs(velocity.getY()))
+			if(Math.abs(finalY / mass) > Math.abs(velocity.GetY()))
 			{
-				velocity.setY(0);
+				velocity.SetY(0);
 				finalY = 0;
 			}
-			if(Math.abs(finalZ / mass) > Math.abs(velocity.getZ()))
+			if(Math.abs(finalZ / mass) > Math.abs(velocity.GetZ()))
 			{
-				velocity.setZ(0);
+				velocity.SetZ(0);
 				finalZ = 0;
 			}
-			applyForce(index, new Vector3f((float)finalX, (float)finalY, (float)finalZ) , true);
+			ApplyForce(index, new Vector3f((float)finalX, (float)finalY, (float)finalZ) , true);
 		}
 	}
 	
@@ -322,21 +322,21 @@ public class PhysicsEngine
 	 * Applies air resistance to an object.
 	 * @param index the object's index.
 	 */
-	private void applyAirResistance(int index)
+	private void ApplyAirResistance(int index)
 	{
 		EntityObject obj = objs.get(index);
-		Vector3f velocity = obj.getVelocity();
+		Vector3f velocity = obj.GetVelocity();
 		
-		float dotprod = velocity.dot(velocity);
+		float dotprod = velocity.Dot(velocity);
 		//float dotprod = Vector3f.dot(velocity, velocity);
-		double halfpcda = .5 * rho * obj.getDragConstant() * obj.getCrossSectionArea();
-		double percentXMotion = velocity.getX() != 0 ? Math.cos(Math.atan(velocity.getZ()/velocity.getX())) : 0;
-		double percentYMotion = velocity.getY() != 0 ? Math.sin(Math.atan(velocity.getY()/velocity.getX())) : 0;
-		double percentZMotion = velocity.getZ() != 0 ? Math.sin(Math.atan(velocity.getZ()/velocity.getX())) : 0;
+		double halfpcda = .5 * rho * obj.GetDragConstant() * obj.GetCrossSectionArea();
+		double percentXMotion = velocity.GetX() != 0 ? Math.cos(Math.atan(velocity.GetZ()/velocity.GetX())) : 0;
+		double percentYMotion = velocity.GetY() != 0 ? Math.sin(Math.atan(velocity.GetY()/velocity.GetX())) : 0;
+		double percentZMotion = velocity.GetZ() != 0 ? Math.sin(Math.atan(velocity.GetZ()/velocity.GetX())) : 0;
 		float FinalX = (float) (-dotprod * halfpcda * percentXMotion);
 		float FinalY = (float) (-dotprod * halfpcda * percentYMotion);
 		float FinalZ = (float) (-dotprod * halfpcda * percentZMotion);
-		applyForce(index, new Vector3f(FinalX, FinalY, FinalZ), true);
+		ApplyForce(index, new Vector3f(FinalX, FinalY, FinalZ), true);
 		//Uhh, Nathan, I just capitalized the coordinate, 'cause Finaly looked like Finally.
 	}
 	
@@ -344,10 +344,10 @@ public class PhysicsEngine
 	 * Applies gravity to a specific object.
 	 * @param i the object's index.
 	 */
-	private void applyGravity(int i)
+	private void ApplyGravity(int i)
 	{
-		applyForce(i, new Vector3f(forces.get(i).getX(), (float) (-g * objs.get(i).getMass()),
-				forces.get(i).getZ()), false);	
+		ApplyForce(i, new Vector3f(forces.get(i).GetX(), (float) (-g * objs.get(i).GetMass()),
+				forces.get(i).GetZ()), false);	
 	}
 	//TODO: Ask Nathan about applyGravity logic.
 	
@@ -355,20 +355,20 @@ public class PhysicsEngine
 	 * Updates the momentum values of an object.
 	 * @param index the object's index.
 	 */
-	private void updateMomentum(int index)
+	private void UpdateMomentum(int index)
 	{
 		EntityObject obj = objs.get(index);
-		Vector3f velocity = obj.getVelocity();
-		double mass = obj.getMass();
+		Vector3f velocity = obj.GetVelocity();
+		double mass = obj.GetMass();
 		
-		obj.getMomentum().set(new Vector3f(
-				(float)(velocity.getX() * mass),
-				(float)(velocity.getY() * mass),
-				(float)(velocity.getZ() * mass)
+		obj.GetMomentum().Set(new Vector3f(
+				(float)(velocity.GetX() * mass),
+				(float)(velocity.GetY() * mass),
+				(float)(velocity.GetZ() * mass)
 		));
     }
 	
-	public ArrayList<EntityObject> getObjects()
+	public ArrayList<EntityObject> GetObjects()
 	{
 		return objs;
 	}

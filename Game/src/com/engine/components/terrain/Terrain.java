@@ -1,8 +1,8 @@
-package com.engine.components.renderObjs.terrain;
+package com.engine.components.terrain;
 
 import java.util.ArrayList;
 
-import com.engine.components.renderObjs.MeshRenderer;
+import com.engine.components.MeshRenderer;
 import com.engine.core.GameObject;
 import com.engine.core.Vector2f;
 import com.engine.core.Vector3f;
@@ -50,17 +50,17 @@ public class Terrain extends GameObject
 	public Terrain(Mesh mesh, Material material, Vector3f originPos)
 	{
 		this(mesh, material);
-		setOriginPos(originPos);
+		SetOriginPos(originPos);
 	}
 	
-	public void setOriginPos(Vector3f pos)
+	public void SetOriginPos(Vector3f pos)
 	{
 		this.posOrigin = pos;
 	}
 	
 	public boolean createMeshRenderer(InputModel inputModel, Material material)
 	{
-		if(!createMeshRenderer(inputModel.toIndexedModel().toMesh(), material))
+		if(!createMeshRenderer(inputModel.toIndexedModel().ToMesh(), material))
 			return false;
 		
 		return true;
@@ -77,78 +77,78 @@ public class Terrain extends GameObject
 		
 		MeshRenderer meshRenderer = new MeshRenderer(mesh, material);
 		
-		addComponent(meshRenderer);
+		AddComponent(meshRenderer);
 				
 		return true;
 	}
 	
 	/**
 	 * @param g1 current gravity
-	 * @param g2 target gravity
+	 * @param g2 tarGet gravity
 	 * @return
 	 */
 	
-	private Vector3f getTranslate(OriginGravity g1, OriginGravity g2)
+	private Vector3f GetTranslate(OriginGravity g1, OriginGravity g2)
 	{
 		Vector3f translate = new Vector3f(0, 0, 0);
 		
 		switch (g2) //from left_down
 		{
 		case LEFT_UP:
-			translate.set(0, 0, -2 * terrainRadius.getY());
+			translate.Set(0, 0, -2 * terrainRadius.GetY());
 			break;
 		case LEFT_DOWN:
 			break;
 		case LEFT_CENTER:
-			translate.set(0, 0, -terrainRadius.getY());
+			translate.Set(0, 0, -terrainRadius.GetY());
 			break;
 		case RIGHT_UP:
-			translate.set(-terrainRadius.getX() * 2, 0, -terrainRadius.getY() * 2);
+			translate.Set(-terrainRadius.GetX() * 2, 0, -terrainRadius.GetY() * 2);
 			break;
 		case RIGHT_DOWN:
-			translate.set(-terrainRadius.getX() * 2, 0, 0);
+			translate.Set(-terrainRadius.GetX() * 2, 0, 0);
 			break;
 		case RIGHT_CENTER:
-			translate.set(-terrainRadius.getX() * 2, 0, -terrainRadius.getY());
+			translate.Set(-terrainRadius.GetX() * 2, 0, -terrainRadius.GetY());
 			break;
 		case CENTER_UP:
-			translate.set(-terrainRadius.getX(), 0,- terrainRadius.getY() * 2);
+			translate.Set(-terrainRadius.GetX(), 0,- terrainRadius.GetY() * 2);
 			break;
 		case CENTER_DOWN:
-			translate.set(-terrainRadius.getX(), 0, 0);
+			translate.Set(-terrainRadius.GetX(), 0, 0);
 			break;
 		case CENTER_CENTER:
-			translate.set(-terrainRadius.getX(), 0, -terrainRadius.getY());
+			translate.Set(-terrainRadius.GetX(), 0, -terrainRadius.GetY());
 			break;
 		}
 		
 		switch (g1) //from left_down
 		{
 		case LEFT_UP:
-			translate.set(translate.sub(0, 0, -2 * terrainRadius.getY()));
+			translate.Set(translate.Sub(new Vector3f(0, 0, -2 * terrainRadius.GetY())));
 			break;
 		case LEFT_DOWN:
 			break;
 		case LEFT_CENTER:
-			translate.set(translate.sub(0, 0, -terrainRadius.getY()));
+			translate.Set(translate.Sub(new Vector3f(0, 0, -terrainRadius.GetY())));
 			break;
 		case RIGHT_UP:
-			translate.set(translate.sub(-terrainRadius.getX() * 2, 0, -terrainRadius.getY() * 2));
+			translate.Set(translate.Sub(new Vector3f(-terrainRadius.GetX() * 2, 0, -terrainRadius.GetY() * 2)));
 			break;
 		case RIGHT_DOWN:
-			translate.set(translate.sub(-terrainRadius.getX() * 2, 0, 0));
+			translate.Set(translate.Sub(new Vector3f(-terrainRadius.GetX() * 2, 0, 0)));
 			break;
 		case RIGHT_CENTER:
-			translate.set(translate.sub(-terrainRadius.getX() * 2, 0, -terrainRadius.getY()));
+			translate.Set(translate.Sub(new Vector3f(-terrainRadius.GetX() * 2, 0, -terrainRadius.GetY())));
 			break;
 		case CENTER_UP:
-			translate.set(translate.sub(-terrainRadius.getX(), 0,- terrainRadius.getY() * 2));
+			translate.Set(translate.Sub(new Vector3f(-terrainRadius.GetX(), 0,- terrainRadius.GetY() * 2)));
 			break;
 		case CENTER_DOWN:
-			translate.set(translate.sub(-terrainRadius.getX(), 0, 0));
+			translate.Set(translate.Sub(new Vector3f(-terrainRadius.GetX(), 0, 0)));
 			break;
 		case CENTER_CENTER:
-			translate.set(translate.sub(-terrainRadius.getX(), 0, -terrainRadius.getY()));
+			translate.Set(translate.Sub(new Vector3f(-terrainRadius.GetX(), 0, -terrainRadius.GetY())));
 			break;
 		}
 		
@@ -162,33 +162,33 @@ public class Terrain extends GameObject
 	public Terrain compile()
 	{
 		build();
-		trans = getTranslate(prevGravity, gravity);
-		transform.setPos(transform.getPos().added(trans));
+		trans = GetTranslate(prevGravity, gravity);
+		m_transform.SetPos(m_transform.GetPos().Add(trans));
 		return this;
 	}
 	
-	public void setOriginGravity(OriginGravity gravity)
+	public void SetOriginGravity(OriginGravity gravity)
 	{
 		this.prevGravity = this.gravity;
 		this.gravity = gravity;
 	}
 	
-	public Vector3f getPosOrigin()
+	public Vector3f GetPosOrigin()
 	{
 		return posOrigin;
 	}
 	
-	public OriginGravity getOriginGravity()
+	public OriginGravity GetOriginGravity()
 	{
 		return gravity;
 	}
 	
-	public void setScale(Vector3f scale)
+	public void SetScale(Vector3f scale)
 	{
 		this.scale = scale;
 	}
 	
-	public float getHeight(int index)
+	public float GetHeight(int index)
 	{
 		if(index >= heights.size())
 		{
@@ -198,15 +198,15 @@ public class Terrain extends GameObject
 		return heights.get(index);
 	}
 	
-	public Vector3f getScale() {
+	public Vector3f GetScale() {
 		return scale;
 	}
 
-	public float getWidth() {
+	public float GetWidth() {
 		return width;
 	}
 
-	public float getDepth() {
+	public float GetDepth() {
 		return depth;
 	}
 }
