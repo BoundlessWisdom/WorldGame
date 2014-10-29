@@ -1,26 +1,15 @@
 package com.game;
 
-import com.archonica.World;
+import com.engine.core.GameInstance;
 
-import ui.Menu;
-
-public class Archonica {
-	
-	public static Menu activeMenu = Menu.rootMenu;
-	
-	public static void main(String[] args) {
-		activeWorld = new World(20);
+public class Archonica extends GameInstance{
+	@Override
+	public void Init() {
+		super.Init();
 	}
 	
-	public static World activeWorld;
-
-	/****************************************************************************************
-	 * 									IMPORTANT NOTICE									*
-	 * 																						*
-	 * 										   Nesh.										*
-	 ****************************************************************************************/
-	
-	//Interface list:
-	//		TargetMapInterface
-	//		Updateable
+	@Override
+	public void Update(float delta) {
+		super.Update(delta);
+	}
 }
