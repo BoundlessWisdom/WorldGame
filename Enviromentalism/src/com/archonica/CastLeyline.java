@@ -1,6 +1,6 @@
 package com.archonica;
 
-import com.game.Main;
+import com.game.Archonica;;
 
 public class CastLeyline extends MultiphaseCast {
 	ECastType castType;
@@ -20,7 +20,7 @@ public class CastLeyline extends MultiphaseCast {
 	}
 
 	protected void activate() {
-		Main.activeWorld.add(new Leyline(this, castType, caster.x, caster.z, secondCaster.x, secondCaster.z));
+		Archonica.activeWorld.add(new Leyline(this, castType, caster.x, caster.z, secondCaster.x, secondCaster.z));
 		//TODO: CastLeyline
 		//Reminder: This needs to be fixed for effect and aesthetics.
 		
