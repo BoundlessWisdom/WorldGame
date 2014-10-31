@@ -36,7 +36,7 @@ public class BaseLight extends GameComponent
 	@Override
 	public void AddToEngine(CoreEngine engine)
 	{
-		engine.GetRenderingEngine().AddLight(this);
+		CoreEngine.GetRenderingEngine().AddLight(this);
 	}
 
 	public void SetShader(Shader shader)

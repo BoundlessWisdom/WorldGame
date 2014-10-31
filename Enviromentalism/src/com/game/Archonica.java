@@ -6,6 +6,8 @@ public class Archonica extends GameInstance {
 	@Override
 	public void Init() {
 		super.Init();
+		
+		
 	}
 	
 	@Override

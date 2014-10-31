@@ -8,5 +8,12 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="E:/git/WorldGame/Enviromentalism/jar/GameEngine.jar"/>
+<<<<<<< HEAD
+=======
+	<classpathentry kind="lib" path="E:/lwjgl-2.9.1/jar/jinput.jar"/>
+	<classpathentry kind="lib" path="E:/lwjgl-2.9.1/jar/lwjgl.jar"/>
+	<classpathentry kind="lib" path="E:/lwjgl-2.9.1/jar/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="E:/lwjgl-2.9.1/jar/slick-util.jar"/>
+>>>>>>> branch 'master' of https://github.com/BoundlessWisdom/WorldGame
 	<classpathentry kind="output" path="bin"/>
 </classpath>
