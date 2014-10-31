@@ -9,10 +9,14 @@ import com.engine.core.Vector3f;
 import com.engine.rendering.Attenuation;
 import com.engine.rendering.Material;
 
+<<<<<<< HEAD
 public class Archonica extends GameInstance{
 	
 	Monkey monkey = new Monkey(new GameObject(), 10f, "monkey");
 	
+=======
+public class Archonica extends GameInstance {
+>>>>>>> branch 'master' of https://github.com/BoundlessWisdom/WorldGame.git
 	@Override
 	public void Init() {
 		super.Init();
