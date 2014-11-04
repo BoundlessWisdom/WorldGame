@@ -82,13 +82,33 @@ public class CoreEngine
 		m_isRunning = false;
 	}
 	
+	public static void Ext()
+	{
+		m_game.Precursor();
+	}
+	
+	public static boolean ExtUpdate()
+	{
+		return m_game.UpdatePrecursor();
+	}
+	
+	public static void EngineUpdate(float delta)
+	{
+		m_game.Input(delta);
+		Input.Update();
+		
+		m_game.Update(delta);
+	}
+	
 	private static void Run()
 	{
 		m_isRunning = true;
 		
 		int frames = 0;
 		double frameCounter = 0;
-
+		
+		Ext();
+		
 		m_game.Init();
 
 		double lastTime = Time.GetTime();
@@ -110,6 +130,8 @@ public class CoreEngine
 			unprocessedTime += passedTime;
 			frameCounter += passedTime;
 			
+			render = ExtUpdate();
+			
 			while(unprocessedTime > m_frameTime)
 			{
 				render = true;
@@ -119,10 +141,7 @@ public class CoreEngine
 				if(Window.IsCloseRequested())
 					Stop();
 
-				m_game.Input((float) m_frameTime);
-				Input.Update();
-				
-				m_game.Update((float) m_frameTime);
+				EngineUpdate((float)m_frameTime);
 				
 				if(frameCounter >= 1.0)
 				{

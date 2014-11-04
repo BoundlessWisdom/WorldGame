@@ -5,7 +5,10 @@ import com.engine.rendering.RenderingEngine;
 public abstract class Game
 {
 	private GameObject m_root;
-
+	
+	public boolean Precursor() {return true;};
+	public boolean UpdatePrecursor() {return true;};
+	
 	public void Init() {}
 
 	public void Input(float delta)
