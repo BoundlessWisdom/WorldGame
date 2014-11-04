@@ -29,6 +29,7 @@ public class CoreEngine
 	private static boolean         m_isRunning = false;
 	private static Game    			m_game;
 	private static RenderingEngine m_renderingEngine;
+	private static RenderingEngine m_ExtRenderingEngine;
 	private static PhysicsEngine m_physicsEngine;
 	private static int             m_width;
 	private static int             m_height;
@@ -62,7 +63,8 @@ public class CoreEngine
 	public static void CreateWindow(String title)
 	{
 		Window.CreateWindow(m_width, m_height, title);
-		m_renderingEngine = RenderingEngine.getInstance();
+		m_renderingEngine = new RenderingEngine();
+		m_ExtRenderingEngine = new RenderingEngine();
 		m_physicsEngine = PhysicsEngine.GetInstance();
 	}
 
@@ -184,5 +186,15 @@ public class CoreEngine
 	public static PhysicsEngine GetPhysicsEngine()
 	{
 		return m_physicsEngine;
+	}
+	
+	public static void AddSecondaryRenderingEngine(RenderingEngine re)
+	{
+		m_ExtRenderingEngine = re;
+	}
+	
+	public static RenderingEngine GetSecondaryEngine()
+	{
+		return m_ExtRenderingEngine; 
 	}
 }
