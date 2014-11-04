@@ -19,6 +19,11 @@ public class ArchonicaApp extends GameInstance
 	Monkey monkey;
 	GameObject lightObj = new GameObject();
 	
+	@Override
+	public boolean Precursor() 
+	{
+		return super.Precursor();
+	}
 	
 	@Override
 	public void Init() 
