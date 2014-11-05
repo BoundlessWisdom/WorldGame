@@ -19,7 +19,7 @@ public class ChangeMenuButton extends Button {
 	}
 
 	public void function() {
-		Archonica.activeMenu = changeTo;
+		//Archonica.activeMenu = changeTo;
 	}
 
 }
