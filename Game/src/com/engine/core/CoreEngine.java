@@ -123,7 +123,8 @@ public class CoreEngine
 				m_isRunning = false;
 			}
 			
-			boolean render = false;
+			boolean RenderWindow = false;
+			boolean RenderEngine = false;
 
 			double startTime = Time.GetTime();
 			double passedTime = startTime - lastTime;
@@ -132,11 +133,11 @@ public class CoreEngine
 			unprocessedTime += passedTime;
 			frameCounter += passedTime;
 			
-			render = ExtUpdate();
-			
 			while(unprocessedTime > m_frameTime)
 			{
-				render = true;
+				//render = true;
+				RenderEngine = ExtUpdate();
+				RenderWindow = true;
 				
 				unprocessedTime -= m_frameTime;
 				
@@ -152,12 +153,16 @@ public class CoreEngine
 					frameCounter = 0;
 				}
 			}
-			if(render)
+			
+			if(RenderWindow)
 			{
-				m_game.Render(m_renderingEngine);
 				Window.Render();
 				frames++;
 			}
+			
+			if(RenderEngine)
+				m_game.Render(m_renderingEngine);
+			
 			else
 			{
 				try

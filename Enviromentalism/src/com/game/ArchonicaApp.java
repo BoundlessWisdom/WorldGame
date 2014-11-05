@@ -1,5 +1,7 @@
 package com.game;
 
+import ui.Menu;
+
 import com.engine.rendering.Texture;
 import com.engine.components.lighting.BaseLight;
 import com.engine.components.lighting.SpotLight;
@@ -18,11 +20,19 @@ public class ArchonicaApp extends GameInstance
 	CompleteTerrain terrain = CompleteTerrain.getInstance();
 	Monkey monkey;
 	GameObject lightObj = new GameObject();
+	//Menu menu;
 	
 	@Override
 	public boolean Precursor() 
 	{
-		return super.Precursor();
+		//menu = Menu.rootMenu;
+		return true;
+	}
+	
+	@Override
+	public boolean UpdatePrecursor()
+	{
+		return true;
 	}
 	
 	@Override
