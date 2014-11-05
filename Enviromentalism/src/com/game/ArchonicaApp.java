@@ -20,19 +20,20 @@ public class ArchonicaApp extends GameInstance
 	CompleteTerrain terrain = CompleteTerrain.getInstance();
 	Monkey monkey;
 	GameObject lightObj = new GameObject();
-	//Menu menu;
+	Menu menu;
 	
 	@Override
 	public boolean Precursor() 
 	{
-		//menu = Menu.rootMenu;
+		menu = Menu.rootMenu;
 		return true;
 	}
 	
 	@Override
 	public boolean UpdatePrecursor()
 	{
-		return true;
+		menu.Update();
+		return false;
 	}
 	
 	@Override
