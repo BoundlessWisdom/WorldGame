@@ -132,11 +132,10 @@ public class CoreEngine
 			unprocessedTime += passedTime;
 			frameCounter += passedTime;
 			
-			render = ExtUpdate();
-			
 			while(unprocessedTime > m_frameTime)
 			{
-				render = true;
+				//render = true;
+				render = ExtUpdate();
 				
 				unprocessedTime -= m_frameTime;
 				
@@ -152,6 +151,7 @@ public class CoreEngine
 					frameCounter = 0;
 				}
 			}
+			
 			if(render)
 			{
 				m_game.Render(m_renderingEngine);
