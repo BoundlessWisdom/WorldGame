@@ -29,6 +29,7 @@ public class CoreEngine
 	private static boolean         m_isRunning = false;
 	private static Game    			m_game;
 	private static RenderingEngine m_renderingEngine;
+	private static RenderingEngine m_ExtRenderingEngine;
 	private static PhysicsEngine m_physicsEngine;
 	private static int             m_width;
 	private static int             m_height;
@@ -62,7 +63,8 @@ public class CoreEngine
 	public static void CreateWindow(String title)
 	{
 		Window.CreateWindow(m_width, m_height, title);
-		m_renderingEngine = RenderingEngine.getInstance();
+		m_renderingEngine = new RenderingEngine();
+		m_ExtRenderingEngine = new RenderingEngine();
 		m_physicsEngine = PhysicsEngine.GetInstance();
 	}
 
@@ -82,13 +84,33 @@ public class CoreEngine
 		m_isRunning = false;
 	}
 	
+	public static void Ext()
+	{
+		m_game.Precursor();
+	}
+	
+	public static boolean ExtUpdate()
+	{
+		return m_game.UpdatePrecursor();
+	}
+	
+	public static void EngineUpdate(float delta)
+	{
+		m_game.Input(delta);
+		Input.Update();
+		
+		m_game.Update(delta);
+	}
+	
 	private static void Run()
 	{
 		m_isRunning = true;
 		
 		int frames = 0;
 		double frameCounter = 0;
-
+		
+		Ext();
+		
 		m_game.Init();
 
 		double lastTime = Time.GetTime();
@@ -101,7 +123,8 @@ public class CoreEngine
 				m_isRunning = false;
 			}
 			
-			boolean render = false;
+			boolean RenderWindow = false;
+			boolean RenderEngine = false;
 
 			double startTime = Time.GetTime();
 			double passedTime = startTime - lastTime;
@@ -112,17 +135,16 @@ public class CoreEngine
 			
 			while(unprocessedTime > m_frameTime)
 			{
-				render = true;
+				//render = true;
+				RenderEngine = ExtUpdate();
+				RenderWindow = true;
 				
 				unprocessedTime -= m_frameTime;
 				
 				if(Window.IsCloseRequested())
 					Stop();
 
-				m_game.Input((float) m_frameTime);
-				Input.Update();
-				
-				m_game.Update((float) m_frameTime);
+				EngineUpdate((float)m_frameTime);
 				
 				if(frameCounter >= 1.0)
 				{
@@ -131,12 +153,16 @@ public class CoreEngine
 					frameCounter = 0;
 				}
 			}
-			if(render)
+			
+			if(RenderWindow)
 			{
-				m_game.Render(m_renderingEngine);
 				Window.Render();
 				frames++;
 			}
+			
+			if(RenderEngine)
+				m_game.Render(m_renderingEngine);
+			
 			else
 			{
 				try
@@ -165,5 +191,15 @@ public class CoreEngine
 	public static PhysicsEngine GetPhysicsEngine()
 	{
 		return m_physicsEngine;
+	}
+	
+	public static void AddSecondaryRenderingEngine(RenderingEngine re)
+	{
+		m_ExtRenderingEngine = re;
+	}
+	
+	public static RenderingEngine GetSecondaryEngine()
+	{
+		return m_ExtRenderingEngine; 
 	}
 }

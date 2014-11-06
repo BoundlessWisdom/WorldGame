@@ -7,7 +7,7 @@ import ui.Menu;
 
 public class Archonica {
 	
-	public static Menu activeMenu = Menu.rootMenu;
+	//public static Menu activeMenu = Menu.rootMenu;
 	
 	public static void main(String[] args) {
 		activeWorld = new World(20);

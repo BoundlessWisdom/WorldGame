@@ -24,10 +24,8 @@ public class RenderingEngine extends MappedValues
 
 	private Shader m_forwardAmbient;
 	private Camera m_mainCamera;
-	
-	private static RenderingEngine engine = new RenderingEngine();
 
-	private RenderingEngine()
+	public RenderingEngine()
 	{
 		super();
 		m_lights = new ArrayList<BaseLight>();
@@ -51,12 +49,6 @@ public class RenderingEngine extends MappedValues
 		// glEnable(GL_DEPTH_CLAMP);
 
 		glEnable(GL_TEXTURE_2D);
-	}
-	
-	
-	public static RenderingEngine getInstance()
-	{
-		return engine;
 	}
 
 	public void UpdateUniformStruct(Transform transform, Material material, Shader shader, String uniformName, String uniformType)

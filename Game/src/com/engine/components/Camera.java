@@ -42,6 +42,6 @@ public class Camera extends GameComponent
 	@Override
 	public void AddToEngine(CoreEngine engine)
 	{
-		RenderingEngine.getInstance().AddCamera(this);
+		CoreEngine.GetRenderingEngine().AddCamera(this);
 	}
 }
