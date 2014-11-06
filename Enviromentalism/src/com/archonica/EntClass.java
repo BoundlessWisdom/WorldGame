@@ -9,11 +9,11 @@ public class EntClass {
 	public static EntClass construct = new EntClass().immobile();
 
 	
-	boolean immobile = false;
-	boolean notMortal = false;
-	boolean intangible = false;
+	private boolean immobile = false;
+	private boolean notMortal = false;
+	private boolean intangible = false;
 	
-	int ethereality = 0;
+	private int ethereality = 0;
 	
 	/************************************************************************/
 	
@@ -59,7 +59,11 @@ public class EntClass {
 		return intangible;
 	}
 	
-	public int isVaporous() {
+	public boolean isVaporous() {
+		return ethereality > 0;
+	}
+	
+	public int howVaporous() {
 		return ethereality;
 	}
 }

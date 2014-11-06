@@ -2,14 +2,19 @@ package com.archonica;
 
 public class Archon extends Caster {
 
-	public Archon(EntClass e, float s, Modifier m) {
-		super(e, s, m);
+	public Archon(EntClass e, float sz, float spd) { super(e, sz, spd); }
+	public Archon(float sz, float spd) { super(sz, spd); }
+
+	public void update(long dtime) {
+		
 	}
-	public Archon(EntClass e, float s) {
-		super(e, s);
+	
+	public void think(long dtime) {
+		
 	}
-	public Archon(float s) {
-		super(s);
+
+	public void act(long dtime) {
+		
 	}
 
 }

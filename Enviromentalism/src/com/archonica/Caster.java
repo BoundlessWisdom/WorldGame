@@ -1,20 +1,15 @@
 package com.archonica;
 
+import com.archonica.elementals.Elemental;
+
 public abstract class Caster extends Entity {
 
 	float power = 1.0f;
 	
 	//Update control bars: power * regenspeed * regenscale * update time in ?
 	
-	public Caster(EntClass e, float s, Modifier m) {
-		super(e, s, m);
-	}
-	public Caster(EntClass e, float s) {
-		super(e, s);
-	}
-	public Caster(float s) {
-		super(s);
-	}
+	public Caster(EntClass e, float sz, float spd) { super(e, sz, spd); }
+	public Caster(float sz, float spd) { super(sz, spd); }
 	
 	public void updatePower() {
 		if (health/maxHealth >= 0.8f) {
