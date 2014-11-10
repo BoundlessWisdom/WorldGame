@@ -1,5 +1,7 @@
 package com.archonica;
 
+import com.archonica.elementals.Elemental;
+
 public class SummonCast extends Cast {
 	Tile target;
 	Elemental summonElemental;

@@ -19,8 +19,8 @@ public class Menu extends GameObject{
 	
 //	public static final Texture background;
 	
-	public static final Menu noMenu				= new Menu(null);
-	public static final Menu rootMenu			= new Menu("");
+	public static final Menu noMenu				= new Menu("");
+	public static final Menu rootMenu			= new Menu("res/menubg.png");
 	public static final Menu multiplayerMenu	= new Menu("");
 	public static final Menu newWorldMenu		= new Menu("");
 	public static final Menu menuOptions		= new Menu("");
@@ -36,33 +36,23 @@ public class Menu extends GameObject{
 	public static final Button quitButton0	= new QuitButton(rootMenu, 0, 0, 0, 0, 0);
 	public static final Button quitButton1	= new ChangeMenuButton(ingameOptions, 1, 0, 0, 0).setVariable(noMenu);
 	
-	
+	public Texture background = null;
 	
 	public Menu(String backgroundURL)
 	{
-		Texture background = null;
+		background = null;
 		try {
 			background = TextureLoader.getTexture("PNG",  ResourceLoader.getResourceAsStream("res/menubg.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Color.white.bind();
-		background.bind();
-		
-		GL11.glBegin(GL11.GL_QUADS);
-			GL11.glTexCoord2f(0,  0);
-			GL11.glVertex2f(0,  0);
-			GL11.glTexCoord2f(1,  0);
-			GL11.glVertex2f(Display.getWidth(),  0);
-			GL11.glTexCoord2f(1,  1);
-			GL11.glVertex2f(Display.getWidth(), Display.getHeight());
-			GL11.glTexCoord2f(0,  1);
-			GL11.glVertex2f(0,  Display.getHeight());
-		GL11.glEnd();
-		
-		
 //		background = Texture.loadTexture(backgroundURL);
+	}
+	
+	public void Render()
+	{
+		
 	}
 	
 	public void Update() // Handles mouse clicks
@@ -78,7 +68,7 @@ public class Menu extends GameObject{
 				}
 			}
 		}
-		
+		Render();
 		Display.update();
 	}
 	
