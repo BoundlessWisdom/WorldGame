@@ -1,5 +1,5 @@
 package com.archonica;
 
-public class Modifier {
+public abstract class Modifier {
 
 }

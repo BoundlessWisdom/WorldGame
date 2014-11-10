@@ -8,7 +8,7 @@ public class Point extends Location {
 		this.y = height;
 	}
 	
-	public int[] translate(int sx, int sz) {
+/*	public int[] translate(int sx, int sz) {
 		return translatePoint(sx, sz);
 	}
 	
@@ -16,4 +16,5 @@ public class Point extends Location {
 		int[] translated = {sx, sz};
 		return translated;
 	}
+*/
 }

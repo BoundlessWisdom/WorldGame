@@ -12,6 +12,7 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+@SuppressWarnings("unused")
 public class Menu {
 	//TODO: Interface: Refer to GoHarsha to acquire Texture support.
 	

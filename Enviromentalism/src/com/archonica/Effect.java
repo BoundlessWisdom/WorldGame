@@ -19,6 +19,10 @@ public abstract class Effect implements Updateable {
 		
 	}
 	
+	public void respond() {
+		
+	}
+	
 	void expire() {
 		expired = true;
 	}

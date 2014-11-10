@@ -1,6 +1,6 @@
 package com.archonica;
 
-public class AttachedEffect extends Effect {
+public abstract class AttachedEffect extends Effect {
 	public final Entity host;
 
 	AttachedEffect(int i, Entity h) {
