@@ -1,5 +1,6 @@
 package com.game;
 
+import ui.Button;
 import ui.Menu;
 
 import com.engine.rendering.Texture;
@@ -9,6 +10,7 @@ import com.engine.components.terrain.CompleteTerrain;
 import com.engine.components.terrain.HeightMap;
 import com.engine.components.terrain.Terrain;
 import com.engine.components.terrain.TerrainTile;
+import com.engine.core.CoreEngine;
 import com.engine.core.GameInstance;
 import com.engine.core.GameObject;
 import com.engine.core.Vector3f;
@@ -21,17 +23,39 @@ public class ArchonicaApp extends GameInstance
 	Monkey monkey;
 	GameObject lightObj = new GameObject();
 	Menu menu;
+	Button button;
 	
 	@Override
-	public boolean Precursor() 
+	public boolean Precursor() //init menu 
 	{
+		/*button = new Button(Menu.rootMenu, 0,100,0,100,
+				new Material(new Texture("menubg.png"), 1, 1, null, null, 
+						1, 1)) {
+			
+			@Override
+			public Button setVariable(Object par) {
+				// TODO Auto-generated method stub
+				return this;
+			}
+			
+			@Override
+			public void function() {
+				// TODO Auto-generated method stub
+				
+			}
+		}.Compile();*/
+		//menu = Menu.rootMenu;
+		//SET STUFF
 		menu = Menu.rootMenu;
 		return true;
 	}
 	
 	@Override
-	public boolean UpdatePrecursor()
+	public boolean UpdatePrecursor() //render, hover, stuff
 	{
+		//button.Render(shader, renderingEngine);
+		//menu = Menu.rootMenu;
+		//return true;
 		menu.Update();
 		return false;
 	}
@@ -42,6 +66,7 @@ public class ArchonicaApp extends GameInstance
 		super.Init();
 		
 		Terrain t = new HeightMap("heightmap.png", "bricks.jpg").compile();
+	
 		TerrainTile tile = new TerrainTile();
 		tile.addTerrain(t);
 		terrain.addTile(tile);

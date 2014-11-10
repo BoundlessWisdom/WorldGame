@@ -12,8 +12,11 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+import com.engine.core.GameObject;
+
 @SuppressWarnings("unused")
-public class Menu {
+public class Menu extends GameObject{
+
 	//TODO: Interface: Refer to GoHarsha to acquire Texture support.
 	
 //	public static final Texture background;
