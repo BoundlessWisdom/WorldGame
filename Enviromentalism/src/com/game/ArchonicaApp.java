@@ -28,7 +28,7 @@ public class ArchonicaApp extends GameInstance
 	@Override
 	public boolean Precursor() //init menu 
 	{
-		button = new Button(Menu.rootMenu, 0,100,0,100,
+		/*button = new Button(Menu.rootMenu, 0,100,0,100,
 				new Material(new Texture("menubg.png"), 1, 1, null, null, 
 						1, 1)) {
 			
@@ -43,9 +43,10 @@ public class ArchonicaApp extends GameInstance
 				// TODO Auto-generated method stub
 				
 			}
-		}.Compile();
+		}.Compile();*/
 		//menu = Menu.rootMenu;
 		//SET STUFF
+		menu = Menu.rootMenu;
 		return true;
 	}
 	
@@ -54,7 +55,9 @@ public class ArchonicaApp extends GameInstance
 	{
 		//button.Render(shader, renderingEngine);
 		//menu = Menu.rootMenu;
-		return true;
+		//return true;
+		menu.Update();
+		return false;
 	}
 	
 	@Override
