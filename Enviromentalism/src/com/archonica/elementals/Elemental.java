@@ -52,4 +52,10 @@ public abstract class Elemental extends Entity {
 		return this;
 	}
 	
+	/********************************************************************************************/
+	
+	public void respond() {
+		
+	}
+	
 }

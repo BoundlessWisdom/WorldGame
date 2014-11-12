@@ -12,13 +12,20 @@ public final EntClass entClass;
 public final float size;
 
 protected float baseSpeed;
-public float speed;
+protected float speed;
+
+public float baseSpeed() { return baseSpeed; }
+public float speed() { return speed; }
 
 World w;
 public int x, z;
 
 protected final int maxHealth = 0;
 public float health;
+
+protected float strength = -1.0f;  //-1 == uninitialized; -2 == permanently zero;
+
+protected float toughness;
 
 protected Entity(EntClass entClass, float size, float speed) {
 	this.w = Archonica.activeWorld;
@@ -31,6 +38,15 @@ protected Entity(EntClass entClass, float size, float speed) {
 
 protected Entity(float size, float speed) {
 	this(baseEnt, size, speed);
+}
+
+protected void setStrength(float s) {
+	if (this.strength == -1)  //Uninitialized state
+		this.strength = s;
+}
+
+public float strength() {
+	return strength;
 }
 
 public Entity modify(Modifier m) {
@@ -82,6 +98,18 @@ public void attack() {	//Debug function
 
 public void die() {   //Write this up here.  TODO: Entity.die()
 
+}
+
+/************************************************************************/
+
+private ArrayList<Modifier> modifiers = new ArrayList<Modifier>();
+
+public void affect(Modifier m) {
+	modifiers.add(m);
+}
+
+public void respond() {
+	
 }
 
 /************************************************************************/

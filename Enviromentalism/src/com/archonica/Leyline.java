@@ -138,4 +138,8 @@ public class Leyline implements Updateable {
 	public void update(long dtime) {
 		grow(dtime);
 	}
+	
+	public void respond() {
+		
+	}
 }

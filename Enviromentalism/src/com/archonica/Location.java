@@ -7,6 +7,4 @@ public abstract class Location {
 	public Location(int i, int j) {
 		x = i;  z = j;
 	}
-	
-	public abstract int[] translate(int sx, int sz);
 }
