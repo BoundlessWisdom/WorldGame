@@ -86,15 +86,21 @@ public class Vector3f
 
 	public Vector3f Add(Vector3f r)
 	{
-		m_x = r.m_x;
-		m_y = r.m_y;
-		m_z = r.m_z;
-		return this;
+		return new Vector3f(m_x + r.m_x, m_y + r.m_y, m_z + r.m_z); 	
 	}
 	
 	public Vector3f Add(float r)
 	{
 		return Add(new Vector3f(r, r, r));
+	}
+	
+	public Vector3f Added(Vector3f r)
+	{
+		Vector3f n = Add(r);
+		m_x = n.m_x;
+		m_y = n.m_y;
+		m_z = n.m_z;
+		return this;
 	}
 	
 	public Vector3f Sub(Vector3f r)

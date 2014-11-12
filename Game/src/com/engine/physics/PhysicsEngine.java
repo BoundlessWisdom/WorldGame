@@ -103,7 +103,7 @@ public class PhysicsEngine
 						(float)(force.GetZ() / obj.GetMass())
 				));
 				
-				velocity.Add(new Vector3f(
+				velocity.Added(new Vector3f(
 						acceleration.GetX(),
 						acceleration.GetY() * .1f,
 						acceleration.GetZ()
@@ -225,7 +225,7 @@ public class PhysicsEngine
 		{
 			if(add)
 			{
-				netForce.Add(new Vector3f(
+				netForce.Added(new Vector3f(
 						force.GetX(),
 						force.GetY(),
 						force.GetZ()
@@ -252,7 +252,7 @@ public class PhysicsEngine
 	{
 		EntityObject obj = objs.get(index);
 		
-		obj.GetMomentum().Add(new Vector3f(
+		obj.GetMomentum().Added(new Vector3f(
 				impulse.GetX(),
 				impulse.GetY(),
 				impulse.GetZ()
