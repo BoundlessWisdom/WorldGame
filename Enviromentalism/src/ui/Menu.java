@@ -20,7 +20,7 @@ public class Menu extends GameObject{
 //	public static final Texture background;
 	
 	public static final Menu noMenu				= new Menu("");
-	public static final Menu rootMenu			= new Menu("res/menubg.png");
+	public static final Menu rootMenu			= new Menu("res/textures/menubg.png");
 	public static final Menu multiplayerMenu	= new Menu("");
 	public static final Menu newWorldMenu		= new Menu("");
 	public static final Menu menuOptions		= new Menu("");
@@ -42,7 +42,7 @@ public class Menu extends GameObject{
 	{
 		background = null;
 		try {
-			background = TextureLoader.getTexture("PNG",  ResourceLoader.getResourceAsStream("res/menubg.png"));
+			background = TextureLoader.getTexture("PNG",  ResourceLoader.getResourceAsStream("res/textures/menubg.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
