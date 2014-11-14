@@ -15,7 +15,7 @@ public class InputModel
 	
 	private boolean hasTexCoord = false;
 	private boolean hasNormals = false;
-	private ArrayList<Vector3f> m_normals;
+	//private ArrayList<Vector3f> m_normals;
 	
 	public InputModel(ArrayList<Vector3f> positions, ArrayList<Vector2f> texCoords, ArrayList<Vector3f> normals,
 			ArrayList<OBJIndex> indices) 
@@ -72,7 +72,7 @@ public class InputModel
 				currentTexCoord = new Vector2f(0,0);
 
 			if(hasNormals)
-				currentNormal = m_normals.get(currentIndex.GetNormalIndex());
+				currentNormal = normals.get(currentIndex.GetNormalIndex());
 			else
 				currentNormal = new Vector3f(0,0,0);
 

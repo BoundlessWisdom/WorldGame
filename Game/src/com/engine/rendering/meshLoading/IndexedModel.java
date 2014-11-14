@@ -43,7 +43,7 @@ public class IndexedModel
 
 	public void CalcNormals()
 	{
-		for(int i = 0; i < m_indices.size(); i += 3)
+		for(int i = 0; i < m_indices.size() - 2; i += 3)
 		{
 			int i0 = m_indices.get(i);
 			int i1 = m_indices.get(i + 1);
@@ -65,7 +65,7 @@ public class IndexedModel
 
 	public void CalcTangents()
 	{
-		for(int i = 0; i < m_indices.size(); i += 3)
+		for(int i = 0; i < m_indices.size() - 2; i += 3)
 		{
 			int i0 = m_indices.get(i);
 			int i1 = m_indices.get(i + 1);
