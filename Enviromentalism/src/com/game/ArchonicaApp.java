@@ -62,8 +62,8 @@ public class ArchonicaApp extends GameInstance
 		//button.Render(shader, renderingEngine);
 		//menu = Menu.rootMenu;
 		//return true;
-//		menu.Update();
-		return true;
+		menu.Update();
+		return false;
 	}
 	
 	@Override
@@ -84,7 +84,8 @@ public class ArchonicaApp extends GameInstance
 		monkey = new Monkey(new GameObject(), 100.0, "Monkey");
 		monkey.AddMaterial(new Material(new Texture("bricks.jpg"), 1, 8,
 				new Texture("bricks_normal.jpg"), new Texture("bricks_disp.png"), 0.03f, -0.5f));
-		monkey.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos());
+		//monkey.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos());
+		monkey.GetTransform().SetPos(0,0,0);
 		AddEntity(monkey);
 		
 		lightObj.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos());
@@ -93,7 +94,7 @@ public class ArchonicaApp extends GameInstance
 		ball.AddMaterial(new Material(new Texture("bricks.jpg"), 1, 8,
 				new Texture("bricks_normal.jpg"), new Texture("bricks_disp.png"), 0.03f, -0.5f));
 		ball.GetTransform().SetPos(0, HeightMap.GetHeight(0, 0, t),0);
-		AddEntity(ball);
+		//AddEntity(ball);
 	}
 	
 	@Override

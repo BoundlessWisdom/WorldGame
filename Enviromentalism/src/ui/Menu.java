@@ -11,6 +11,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
+import com.engine.core.Input;
 
 import com.engine.core.GameObject;
 
@@ -35,7 +36,7 @@ public class Menu extends GameObject{
 	public static final Button backButton2	= new ChangeMenuButton(menuOptions, 0, 0, 0, 0).setVariable(rootMenu);
 	public static final Button backButton3	= new ChangeMenuButton(ingameOptions, 0, 0, 0, 0).setVariable(noMenu);
 	
-	public static final Button quitButton0	= new QuitButton(rootMenu, 0, 0, 0, 0, 0);
+	public static final Button quitButton0	= new QuitButton(rootMenu, 0, 0, 100, 0, 100);
 	public static final Button quitButton1	= new ChangeMenuButton(ingameOptions, 1, 0, 0, 0).setVariable(noMenu);
 	
 	public Texture background = null;
@@ -61,14 +62,23 @@ public class Menu extends GameObject{
 	{
 		for(Button b : buttons)
 		{
-			if(b.hover())
-			{
+			//if(b.hover())
+			//{
 				// Change color in order to indicate that the mouse is indeed hovering over the button
-				if(Mouse.isButtonDown(1)) // Right click
+				/*if(Mouse.isButtonDown(1)) // Right click
 				{
 					b.function();
+				}*/
+				
+				if(Input.GetMouse(1))
+					System.out.println("woh");
+				
+				if(b.hover())
+				{
+					System.out.println("Ack");
+					//Display.destroy();
 				}
-			}
+			//}
 		}
 		Render();
 		Display.update();
