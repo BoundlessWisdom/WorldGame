@@ -3,6 +3,7 @@ package ui;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 
 import com.engine.components.MeshRenderer;
 import com.engine.core.GameObject;
@@ -12,6 +13,7 @@ import com.engine.rendering.Material;
 import com.engine.rendering.Mesh;
 import com.engine.rendering.meshLoading.InputModel;
 import com.engine.rendering.meshLoading.OBJIndex;
+import com.engine.core.Input;
 
 public abstract class Button extends GameObject{
 	//public final Texture texture;
@@ -42,7 +44,28 @@ public abstract class Button extends GameObject{
 	
 	public boolean hover()
 	{
-		return (Mouse.getX() > GetX() && Mouse.getX() < (GetX() + xlength) && Mouse.getY() < GetY() && Mouse.getY() > (GetY() + ylength));
+		//return (Input.GetMousePosition().GetX() > GetX() && Input.GetMousePosition().GetX() < (GetX() + xlength) &&
+			//	Input.GetMousePosition().GetY() < GetY() && Input.GetMousePosition().GetX() > (GetY() + ylength));
+		
+		if(Mouse.isInsideWindow())
+		{
+			
+		float x = (float)Mouse.getX() / (float)Display.getWidth();
+		float y = (float)Mouse.getY() / (float)Display.getHeight();
+		float lx = (float)xlength / (float)Display.getWidth();
+		float ly = (float)ylength / (float)Display.getHeight();
+		float nx = GetX();
+		float ny = GetY();
+		//return true;
+		/*boolean x1 = x > nx;
+		boolean x2 = x < nx + lx;
+		boolean y1 = y > ny;
+		boolean y2 = y < ny + ly;*/
+		
+		return (x > nx) && (x < nx + lx) && (y > ny) && (y < ny + ly);
+		}
+		
+		return false;
 	}
 	
 	public abstract Button setVariable(Object par);
