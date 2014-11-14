@@ -4,9 +4,11 @@ import static com.archonica.EntClass.*;
 
 import java.util.ArrayList;
 
+import com.engine.core.EntityObject;
+import com.engine.core.GameObject;
 import com.game.Archonica;
 
-public abstract class Entity implements Updateable {
+public abstract class Entity extends EntityObject implements Updateable {
 public final EntClass entClass;
 
 public final float size;
@@ -28,6 +30,7 @@ protected float strength = -1.0f;  //-1 == uninitialized; -2 == permanently zero
 protected float toughness;
 
 protected Entity(EntClass entClass, float size, float speed) {
+	super(new GameObject(), size, "");
 	this.w = Archonica.activeWorld;
 		this.health = maxHealth;
 	this.entClass = entClass;
