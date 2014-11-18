@@ -1,6 +1,9 @@
-package com.archonica;
+package com.archonica.sparks;
 
-public class CastBoostLeyline extends SustainedCast {
+import com.archonica.Caster;
+import com.archonica.objects.Leyline;
+
+public class SparkLeylineBoost extends SustainedSpark {
 	Leyline targetLeyline;
 	
 	//By god, this is genius!  This is phone lines.  Transmission!
@@ -20,6 +23,9 @@ public class CastBoostLeyline extends SustainedCast {
 	}
 
 	public void terminate() {
+	}
+
+	public void respond() {
 	}
 
 }

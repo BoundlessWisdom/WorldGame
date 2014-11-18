@@ -1,8 +1,11 @@
-package com.archonica;
+package com.archonica.sparks;
 
+import com.archonica.Caster;
+import com.archonica.ECastType;
+import com.archonica.objects.Leyline;
 import com.game.Archonica;;
 
-public class CastLeyline extends MultiphaseCast {
+public class SparkLeyline extends MultiphaseSpark {
 	ECastType castType;
 	Caster caster;
 	Caster secondCaster;
@@ -37,6 +40,9 @@ public class CastLeyline extends MultiphaseCast {
 
 	public void terminate() {
 		//Explode!
+	}
+
+	public void respond() {
 	}
 
 }

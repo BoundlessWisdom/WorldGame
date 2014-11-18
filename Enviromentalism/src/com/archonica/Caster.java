@@ -1,6 +1,8 @@
 package com.archonica;
 
 import com.archonica.elementals.Elemental;
+import com.archonica.objects.Leyline;
+import com.archonica.objects.Projectile;
 
 public abstract class Caster extends Entity {
 
@@ -27,7 +29,7 @@ public abstract class Caster extends Entity {
 		return control[attempt];
 	}
 
-	public void cast(int cast) {
+	public void cast(int spark) {
 		
 	}
 	

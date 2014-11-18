@@ -1,6 +1,6 @@
-package com.archonica;
+package com.archonica.sparks;
 
-public abstract class MultiphaseCast extends SustainedCast {
+public abstract class MultiphaseSpark extends SustainedSpark {
 	protected boolean hibernating;
 
 	protected abstract void onPhaseEnd();
