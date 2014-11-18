@@ -9,11 +9,13 @@ public class World {
 	public final int height;
 	
 	public Location[][] worldMap;
+	public TerrainTile[][] environmentMap;
 	
 	public World(int width, int height) {
 		this.width = width;
 		this.height = height;
 		worldMap = new Tile[width][height];
+		environmentMap = new TerrainTile[width][height];
 	}
 	
 	public World(int size) {

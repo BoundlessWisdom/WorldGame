@@ -1,6 +1,12 @@
-package com.archonica;
+package com.archonica.objects;
 
 import java.util.ArrayList;
+
+import com.archonica.ECastType;
+import com.archonica.Location;
+import com.archonica.Updateable;
+import com.archonica.sparks.SparkLeyline;
+import com.archonica.sparks.SustainedSpark;
 
 import math.VectorMath;
 
@@ -8,7 +14,7 @@ public class Leyline implements Updateable {
 	
 	//Consider leyline sight mode: Fades out, leylines visible as surface-to-bottom walls.
 	
-	SustainedCast cast;
+	SparkLeyline cast;
 	ECastType type;
 	private int power;
 	
@@ -24,7 +30,7 @@ public class Leyline implements Updateable {
 	private float upperz; 			//For two purposes: vertical leylines, and distance
 	private float lowerz;			//calculations.
 	
-	public Leyline(SustainedCast cast, ECastType type, int x1, int z1, int x2, int z2) {
+	public Leyline(SparkLeyline cast, ECastType type, int x1, int z1, int x2, int z2) {
 		this.cast = cast;
 		this.type = type;
 		this.midx = x1;
@@ -112,7 +118,7 @@ public class Leyline implements Updateable {
 	/************************************************************************************************/
 	
 	//TODO: Leyline: Determine what logic is necessary.
-	ArrayList<SustainedCast> boosterCasts = new ArrayList<SustainedCast>();
+	ArrayList<SustainedSpark> boosterCasts = new ArrayList<SustainedSpark>();
 	{
 		boosterCasts.add(cast);
 	}

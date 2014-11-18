@@ -1,8 +1,10 @@
-package com.archonica;
+package com.archonica.sparks;
 
+import com.archonica.Caster;
+import com.archonica.Tile;
 import com.archonica.elementals.Elemental;
 
-public class SummonCast extends Cast {
+public class SparkSummon extends Spark {
 	Tile target;
 	Elemental summonElemental;
 	

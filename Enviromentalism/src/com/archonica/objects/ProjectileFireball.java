@@ -1,6 +1,8 @@
-package com.archonica;
+package com.archonica.objects;
 
-public class ProjectileFireball {
+import com.archonica.Tile;
+
+public class ProjectileFireball extends Projectile {
 	Tile origin;
 	Tile target;
 	
