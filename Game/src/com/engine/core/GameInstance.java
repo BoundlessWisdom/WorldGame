@@ -15,7 +15,7 @@ import com.engine.rendering.RenderingEngine;
 public class GameInstance extends Game
 {	
 	//private static GameInstance instance = new GameInstance();
-	
+	public static ArrayList<GameObject> RootObjects = new ArrayList<GameObject>();
 	private static ArrayList<EntityObject> entities = new ArrayList<EntityObject>();
 	private static ArrayList<Integer> entityIndicies = new ArrayList<Integer>();
 	
@@ -41,6 +41,7 @@ public class GameInstance extends Game
 						0.01f, 1000.0f))));
 		
 		GetRootObject().AddChild(CompleteTerrain.getInstance());
+		RootObjects.add(GetRootObject());
 	}
 	
 	@Override
@@ -96,5 +97,11 @@ public class GameInstance extends Game
 	public static RenderingEngine getRenderingEngine()
 	{
 		return CoreEngine.GetRenderingEngine();
+	}
+	
+	public void AddAndSetRootObject(GameObject root)
+	{
+		SetCurrentRootObject(root);
+		RootObjects.add(root);
 	}
 }
