@@ -38,6 +38,11 @@ public abstract class Game
 
 		return m_root;
 	}
+	
+	public void SetCurrentRootObject(GameObject root)
+	{
+		this.m_root = root;
+	}
 
 	public void SetEngine(CoreEngine engine) { GetRootObject().SetEngine(engine); }
 }

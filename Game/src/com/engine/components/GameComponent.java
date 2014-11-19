@@ -26,6 +26,7 @@ import com.engine.rendering.Shader;
 public abstract class GameComponent
 {
 	private GameObject m_parent;
+	private RenderingEngine render = null;
 
 	public void Input(float delta) {}
 	public void Update(float delta) {}
@@ -40,7 +41,7 @@ public abstract class GameComponent
 	{
 		return m_parent.GetTransform();
 	}
-
+	
 	public void AddToEngine(CoreEngine engine) {}
 }
 
