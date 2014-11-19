@@ -22,6 +22,7 @@ import com.engine.rendering.Material;
 import com.engine.rendering.Mesh;
 import com.engine.rendering.RenderingEngine;
 
+@SuppressWarnings("unused")
 public class ArchonicaApp extends GameInstance
 {	
 	CompleteTerrain terrain = CompleteTerrain.getInstance();

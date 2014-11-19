@@ -6,8 +6,11 @@ public class Interaction extends Location {
 		super(i, j);
 	}
 
-	public char[][] print() {
-		return null;
+	public String print(boolean vertical) {
+		if (vertical)
+			return "|";
+		else
+			return "- - ";
 	}
 	
 

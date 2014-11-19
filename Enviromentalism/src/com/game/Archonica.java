@@ -3,8 +3,6 @@ package com.game;
 import com.archonica.World;
 import com.engine.core.CoreEngine;
 
-import ui.Menu;
-
 public class Archonica {
 	
 	//public static Menu activeMenu = Menu.rootMenu;

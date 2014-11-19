@@ -19,7 +19,7 @@ public class TerrainTile extends Location {
 		return terrainBody.terrain;
 	}
 
-	public char[][] print() {
+	public String print(boolean b) {
 		return null;
 	}
 	
