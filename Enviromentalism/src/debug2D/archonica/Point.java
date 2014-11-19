@@ -8,8 +8,8 @@ public class Point extends Location {
 		this.y = height;
 	}
 
-	public String print(boolean b) {
-		return "+";
+	public void print(boolean b) {
+		System.out.print("+ ");
 	}
 	
 /*	public int[] translate(int sx, int sz) {

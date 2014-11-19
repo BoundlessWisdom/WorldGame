@@ -7,8 +7,8 @@ public class Tile extends Location {
 		super(i, j);
 	}
 
-	public String print(boolean top) {
-		return null;
+	public void print(boolean top) {
+		System.out.print("    ");
 	}
 	
 	public float height() {

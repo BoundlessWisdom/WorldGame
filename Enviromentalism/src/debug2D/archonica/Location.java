@@ -8,5 +8,5 @@ public abstract class Location {
 		x = i;  z = j;
 	}
 	
-	public abstract String print(boolean b);
+	public abstract void print(boolean b);
 }

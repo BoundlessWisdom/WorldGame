@@ -10,20 +10,27 @@ public class Debug {
 	
 	public static void main(String[] args) 
 	{
+		worldArray = new Location[9][9];
+		init();
+//		while (true)
+			print();
+	}
+	
+	public static void init() {
 		for(int i = 0; i < worldArray.length; i++)
 		{
 			for(int j = 0; j < worldArray[i].length; j++)
 			{
-				if((i % 2) == 0 || i == 0)
+				if((i % 2) == 0)
 				{
-					if(j == 0 || (j % 2) == 0)
+					if((j % 2) == 0)
 						worldArray[i][j] = new Point(i, j, 0);
 					else
 						worldArray[i][j] = new Interaction(i, j);
 				}
 				else
 				{
-					if(j == 0 || (j % 2) == 0)
+					if((j % 2) == 0)
 						worldArray[i][j] = new Interaction(i, j);
 					else
 						worldArray[i][j] = new Tile(i, j);
@@ -32,27 +39,26 @@ public class Debug {
 		}
 	}
 	
-	public void print() {
+	public static void print() {
 		for (int i = 0; i < worldArray.length; i++) {
-			if (i % 3 == 0) {
+			if (i % 2 == 0) {
 				for (int j = 0; j < worldArray[0].length; j++) {
-					System.out.print(0);
+					worldArray[i][j].print(false);
 				}
-				
-				System.out.println();
 			} else {
 				
 				for (int j = 0; j < worldArray[0].length; j++) {
-					System.out.print(0);
+					worldArray[i][j].print(true);
 				}
 				
 				System.out.println();
-				i++;
 				
 				for (int j = 0; j < worldArray[0].length; j++) {
-					System.out.print(0);
+					worldArray[i][j].print(true);
 				}
 			}
+			
+			System.out.println();
 		}
 	}
 
