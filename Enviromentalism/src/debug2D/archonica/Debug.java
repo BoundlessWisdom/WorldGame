@@ -17,7 +17,7 @@ public class Debug {
 				if((i % 2) == 0 || i == 0)
 				{
 					if(j == 0 || (j % 2) == 0)
-						worldArray[i][j] = new Point(i, j);
+						worldArray[i][j] = new Point(i, j, 0);
 					else
 						worldArray[i][j] = new Interaction(i, j);
 				}
