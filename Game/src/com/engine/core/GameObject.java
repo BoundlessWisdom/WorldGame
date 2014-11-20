@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 public class GameObject
 {
+	protected ArrayList<ArrayList<GameObject>> childrens;
 	protected ArrayList<GameObject> m_children;
 	protected ArrayList<GameComponent> m_components;
 	protected Transform m_transform;
@@ -31,10 +32,13 @@ public class GameObject
 
 	public GameObject()
 	{
+		childrens = new ArrayList<ArrayList<GameObject>>();
 		m_children = new ArrayList<GameObject>();
 		m_components = new ArrayList<GameComponent>();
 		m_transform = new Transform();
 		m_engine = null;
+		
+		childrens.add(m_children);
 	}
 
 	public void AddChild(GameObject child)
@@ -139,5 +143,34 @@ public class GameObject
 	public int getNumberChildrenAttatched()
 	{
 		return m_children.size();
+	}
+	
+	public void NewChildren()
+	{
+		childrens.add(new ArrayList<GameObject>());
+	}
+	
+	public void TransferChildren(int from, int to, int[] keep)
+	{
+		for(int i = 0; i < childrens.get(from).size(); i++)
+		{
+			for(int j = 0; j < keep.length; j++)
+			{
+				if(i != keep[j])
+					continue;
+				else
+				{
+					childrens.get(to).add(childrens.get(from).get(i));
+					break;
+				}
+			}
+		}
+		
+		m_children = childrens.get(to);
+	}
+	
+	public void SetChildren(int index)
+	{
+		m_children = childrens.get(index);
 	}
 }
