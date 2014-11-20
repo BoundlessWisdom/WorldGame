@@ -112,7 +112,14 @@ public void affect(Modifier m) {
 }
 
 public void respond() {
-	
+	for(Modifier m : modifiers)
+	{
+		speed += m.getSpeedChange();
+		strength += m.getStrengthChange();
+		toughness += m.getToughnessChange();
+		health += m.getHealthChange();
+		
+	}
 }
 
 /************************************************************************/
