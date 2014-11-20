@@ -89,10 +89,10 @@ public abstract class Button extends GameObject{
 		ArrayList<Vector2f> texCoords = new ArrayList<Vector2f>();
 		ArrayList<Vector3f> normals = new ArrayList<Vector3f>();
 		
-		Vector3f v1 = new Vector3f(GetX(), GetY() - ylength, 0f);
+		Vector3f v1 = new Vector3f(GetX(), GetY() - (float)ylength / (float)Display.getHeight(), 0f);
 		Vector3f v2 = new Vector3f(GetX(), GetY(), 0f);
-		Vector3f v3 = new Vector3f(GetX() + xlength, GetY() - ylength, 0f);
-		Vector3f v4 = new Vector3f(GetX() + xlength, GetY(), 0f);
+		Vector3f v3 = new Vector3f(GetX() + (float)xlength / (float)Display.getWidth(), GetY() - (float)ylength / (float)Display.getHeight(), 0f);
+		Vector3f v4 = new Vector3f(GetX() + (float)xlength / (float)Display.getWidth(), GetY(), 0f);
 		
 		Vector2f t1 = new Vector2f(0, 1);
 		Vector2f t2 = new Vector2f(0, 0);
@@ -127,6 +127,7 @@ public abstract class Button extends GameObject{
 		normals.add(n1);
 		
 		InputModel model = new InputModel(vertices, texCoords, normals, indices);
+		model.setBooleans(true, true);
 		Mesh m = model.toIndexedModel().ToMesh();
 		
 		MeshRender = new MeshRenderer(m, mat);

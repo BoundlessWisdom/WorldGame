@@ -11,8 +11,9 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
-import com.engine.core.Input;
 
+import com.engine.core.CoreEngine;
+import com.engine.core.Input;
 import com.engine.core.GameObject;
 
 @SuppressWarnings("unused")
@@ -53,9 +54,13 @@ public class Menu extends GameObject{
 //		background = Texture.loadTexture(backgroundURL);
 	}
 	
+	public void Compile()
+	{
+		quitButton0.Compile();
+	}
+	
 	public void Render()
 	{
-		
 	}
 	
 	public void Update() // Handles mouse clicks
