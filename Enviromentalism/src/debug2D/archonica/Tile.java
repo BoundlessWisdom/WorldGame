@@ -1,16 +1,27 @@
 package debug2D.archonica;
 
 public class Tile extends Location {
+	int heightMode = 4;
 	
 	public Tile(int i, int j) {
 		super(i, j);
 	}
 
-	public char[][] print() {
-		return null;
+	public void print(boolean top) {
+		System.out.print(tileCoordX() + "," + tileCoordZ() + " ");
 	}
 	
+	public float height() {
+		return 0;
+	}
 	
+	private int tileCoordX() {
+		return (x + 1)/2;
+	}
+	
+	private int tileCoordZ() {
+		return (z + 1)/2;
+	}
 	
 	/*****************************************************************************/
 	
