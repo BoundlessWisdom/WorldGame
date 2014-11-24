@@ -8,8 +8,8 @@ public class World {
 	public final int width;
 	public final int height;
 	
-	public Location[][] worldMap;
-	public TerrainTile[][] environmentMap;
+	private Location[][] worldMap;
+	private TerrainTile[][] environmentMap;
 	
 	public World(int width, int height) {
 		this.width = width;
