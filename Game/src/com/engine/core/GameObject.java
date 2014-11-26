@@ -20,6 +20,7 @@ import com.engine.components.GameComponent;
 import com.engine.rendering.RenderingEngine;
 import com.engine.rendering.Shader;
 
+import java.awt.Component;
 import java.util.ArrayList;
 
 public class GameObject
@@ -172,5 +173,21 @@ public class GameObject
 	public void SetChildren(int index)
 	{
 		m_children = childrens.get(index);
+	}
+	
+	public GameObject GetAttached(int index)
+	{
+		if(index >= m_children.size())
+			return null;
+		
+		return m_children.get(index);
+	}
+	
+	public GameComponent GetComponent(int index)
+	{
+		if(index >= m_components.size())
+			return null;
+		
+		return m_components.get(index);
 	}
 }
