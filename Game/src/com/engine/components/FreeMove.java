@@ -27,6 +27,8 @@ public class FreeMove extends GameComponent
 	private int   m_backKey;
 	private int   m_leftKey;
 	private int   m_rightKey;
+	
+	private boolean CanMove = true;
 
 	public FreeMove(float speed)
 	{
@@ -45,6 +47,9 @@ public class FreeMove extends GameComponent
 	@Override
 	public void Input(float delta)
 	{
+		if(!CanMove)
+			return;
+		
 		float movAmt = m_speed * delta;
 
 		if(Input.GetKey(m_forwardKey))
@@ -60,5 +65,15 @@ public class FreeMove extends GameComponent
 	private void Move(Vector3f dir, float amt)
 	{
 		GetTransform().SetPos(GetTransform().GetPos().Add(dir.Mul(amt)));
+	}
+	
+	public void SetMove(boolean CanMove)
+	{
+		this.CanMove = CanMove;
+	}
+	
+	public void SwitchMoveState()
+	{
+		CanMove = !CanMove;
 	}
 }
