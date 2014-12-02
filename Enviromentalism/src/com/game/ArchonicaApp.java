@@ -3,8 +3,11 @@ package com.game;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
+
 import ui.Button;
 import ui.Menu;
+
 import com.archonica.Archon;
 import com.archonica.EntClass;
 import com.archonica.archons.User;
@@ -30,6 +33,7 @@ import static com.engine.core.Input.*;
 import com.engine.core.Vector3f;
 import com.engine.rendering.Attenuation;
 import com.engine.rendering.Material;
+import com.engine.rendering.Window;
 
 /*import static org.lwjgl.opengl.Display.*;
 import static org.lwjgl.opengl.DisplayMode.*;*/
@@ -42,6 +46,8 @@ public class ArchonicaApp extends GameInstance
 	Menu menu;
 	Button button;
 	GameObject sphere = new GameObject();
+	
+	boolean FullScreen = true;
 	
 	User MainUser;
 	ArrayList<ArrayList<GameObject>> childrens = new ArrayList<ArrayList<GameObject>>();
@@ -62,6 +68,12 @@ public class ArchonicaApp extends GameInstance
 	public boolean UpdatePrecursor() //render, hover, stuff
 	{
 		menu.Update();
+		
+		if(Input.GetKey(KEY_F1))
+		{
+			Window.SetDisplayMode(800, 600, !FullScreen);
+			Display.update();
+		}
 		
 		if(Input.GetKey(KEY_C))
 		{
