@@ -3,20 +3,15 @@ package com.game;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
-
 import ui.Button;
 import ui.Menu;
-import ui.QuitButton;
-
 import com.archonica.Archon;
 import com.archonica.EntClass;
 import com.archonica.archons.User;
 import com.engine.rendering.Texture;
-import com.engine.components.Camera;
 import com.engine.components.FreeLook;
 import com.engine.components.FreeMove;
 import com.engine.components.GameComponent;
-import com.engine.components.MeshRenderer;
 import com.engine.components.lighting.BaseLight;
 import com.engine.components.lighting.SpotLight;
 import com.engine.components.terrain.CompleteTerrain;
@@ -25,8 +20,6 @@ import com.engine.components.terrain.Terrain;
 import com.engine.components.terrain.TerrainTile;
 import com.engine.components.terrain.Terrain.OriginGravity;
 import com.engine.core.CoreEngine;
-import com.engine.core.EntityObject;
-import com.engine.core.Game;
 import com.engine.core.GameInstance;
 import com.engine.core.GameObject;
 import com.engine.core.Input;
@@ -34,15 +27,13 @@ import com.engine.core.Quaternion;
 
 import static com.engine.core.Input.*;
 
-import com.engine.core.Matrix4f;
 import com.engine.core.Vector3f;
 import com.engine.rendering.Attenuation;
 import com.engine.rendering.Material;
-import com.engine.rendering.Mesh;
-import com.engine.rendering.RenderingEngine;
-import com.engine.rendering.Window;
 
-@SuppressWarnings("unused")
+/*import static org.lwjgl.opengl.Display.*;
+import static org.lwjgl.opengl.DisplayMode.*;*/
+
 public class ArchonicaApp extends GameInstance
 {	
 	CompleteTerrain terrain = CompleteTerrain.getInstance();
@@ -70,6 +61,8 @@ public class ArchonicaApp extends GameInstance
 	@Override
 	public boolean UpdatePrecursor() //render, hover, stuff
 	{
+		menu.Update();
+		
 		if(Input.GetKey(KEY_C))
 		{
 			CanMoveCamera(true);
