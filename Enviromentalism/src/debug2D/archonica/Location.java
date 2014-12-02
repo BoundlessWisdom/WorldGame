@@ -1,5 +1,9 @@
 package debug2D.archonica;
 
+import java.util.ArrayList;
+
+import com.archonica.Entity;
+
 public abstract class Location {
 	public int x;
 	public int z;
@@ -8,5 +12,7 @@ public abstract class Location {
 		x = i;  z = j;
 	}
 	
-	public abstract void print(boolean b);
+	public abstract void addEntity(debug2D.archonica.Entity archon);
+	
+	public abstract void print(boolean b, boolean c);
 }
