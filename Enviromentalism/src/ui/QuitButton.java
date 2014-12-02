@@ -1,5 +1,7 @@
 package ui;
 
+import com.engine.core.CoreEngine;
+
 public class QuitButton extends Button {
 
 	public QuitButton(Menu menu, int index, int x, int xlength, int y, int ylength) {
@@ -11,7 +13,7 @@ public class QuitButton extends Button {
 	}
 
 	public void function() {
-		//Call Engine's quit function.
+		CoreEngine.Stop();
 	}
 
 }
