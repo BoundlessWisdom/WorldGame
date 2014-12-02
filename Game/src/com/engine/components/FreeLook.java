@@ -29,6 +29,8 @@ public class FreeLook extends GameComponent
 	private boolean m_mouseLocked = false;
 	private float   m_sensitivity;
 	private int     m_unlockMouseKey;
+	
+	private boolean CanMove = true;
 
 	public FreeLook(float sensitivity)
 	{
@@ -44,6 +46,9 @@ public class FreeLook extends GameComponent
 	@Override
 	public void Input(float delta)
 	{
+		if(!CanMove)
+			return;
+		
 		Vector2f centerPosition = new Vector2f(Window.GetWidth()/2, Window.GetHeight()/2);
 
 		if(Input.GetKey(m_unlockMouseKey))
@@ -73,5 +78,15 @@ public class FreeLook extends GameComponent
 			if(rotY || rotX)
 				Input.SetMousePosition(centerPosition);
 		}
+	}
+	
+	public void SetMove(boolean CanMove)
+	{
+		this.CanMove = CanMove;
+	}
+	
+	public void SwitchMoveState()
+	{
+		CanMove = !CanMove;
 	}
 }
