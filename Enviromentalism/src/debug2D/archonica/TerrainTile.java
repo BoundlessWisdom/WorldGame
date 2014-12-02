@@ -1,6 +1,7 @@
 package debug2D.archonica;
 
 import com.archonica.ETerrain;
+import com.archonica.Entity;
 
 public class TerrainTile extends Location {
 
@@ -19,8 +20,16 @@ public class TerrainTile extends Location {
 		return terrainBody.terrain;
 	}
 
-	public void print(boolean b) {
+	public void print(boolean b, boolean c) {
 		return;
+	}
+
+	public void addEntity(Character e) {}
+
+	@Override
+	public void addEntity(debug2D.archonica.Entity e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

@@ -8,8 +8,14 @@ public class Point extends Location {
 		this.y = height;
 	}
 
-	public void print(boolean b) {
+	public void print(boolean b, boolean c) {
 		System.out.print("+ ");
+	}
+
+	@Override
+	public void addEntity(debug2D.archonica.Entity e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 /*	public int[] translate(int sx, int sz) {
