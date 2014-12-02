@@ -1,16 +1,25 @@
 package debug2D.archonica;
 
+import debug2D.archonica.Entity;
+
 public class Interaction extends Location {
 
 	public Interaction(int i, int j) {
 		super(i, j);
 	}
+	
 
-	public void print(boolean vertical) {
+	public void print(boolean b, boolean vertical) {
 		if (vertical)
 			System.out.print("| ");
 		else
 			System.out.print("- - ");
+	}
+
+	@Override
+	public void addEntity(Entity e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

@@ -95,6 +95,7 @@ public class Menu extends GameObject{
 				
 				if(b.hover())
 				{
+					if(Input.GetMouse(0)) b.function();
 					System.out.println("Ack");
 				}
 			//}

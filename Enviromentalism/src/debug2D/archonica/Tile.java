@@ -1,15 +1,33 @@
 package debug2D.archonica;
 
+import java.util.ArrayList;
+
+import debug2D.archonica.Entity;
+
 public class Tile extends Location {
 	int heightMode = 4;
-	
+	public ArrayList<Entity> entities = new ArrayList<Entity>();
+	int heightM = 4;
 	public Tile(int i, int j) {
 		super(i, j);
 	}
-
-	public void print(boolean top) {
-		System.out.print(tileCoordX() + "," + tileCoordZ() + " ");
+	
+	public void addEntity(Entity e) {
+		entities.add(e);
+	//	e.x = this.x;
+	//	e.z = this.z;
 	}
+
+	public void print(boolean top, boolean c) {
+		
+		if (top && (this.entities.size() > 0))
+		{
+			System.out.print(entities.get(0).identifier);
+			System.out.print("   ");
+		}
+		else
+			System.out.print("    ");
+		}
 	
 	public float height() {
 		return 0;
