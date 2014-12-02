@@ -2,6 +2,8 @@ package com.game;
 
 import java.util.ArrayList;
 
+import org.lwjgl.input.Mouse;
+
 import ui.Button;
 import ui.Menu;
 import ui.QuitButton;
@@ -27,6 +29,11 @@ import com.engine.core.EntityObject;
 import com.engine.core.Game;
 import com.engine.core.GameInstance;
 import com.engine.core.GameObject;
+import com.engine.core.Input;
+import com.engine.core.Quaternion;
+
+import static com.engine.core.Input.*;
+
 import com.engine.core.Matrix4f;
 import com.engine.core.Vector3f;
 import com.engine.rendering.Attenuation;
@@ -63,6 +70,20 @@ public class ArchonicaApp extends GameInstance
 	@Override
 	public boolean UpdatePrecursor() //render, hover, stuff
 	{
+		if(Input.GetKey(KEY_C))
+		{
+			CanMoveCamera(true);
+			GetRootObject().SetChildren(0);
+		}	
+		
+		else if(Input.GetKey(KEY_P))
+		{
+			CanMoveCamera(false);
+			CoreEngine.GetRenderingEngine().GetMainCamera().GetTransform().SetPos(new Vector3f(0, 0, 0));
+			CoreEngine.GetRenderingEngine().GetMainCamera().GetTransform().SetRot(new Quaternion(0,0,0,1));
+			GetRootObject().SetChildren(1);
+			Mouse.setGrabbed(false);
+		}
 		
 		return true;
 	}
@@ -120,13 +141,25 @@ public class ArchonicaApp extends GameInstance
 	
 	public void CanMoveCamera(boolean CameraMove)
 	{
-		GameComponent comp = GetCameraObject().GetComponent(1);
-		if(comp  instanceof FreeMove)
-			((FreeMove)comp).SetMove(CameraMove);
+		GameComponent freelook = GetCameraObject().GetComponent(0);
+		GameComponent freemove = GetCameraObject().GetComponent(1);
+		
+		if(freelook instanceof FreeLook)
+			((FreeLook)freelook).SetMove(CameraMove);
+		
 		else
 		{
 			new Exception("FreeMove has disapeared from it's normal slot! "
-					+ "Instead, there is " + comp.toString() + " in it's place.").printStackTrace();
+					+ "Instead, there is " + freelook.toString() + " in it's place.").printStackTrace();
+			CoreEngine.Stop();
+		}
+		
+		if(freemove  instanceof FreeMove)
+			((FreeMove)freemove).SetMove(CameraMove);
+		else
+		{
+			new Exception("FreeMove has disapeared from it's normal slot! "
+					+ "Instead, there is " + freemove.toString() + " in it's place.").printStackTrace();
 			CoreEngine.Stop();
 		}
 	}

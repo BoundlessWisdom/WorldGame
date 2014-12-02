@@ -23,6 +23,9 @@ public class Menu extends GameObject{
 	
 //	public static final Texture background;
 	
+	public static boolean OneIsRunning = false;
+	public boolean IsCompiled = false;
+	
 	public static final Menu noMenu				= new Menu("");
 	public static final Menu rootMenu			= new Menu("res/textures/menubg.png");
 	public static final Menu multiplayerMenu	= new Menu("");
@@ -56,7 +59,18 @@ public class Menu extends GameObject{
 	
 	public void Compile()
 	{
-		quitButton0.Compile();
+		if(IsCompiled)
+			return;
+		
+		for(Button button : buttons)
+		{
+			if(!button.IsCompiled)
+				button.Compile();
+			
+			AddChild(button);
+		}
+		
+		IsCompiled = true;
 	}
 	
 	public void Render()

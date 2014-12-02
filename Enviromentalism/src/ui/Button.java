@@ -8,6 +8,7 @@ import org.lwjgl.opengl.Display;
 import com.engine.components.GameComponent;
 import com.engine.components.MeshRenderer;
 import com.engine.core.GameObject;
+import com.engine.core.Transform;
 import com.engine.core.Vector2f;
 import com.engine.core.Vector3f;
 import com.engine.rendering.Material;
@@ -27,6 +28,8 @@ public abstract class Button extends GameObject{
 	
 	//public final int y;
 	public final int ylength;
+	
+	public boolean IsCompiled = false;
 	
 	MeshRenderer MeshRender;
 	Material mat;
@@ -137,6 +140,9 @@ public abstract class Button extends GameObject{
 		
 		MeshRender = new MeshRenderer(m, mat);
 		AddComponent(MeshRender);
+		
+		IsCompiled = true;
+		
 		return this;
 		//model.setPositions();
 	}
@@ -148,6 +154,14 @@ public abstract class Button extends GameObject{
 		shader = new Shader("forward-ambient");
 		for(GameComponent component : m_components)
 			component.Render(shader, renderingEngine);
+	}
+	
+	public void Uncompile()
+	{
+		MeshRender = null;
+		m_components.clear();
+		m_children.clear();
+		m_transform = new Transform();
 	}
 	
 	public float GetX()
