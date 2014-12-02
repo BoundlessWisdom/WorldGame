@@ -15,6 +15,11 @@ import org.newdawn.slick.util.ResourceLoader;
 import com.engine.core.CoreEngine;
 import com.engine.core.Input;
 import com.engine.core.GameObject;
+import com.engine.core.Quaternion;
+import com.engine.core.Vector3f;
+import com.game.ArchonicaApp;
+
+import static com.engine.core.Input.*;
 
 @SuppressWarnings("unused")
 public class Menu extends GameObject{
@@ -22,6 +27,9 @@ public class Menu extends GameObject{
 	//TODO: Interface: Refer to GoHarsha to acquire Texture support.
 	
 //	public static final Texture background;
+	
+	public static boolean OneIsRunning = false;
+	public boolean IsCompiled = false;
 	
 	public static final Menu noMenu				= new Menu("");
 	public static final Menu rootMenu			= new Menu("res/textures/menubg.png");
@@ -56,11 +64,18 @@ public class Menu extends GameObject{
 	
 	public void Compile()
 	{
-		quitButton0.Compile();
-	}
-	
-	public void Render()
-	{
+		if(IsCompiled)
+			return;
+		
+		for(Button button : buttons)
+		{
+			if(!button.IsCompiled)
+				button.Compile();
+			
+			AddChild(button);
+		}
+		
+		IsCompiled = true;
 	}
 	
 	public void Update() // Handles mouse clicks
@@ -75,18 +90,28 @@ public class Menu extends GameObject{
 					b.function();
 				}*/
 				
-				if(Input.GetMouse(1))
+				if(Input.GetMouse(0))
 					System.out.println("woh");
 				
 				if(b.hover())
 				{
 					System.out.println("Ack");
-					//Display.destroy();
 				}
 			//}
 		}
-		Render();
-		Display.update();
 	}
 	
+	public static void LoadMenu(int KeyID, ArchonicaApp app, GameObject root)
+	{
+		switch(KeyID)
+		{
+		case KEY_P:
+			app.CanMoveCamera(false);
+			CoreEngine.GetRenderingEngine().GetMainCamera().GetTransform().SetPos(new Vector3f(0, 0, 0));
+			CoreEngine.GetRenderingEngine().GetMainCamera().GetTransform().SetRot(new Quaternion(0,0,0,1));
+			root.SetChildren(1);
+			Mouse.setGrabbed(false);
+			break;
+		}
+	}
 }

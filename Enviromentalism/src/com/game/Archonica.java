@@ -11,6 +11,7 @@ public class Archonica {
 		activeWorld = new World(20);
 		CoreEngine.CreateEngine(800, 600, 60, new ArchonicaApp());
 		CoreEngine.CreateWindow("Archonica");
+		//Window.
 		CoreEngine.Start();
 	}
 	

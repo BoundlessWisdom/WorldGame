@@ -8,19 +8,24 @@ import java.util.ArrayList;
 import net.networking.Communications;
 
 import com.archonica.Archon;
-import com.archonica.EntClass;
 import com.engine.core.CoreEngine;
+import com.engine.core.Vector3f;
 import com.engine.rendering.RenderingEngine;
 import com.engine.core.*;
 
 import static com.engine.core.Input.*;
 
 public class User extends GameObject {
-	boolean server = false;
-	Communications com;
+	GameInstance context = null;
+	
+	public String name = "";
+	public boolean invisible = false;
+	public boolean server = false;
 	
 	private final ArrayList<Archon> archons = new ArrayList<Archon>();
 	Archon CurrentArchon = null;
+	
+	UserComs com;
 
 	public class UserInput {
 		boolean a;
@@ -29,70 +34,150 @@ public class User extends GameObject {
 		boolean d;
 
 		boolean space;
+		boolean shift;
 
 		boolean rarrow;
 		boolean larrow;
-	}
-
-	final UserInput input = new UserInput();
-	
-	public User() 
-	{
-		com = CreateServer();
-	}
-	
-	public User(Archon InitArchon) 
-	{
-		this();
-		CurrentArchon = InitArchon;
-		archons.add(CurrentArchon);
-	}
-	
-	private Communications CreateServer()
-	{
-		Communications c = null;
 		
-		try 
+		public void UpdateInput()
 		{
-			if (server)
-				c = Communications.Server();
+			if (Input.GetKey(KEY_A))
+				a = true;
 			else
-				c = Communications.Client();
-		} catch (UnknownHostException | SocketException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+				a = false;
+			if (Input.GetKey(KEY_W))
+				w = true;
+			else
+				w = false;
+			if (Input.GetKey(KEY_S))
+				s = true;
+			else
+				s = false;
+			if (Input.GetKey(KEY_D))
+				d = true;
+			else
+				d = false;
+			if (Input.GetKey(KEY_SPACE))
+				space = true;
+			else
+				space = false;
+			if (Input.GetKey(KEY_LSHIFT) || Input.GetKey(KEY_RSHIFT))
+				shift = true;
+			else
+				shift = false;
+			if (Input.GetKey(KEY_RIGHT))
+				rarrow = true;
+			else
+				rarrow = false;
+			if (Input.GetKey(KEY_LEFT))
+				larrow = true;
+			else
+				larrow = false;
+		}
+	}
+	
+	public class UserComs
+	{
+		User main;
+		ArrayList<User> others;
+		Communications com;
+		boolean IsServer;
+		
+		public UserComs(User main, boolean IsServer) 
+		{
+			this.IsServer = IsServer;
+			this.main = main;
+			com = CreateServer();
+			others = new ArrayList<User>();
 		}
 		
-		return c;
+		public UserComs(User main) 
+		{
+			this(main, false);
+		}
+		
+		public void UpdateComs()
+		{
+			
+		}
+		
+		private Communications CreateServer()
+		{
+			Communications c = null;
+			
+			try 
+			{
+				if (IsServer)
+					c = Communications.Server();
+				else
+					c = Communications.Client();
+			} catch (UnknownHostException | SocketException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			return c;
+		}
+	}
+	
+	final UserInput input = new UserInput();
+	
+	public User(String name, GameInstance context) 
+	{
+		this.name = name;
+		this.context = context;
+		com = new UserComs(this);
+	}
+	
+	public User(String name, GameInstance context, Archon InitArchon) 
+	{
+		this(name, context);
+		CurrentArchon = InitArchon;
+		archons.add(CurrentArchon);
 	}
 
 	@Override
 	public void Update(float delta) {
 		super.Update(delta);
-
-		if (Input.GetKey(KEY_A))
-			input.a = true;
-		if (Input.GetKey(KEY_W))
-			input.w = true;
-		if (Input.GetKey(KEY_S))
-			input.s = true;
-		if (Input.GetKey(KEY_D))
-			input.d = true;
-		if (Input.GetKey(KEY_SPACE))
-			input.space = true;
-		if (Input.GetKey(KEY_RIGHT))
-			input.rarrow = true;
-		if (Input.GetKey(KEY_LEFT))
-			input.larrow = true;
-
+		input.UpdateInput();		
 		UserUpdate(delta);
 	}
-
-	public void UserUpdate(float delta) {
-
+	
+	private void UserUpdate(float delta)
+	{
+		Vector3f v = new Vector3f(0,0,0);
+		if(input.w)
+		{
+			v.Added(new Vector3f(0, 0, CurrentArchon.speed()));
+		}
+		
+		if(input.s)
+		{
+			v.Added(new Vector3f(0, 0, -CurrentArchon.speed()));
+		}
+		
+		if(input.a)
+		{
+			v.Added(new Vector3f(CurrentArchon.speed(), 0, 0));
+		}
+		
+		if(input.d)
+		{
+			v.Added(new Vector3f(CurrentArchon.speed(), 0, 0));
+		}
+		
+		if(input.space)
+		{
+			v.Added(new Vector3f(0, CurrentArchon.speed(), 0));
+		}
+		
+		if(input.shift)
+		{
+			v.Added(new Vector3f(0, -CurrentArchon.speed(), 0));
+		}
 	}
-
+	
 	public RenderingEngine GetRenderingEngine() {
 		return CoreEngine.GetRenderingEngine();
 	}

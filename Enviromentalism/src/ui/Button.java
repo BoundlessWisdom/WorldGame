@@ -5,12 +5,17 @@ import java.util.ArrayList;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
+import com.engine.components.GameComponent;
 import com.engine.components.MeshRenderer;
 import com.engine.core.GameObject;
+import com.engine.core.Transform;
 import com.engine.core.Vector2f;
 import com.engine.core.Vector3f;
 import com.engine.rendering.Material;
 import com.engine.rendering.Mesh;
+import com.engine.rendering.Mesh.DRAW_WAY;
+import com.engine.rendering.RenderingEngine;
+import com.engine.rendering.Shader;
 import com.engine.rendering.meshLoading.InputModel;
 import com.engine.rendering.meshLoading.OBJIndex;
 import com.engine.core.Input;
@@ -23,6 +28,8 @@ public abstract class Button extends GameObject{
 	
 	//public final int y;
 	public final int ylength;
+	
+	public boolean IsCompiled = false;
 	
 	MeshRenderer MeshRender;
 	Material mat;
@@ -89,10 +96,10 @@ public abstract class Button extends GameObject{
 		ArrayList<Vector2f> texCoords = new ArrayList<Vector2f>();
 		ArrayList<Vector3f> normals = new ArrayList<Vector3f>();
 		
-		Vector3f v1 = new Vector3f(GetX(), GetY() - (float)ylength / (float)Display.getHeight(), 0f);
-		Vector3f v2 = new Vector3f(GetX(), GetY(), 0f);
-		Vector3f v3 = new Vector3f(GetX() + (float)xlength / (float)Display.getWidth(), GetY() - (float)ylength / (float)Display.getHeight(), 0f);
-		Vector3f v4 = new Vector3f(GetX() + (float)xlength / (float)Display.getWidth(), GetY(), 0f);
+		Vector3f v1 = new Vector3f(GetX(), GetY() - (float)ylength / (float)Display.getHeight(), 1f);
+		Vector3f v2 = new Vector3f(GetX(), GetY(), 1f);
+		Vector3f v3 = new Vector3f(GetX() + (float)xlength / (float)Display.getWidth(), GetY() - (float)ylength / (float)Display.getHeight(), 1f);
+		Vector3f v4 = new Vector3f(GetX() + (float)xlength / (float)Display.getWidth(), GetY(), 1f);
 		
 		Vector2f t1 = new Vector2f(0, 1);
 		Vector2f t2 = new Vector2f(0, 0);
@@ -129,11 +136,32 @@ public abstract class Button extends GameObject{
 		InputModel model = new InputModel(vertices, texCoords, normals, indices);
 		model.setBooleans(true, true);
 		Mesh m = model.toIndexedModel().ToMesh();
+		m.setDrawWay(DRAW_WAY.TRIANGLE_STRIP);
 		
 		MeshRender = new MeshRenderer(m, mat);
 		AddComponent(MeshRender);
+		
+		IsCompiled = true;
+		
 		return this;
 		//model.setPositions();
+	}
+	
+	@Override
+	public void Render(Shader shader, RenderingEngine renderingEngine) 
+	{
+		//super.Render(shader, renderingEngine);
+		shader = new Shader("forward-ambient");
+		for(GameComponent component : m_components)
+			component.Render(shader, renderingEngine);
+	}
+	
+	public void Uncompile()
+	{
+		MeshRender = null;
+		m_components.clear();
+		m_children.clear();
+		m_transform = new Transform();
 	}
 	
 	public float GetX()
