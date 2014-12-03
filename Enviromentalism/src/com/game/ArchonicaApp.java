@@ -35,8 +35,6 @@ import com.engine.rendering.Attenuation;
 import com.engine.rendering.Material;
 import com.engine.rendering.Window;
 
-/*import static org.lwjgl.opengl.Display.*;
-import static org.lwjgl.opengl.DisplayMode.*;*/
 
 public class ArchonicaApp extends GameInstance
 {	
@@ -59,7 +57,7 @@ public class ArchonicaApp extends GameInstance
 		Menu.quitButton0.SetMaterial(new Material(new Texture("menubg.png"), 1, 8, null, null, 0.03f, -0.5f));
 		Menu.quitButton0.GetTransform().SetPos(new Vector3f(0,0,0));
 		
-		menu.Compile();
+		menu.Compile();		
 		
 		return true;
 	}
@@ -83,11 +81,14 @@ public class ArchonicaApp extends GameInstance
 		
 		else if(Input.GetKey(KEY_P))
 		{
-			CanMoveCamera(false);
+			/*CanMoveCamera(false);
 			CoreEngine.GetRenderingEngine().GetMainCamera().GetTransform().SetPos(new Vector3f(0, 0, 0));
 			CoreEngine.GetRenderingEngine().GetMainCamera().GetTransform().SetRot(new Quaternion(0,0,0,1));
 			GetRootObject().SetChildren(1);
-			Mouse.setGrabbed(false);
+			Mouse.setGrabbed(false);*/
+			
+			menu.LoadMenu(KEY_P, this, GetRootObject());
+			
 		}
 		
 		return true;
