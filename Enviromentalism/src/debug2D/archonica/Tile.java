@@ -14,8 +14,8 @@ public class Tile extends Location {
 	
 	public void addEntity(Entity e) {
 		entities.add(e);
-	//	e.x = this.x;
-	//	e.z = this.z;
+		e.x = this.x;
+	    e.z = this.z;
 	}
 
 	public void print(boolean top, boolean c) {
