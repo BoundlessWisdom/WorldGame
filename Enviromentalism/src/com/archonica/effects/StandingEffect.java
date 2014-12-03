@@ -9,6 +9,6 @@ public abstract class StandingEffect extends Effect implements Updateable {
 		m_duration = duration;	
 	}
 	public void onResolve(){
-		
+		//Do nothing, standing effects never resolve
 	}
 }
