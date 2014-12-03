@@ -97,6 +97,7 @@ public class Menu extends GameObject {
 			{
 				if (b.Hover()) 
 				{
+					b.function();
 					System.out.println("Ack");
 				}
 			}
