@@ -58,10 +58,13 @@ public class CoreEngine
 		m_frameTime = 1.0/framerate;
 		m_game.SetEngine(CoreEngine.getInstance());
 	}
-
 	public static void CreateWindow(String title)
 	{
-		Window.CreateWindow(m_width, m_height, title);
+		CreateWindow(title, true);
+	}
+	public static void CreateWindow(String title, boolean fullscreen)
+	{
+		Window.CreateWindow(m_width, m_height, title, fullscreen);
 		m_renderingEngine = new RenderingEngine();
 		m_physicsEngine = PhysicsEngine.GetInstance();
 	}
