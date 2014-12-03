@@ -49,11 +49,8 @@ public abstract class Button extends GameObject{
 		this.mat = mat;
 	}
 	
-	public boolean hover()
-	{
-		//return (Input.GetMousePosition().GetX() > GetX() && Input.GetMousePosition().GetX() < (GetX() + xlength) &&
-			//	Input.GetMousePosition().GetY() < GetY() && Input.GetMousePosition().GetX() > (GetY() + ylength));
-		
+	public boolean Hover()
+	{		
 		if(Mouse.isInsideWindow())
 		{
 			
@@ -63,13 +60,11 @@ public abstract class Button extends GameObject{
 		float ly = (float)ylength / (float)Display.getHeight();
 		float nx = GetX();
 		float ny = GetY();
-		//return true;
-		/*boolean x1 = x > nx;
-		boolean x2 = x < nx + lx;
-		boolean y1 = y > ny;
-		boolean y2 = y < ny + ly;*/
 		
-		return (x > nx) && (x < nx + lx) && (y > ny) && (y < ny + ly);
+		Vector2f mouse = new Vector2f(x, y);
+		mouse = mouse.Sub(0.5f).Mul(2f);
+		
+		return (mouse.GetX() > nx) && (mouse.GetX() < nx + lx) && (mouse.GetY() < ny) && (mouse.GetY() > ny - ly);
 		}
 		
 		return false;

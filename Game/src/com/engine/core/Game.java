@@ -7,7 +7,7 @@ public abstract class Game
 	private GameObject m_root;
 	
 	public boolean Precursor() {return true;};
-	public boolean UpdatePrecursor() {return true;};
+	public boolean UpdatePrecursor(float delta) {return true;};
 	
 	public void Init() {}
 
