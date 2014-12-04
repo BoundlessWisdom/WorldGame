@@ -87,21 +87,21 @@ public class Debug {
 					archon.moveTo(archon.x + 2,  archon.z);
 			}
 			
-			else if(Keyboard.isKeyDown(KEY_UP))
+			if(Keyboard.isKeyDown(KEY_UP))
 			{
 				//System.out.printf("UP\n");
 				if(archon.x - 2 > 0)
 					archon.moveTo(archon.x - 2,  archon.z);
 			}
 			
-			else if(Keyboard.isKeyDown(KEY_RIGHT))
+			if(Keyboard.isKeyDown(KEY_RIGHT))
 			{
 				//System.out.printf("UP\n");
 				if(archon.z + 2 < worldArray.length)
 					archon.moveTo(archon.x,  archon.z + 2);
 			}
 			
-			else if(Keyboard.isKeyDown(KEY_LEFT))
+			if(Keyboard.isKeyDown(KEY_LEFT))
 			{
 				//System.out.printf("UP\n");
 				if(archon.z - 2 > 0)
