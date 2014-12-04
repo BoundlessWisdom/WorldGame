@@ -12,12 +12,14 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+import com.engine.components.Camera;
 import com.engine.core.CoreEngine;
 import com.engine.core.Input;
 import com.engine.core.GameObject;
 import com.engine.core.Quaternion;
 import com.engine.core.Vector3f;
 import com.game.ArchonicaApp;
+import com.game.CameraInfo;
 
 import static com.engine.core.Input.*;
 
@@ -62,10 +64,8 @@ public class Menu extends GameObject {
 			background = TextureLoader.getTexture("PNG", ResourceLoader
 					.getResourceAsStream("res/textures/menubg.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// background = Texture.loadTexture(backgroundURL);
 	}
 
 	public void Compile() {
@@ -89,56 +89,43 @@ public class Menu extends GameObject {
 			if (Input.GetMouse(0)) {
 				if (b.Hover()) {
 					b.function();
-					System.out.println("Ack");
 				}
 			}
 		}
 	}
 
-	public void LoadMenu(int KeyID, ArchonicaApp app, GameObject root) {
-		switch (KeyID) 
+	public void LoadMenu(ArchonicaApp app, GameObject root) {
+		
+		Camera camera = CoreEngine.GetRenderingEngine().GetMainCamera();
+		
+		if (OneIsRunning) 
 		{
-		case KEY_P: {
-			System.out.print(OneIsRunning);
-			if (OneIsRunning) {
-				app.CanMoveCamera(true);
-				root.SetChildren(0);
-				OneIsRunning = false;
-				System.out.println("Now monkey");
-				break;
-			}
-
-			app.CanMoveCamera(false);
-			CoreEngine.GetRenderingEngine().GetMainCamera().GetTransform()
-					.SetPos(new Vector3f(0, 0, 0));
-			CoreEngine.GetRenderingEngine().GetMainCamera().GetTransform()
-					.SetRot(new Quaternion(0, 0, 0, 1));
-			root.SetChildren(1);
-			Mouse.setGrabbed(false);
-			OneIsRunning = true;
-			System.out.println("Now menu");
-			break;
+			CameraInfo ci = app.DifCameraInfo.get("Game");
+			camera.GetTransform().SetPos(ci.pos);
+			camera.GetTransform().SetRot(ci.rot);
+			app.CanMoveCamera(true);
+			root.SetChildren(0);
+			OneIsRunning = false;
+			return;
 		}
-		}
+		
+		CameraInfo ci = app.DifCameraInfo.get("Menu");
+		app.CanMoveCamera(false);
+		app.DifCameraInfo.get("Game").Set(camera.GetTransform().GetPos(), camera.GetTransform().GetRot());
+		camera.GetTransform().SetPos(ci.pos);
+		camera.GetTransform().SetRot(ci.rot);
+		root.SetChildren(1);
+		Mouse.setGrabbed(false);
+		OneIsRunning = true;
+		return;
 	}
 
-	public static void LoadMenu(int KeyID, ArchonicaApp app, GameObject root,
-			Menu menu) {
-		switch (KeyID) {
+	public static void LoadMenu(int KeyID, ArchonicaApp app, GameObject root) 
+	{
+		switch (KeyID) 
+		{
 		case KEY_P:
-			if (OneIsRunning) {
-				app.CanMoveCamera(true);
-				root.SetChildren(0);
-			}
-
-			app.CanMoveCamera(false);
-			CoreEngine.GetRenderingEngine().GetMainCamera().GetTransform()
-					.SetPos(new Vector3f(0, 0, 0));
-			CoreEngine.GetRenderingEngine().GetMainCamera().GetTransform()
-					.SetRot(new Quaternion(0, 0, 0, 1));
-			root.SetChildren(1);
-			Mouse.setGrabbed(false);
-			OneIsRunning = true;
+			rootMenu.LoadMenu(app, root);
 			break;
 		}
 	}
