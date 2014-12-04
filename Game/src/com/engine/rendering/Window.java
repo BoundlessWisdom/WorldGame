@@ -8,11 +8,15 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 public class Window {
-	public static void CreateWindow(int width, int height, String title) {
+	public static void CreateWindow(int width, int height, String title)
+	{
+		CreateWindow(width, height, title, false);
+	}
+	public static void CreateWindow(int width, int height, String title, boolean fullscreen) {
 		Display.setTitle(title);
 		try {
 			//Display.setDisplayMode(new DisplayMode(width, height));
-			SetDisplayMode(800, 600, true);			
+			SetDisplayMode(800, 600, fullscreen);			
 			
 			Display.create();
 			Keyboard.create();

@@ -95,9 +95,20 @@ public void think(long dtime) {
 }
 
 public boolean moveTo(int x, int z) {	//Debug function
+	if(Debug.isTile(x,  z))
+	{
+
+	((Tile)Debug.worldArray[this.x][this.z]).entities.remove(this);
+	
 	this.x = x;
 	this.z = z;
+	
+	((Tile)Debug.worldArray[this.x][this.z]).entities.add(this);
+	
 	return true;
+	}
+	
+	return false;
 }
 
 public void attack() {	//Debug function
