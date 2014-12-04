@@ -1,9 +1,5 @@
 package debug2D.archonica;
 
-import java.util.ArrayList;
-
-import com.archonica.Entity;
-
 public abstract class Location {
 	public int x;
 	public int z;

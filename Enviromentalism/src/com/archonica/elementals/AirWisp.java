@@ -2,11 +2,11 @@ package com.archonica.elementals;
 
 import static com.archonica.EntClass.*;
 
-public class Wisp extends Elemental {
+public class AirWisp extends Elemental {
 
-	public Wisp(float size, int speed) { super(vaporousEnt, size, speed); }
+	public AirWisp(float size, int speed) { super(vaporousEnt, size, speed); }
 	
-	public Wisp() {
+	public AirWisp() {
 		super(0.1f, 8);
 	}
 

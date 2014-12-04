@@ -33,14 +33,6 @@ public class Tile extends Location {
 		return 0;
 	}
 	
-	private int tileCoordX() {
-		return (x + 1)/2;
-	}
-	
-	private int tileCoordZ() {
-		return (z + 1)/2;
-	}
-	
 	/*****************************************************************************/
 	
 //	private ArrayList<Entity> stack = new ArrayList<Entity>();
