@@ -82,36 +82,30 @@ public class Menu extends GameObject {
 		IsCompiled = true;
 	}
 
-	public void Update() // Handles mouse clicks
+	@Override
+	public void Update(float delta) // Handles mouse clicks
 	{
 		for (Button b : buttons) {
-			// if(b.hover())
-			// {
-			// Change color in order to indicate that the mouse is indeed
-			// hovering over the button
-			/*
-			 * if(Mouse.isButtonDown(1)) // Right click { b.function(); }
-			 */
-
-			if (Input.GetMouse(0)) 
-			{
-				if (b.Hover()) 
-				{
+			if (Input.GetMouse(0)) {
+				if (b.Hover()) {
 					b.function();
 					System.out.println("Ack");
 				}
 			}
-			// }
 		}
 	}
 
 	public void LoadMenu(int KeyID, ArchonicaApp app, GameObject root) {
-		switch (KeyID) {
-		case KEY_P:
+		switch (KeyID) 
+		{
+		case KEY_P: {
+			System.out.print(OneIsRunning);
 			if (OneIsRunning) {
 				app.CanMoveCamera(true);
 				root.SetChildren(0);
 				OneIsRunning = false;
+				System.out.println("Now monkey");
+				break;
 			}
 
 			app.CanMoveCamera(false);
@@ -122,7 +116,9 @@ public class Menu extends GameObject {
 			root.SetChildren(1);
 			Mouse.setGrabbed(false);
 			OneIsRunning = true;
+			System.out.println("Now menu");
 			break;
+		}
 		}
 	}
 

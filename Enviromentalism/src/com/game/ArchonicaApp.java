@@ -63,35 +63,27 @@ public class ArchonicaApp extends GameInstance
 	}
 	
 	@Override
-	public boolean UpdatePrecursor() //render, hover, stuff
+	public boolean UpdatePrecursor(float delta) //render, hover, stuff
 	{
-		menu.Update();
+		boolean render = true;
+		
+		if(Menu.OneIsRunning)
+			menu.Update(delta);
 		
 		if(Input.GetKey(KEY_F1))
 		{
 			Window.SetDisplayMode(800, 600, !FullScreen);
 			Display.update();
-		}
-		
-		if(Input.GetKey(KEY_C))
-		{
-			CanMoveCamera(true);
-			GetRootObject().SetChildren(0);
 		}	
 		
-		else if(Input.GetKey(KEY_P))
+		if(Input.GetKeyDown(KEY_P))
 		{
-			/*CanMoveCamera(false);
-			CoreEngine.GetRenderingEngine().GetMainCamera().GetTransform().SetPos(new Vector3f(0, 0, 0));
-			CoreEngine.GetRenderingEngine().GetMainCamera().GetTransform().SetRot(new Quaternion(0,0,0,1));
-			GetRootObject().SetChildren(1);
-			Mouse.setGrabbed(false);*/
-			
+			//System.out.println("P");
 			menu.LoadMenu(KEY_P, this, GetRootObject());
 			
 		}
 		
-		return true;
+		return render;
 	}
 	
 	@Override
