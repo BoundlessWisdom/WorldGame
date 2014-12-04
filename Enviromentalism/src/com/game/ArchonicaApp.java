@@ -1,8 +1,8 @@
 package com.game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 import ui.Button;
@@ -26,8 +26,6 @@ import com.engine.core.CoreEngine;
 import com.engine.core.GameInstance;
 import com.engine.core.GameObject;
 import com.engine.core.Input;
-import com.engine.core.Quaternion;
-
 import static com.engine.core.Input.*;
 
 import com.engine.core.Vector3f;
@@ -48,7 +46,7 @@ public class ArchonicaApp extends GameInstance
 	boolean FullScreen = true;
 	
 	User MainUser;
-	ArrayList<ArrayList<GameObject>> childrens = new ArrayList<ArrayList<GameObject>>();
+	public HashMap<String, CameraInfo> DifCameraInfo = new HashMap<String, CameraInfo>();
 	
 	@Override
 	public boolean Precursor() //init menu 
@@ -78,9 +76,7 @@ public class ArchonicaApp extends GameInstance
 		
 		if(Input.GetKeyDown(KEY_P))
 		{
-			//System.out.println("P");
-			menu.LoadMenu(KEY_P, this, GetRootObject());
-			
+			Menu.LoadMenu(KEY_P, this, GetRootObject());
 		}
 		
 		return render;
@@ -118,6 +114,8 @@ public class ArchonicaApp extends GameInstance
 				new Texture("bricks_normal.jpg"), new Texture("bricks_disp.png"), 0.03f, -0.5f));
 		ball.GetTransform().SetPos(0, HeightMap.GetHeight(0, 0, t),0);
 		
+		DifCameraInfo.put("Game", new CameraInfo(GetCameraObject()));
+		
 		GetRootObject().NewChildren();
 		int[] keep = new int[]{
 				0, 2
@@ -125,6 +123,7 @@ public class ArchonicaApp extends GameInstance
 		GetRootObject().TransferChildren(0, 1, keep);
 		GetRootObject().AddChild(Menu.quitButton0);
 		CanMoveCamera(false);
+		DifCameraInfo.put("Menu", new CameraInfo(GetCameraObject()));
 	}
 	
 	@Override
