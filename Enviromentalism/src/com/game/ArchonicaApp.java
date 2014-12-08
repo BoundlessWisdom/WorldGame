@@ -38,6 +38,7 @@ public class ArchonicaApp extends GameInstance
 {	
 	CompleteTerrain terrain = CompleteTerrain.getInstance();
 	Monkey monkey;
+	Archon archon;
 	GameObject lightObj = new GameObject();
 	Menu menu;
 	Button button;
@@ -100,6 +101,13 @@ public class ArchonicaApp extends GameInstance
 		lightObj.AddComponent(light);
 		AddObject(lightObj);
 		
+		archon = new Archon(100.0f, 0f);
+		archon.AddMaterial(new Material(new Texture("menubg.png"), 1, 8,
+				new Texture("menubg.png"), new Texture("menubg.png"), 0.03f, -0.5f));
+		
+		archon.GetTransform().SetPos(10, 10, 10);
+		AddEntity(archon);
+		
 		monkey = new Monkey(new GameObject(), 100.0, "Monkey");
 		monkey.AddMaterial(new Material(new Texture("bricks.jpg"), 1, 8,
 				new Texture("bricks_normal.jpg"), new Texture("bricks_disp.png"), 0.03f, -0.5f));
@@ -133,6 +141,7 @@ public class ArchonicaApp extends GameInstance
 		getPhysicsEngine().run(delta);
 		lightObj.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos());
 		lightObj.GetTransform().SetRot(getRenderingEngine().GetMainCamera().GetTransform().GetRot());
+		archon.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos().Add(new Vector3f(0, 0, 10f)));
 	}
 	
 	
