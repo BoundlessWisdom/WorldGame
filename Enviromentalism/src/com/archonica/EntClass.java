@@ -6,7 +6,7 @@ public class EntClass {
 	public static EntClass vaporousEnt = new EntClass().vaporous();
 	
 	public static EntClass abstractEnt = new EntClass().notMortal().intangible();
-	public static EntClass construct = new EntClass().immobile();
+	public static EntClass structure = new EntClass().immobile();
 
 	
 	private boolean immobile = false;

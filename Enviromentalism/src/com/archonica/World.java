@@ -9,6 +9,7 @@ public class World {
 	public final int height;
 	
 	private Location[][] worldMap;
+	@SuppressWarnings("unused")
 	private TerrainTile[][] environmentMap;
 	
 	public World(int width, int height) {

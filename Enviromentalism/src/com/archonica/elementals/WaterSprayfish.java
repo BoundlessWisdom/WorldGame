@@ -2,15 +2,15 @@ package com.archonica.elementals;
 
 import com.archonica.EntClass;
 
-public class Sprayfish extends Elemental {
+public class WaterSprayfish extends Elemental {
 
 	//TODO: Determine Sprayfish's Entclass.
 	
-	public Sprayfish(EntClass e, float size, int speed) {
+	public WaterSprayfish(EntClass e, float size, int speed) {
 		super(e, size, speed);
 	}
 
-	public Sprayfish(float size, int speed) {
+	public WaterSprayfish(float size, int speed) {
 		super(size, speed);
 	}
 

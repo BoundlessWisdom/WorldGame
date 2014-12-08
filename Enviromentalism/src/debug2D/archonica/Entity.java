@@ -10,7 +10,6 @@ import com.archonica.Modifier;
 import com.archonica.Updateable;
 import com.engine.core.EntityObject;
 import com.engine.core.GameObject;
-import com.game.Archonica;
 
 public class Entity extends EntityObject implements Updateable {
 public final com.archonica.EntClass entClass;

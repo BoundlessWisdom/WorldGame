@@ -6,19 +6,19 @@ import com.archonica.Entity;
 public abstract class Elemental extends Entity {
 	
 	
-	public static final Elemental wisp			= new Wisp(0.1f, 0);
-	public static final Elemental heavyWisp		= new WispHeavy(0.3f, 0);
-	public static final Elemental massiveWisp	= new WispMassive(0.8f, 0);
+	public static final Elemental wisp			= new AirWisp(0.1f, 0);
+	public static final Elemental heavyWisp		= new AirWispHeavy(0.3f, 0);
+	public static final Elemental massiveWisp	= new AirWispMassive(0.8f, 0);
 	
-	public static final Elemental wasp 			= new Wasp(0.1f, 0);
-	
-	
-	
-	public static final Elemental mite 			= new Mite(0.5f, 0);
+	public static final Elemental wasp 			= new AirWasp(0.1f, 0);
 	
 	
 	
-	public static final Elemental imp 			= new Imp(0.5f, 0);
+	public static final Elemental mite 			= new EarthMite(0.5f, 0);
+	
+	
+	
+	public static final Elemental imp 			= new FireImp(0.5f, 0);
 	
 	public static final Elemental fire			= new Fire(0.0f, 1);
 	public static final Elemental quickFire 	= new FireQuick(0.0f, 0);
@@ -28,7 +28,7 @@ public abstract class Elemental extends Entity {
 	
 	
 	
-	public static final Elemental sprayfish 	= new Sprayfish(0.2f, 0);
+	public static final Elemental sprayfish 	= new WaterSprayfish(0.2f, 0);
 	
 	
 	

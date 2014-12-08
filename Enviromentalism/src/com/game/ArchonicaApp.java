@@ -1,6 +1,5 @@
 package com.game;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.lwjgl.opengl.Display;

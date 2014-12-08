@@ -1,7 +1,6 @@
 package debug2D.archonica;
 
 import com.archonica.ETerrain;
-import com.archonica.Entity;
 
 public class TerrainTile extends Location {
 
