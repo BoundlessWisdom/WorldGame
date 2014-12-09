@@ -19,8 +19,8 @@ public class TargetMapGeneric extends TargetMapP {
 			nMap = map;
 	}
 
-	public boolean contains(Location l) {
-		return (baseMap.contains(l) || pMap.contains(l)) && !nMap.contains(l);
+	public boolean contains(Tile t) {
+		return (baseMap.contains(t) || pMap.contains(t)) && !nMap.contains(t);
 	}
 
 }

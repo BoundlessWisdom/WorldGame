@@ -3,25 +3,25 @@ package com.archonica;
 import java.util.ArrayList;
 
 public class TargetMapList implements TargetMapInterface {
-	ArrayList<Location> targetMap;
+	ArrayList<Tile> targetMap;
 	
-	public TargetMapList(ArrayList<Location> a) {
+	public TargetMapList(ArrayList<Tile> a) {
 		targetMap = a;
 	}
 	
 	public TargetMapList() {
-		targetMap = new ArrayList<Location>();
+		targetMap = new ArrayList<Tile>();
 	}
 	
-	public void add(Location ... l) {
-		for (int i = 0; i < l.length; i++) {
-			targetMap.add(l[i]);
+	public void add(Tile ... t) {
+		for (int i = 0; i < t.length; i++) {
+			targetMap.add(t[i]);
 		}
 	}
 	
-	public boolean contains(Location l) {
+	public boolean contains(Tile t) {
 		for (int i = 0; i < targetMap.size(); i++) {
-			if (targetMap.get(i).equals(l))
+			if (targetMap.get(i).equals(t))
 				return true;
 		}
 		return false;

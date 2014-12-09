@@ -1,9 +1,11 @@
 package com.archonica;
 
-public class TerrainTile extends Location {
+public class TerrainTile {
+	int x, z;
 
 	public TerrainTile(int x, int z) {
-		super(x, z);
+		this.x = x;
+		this.z = z;
 	}
 	
 	protected TerrainBody terrainBody;

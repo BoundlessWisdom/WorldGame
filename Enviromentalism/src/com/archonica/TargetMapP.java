@@ -12,7 +12,7 @@ public class TargetMapP implements TargetMapInterface {
 		pMap = tml;
 	}
 	
-	public boolean contains(Location l) {
-		return baseMap.contains(l) || pMap.contains(l);
+	public boolean contains(Tile t) {
+		return baseMap.contains(t) || pMap.contains(t);
 	}
 }

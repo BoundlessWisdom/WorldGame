@@ -5,7 +5,15 @@ import java.util.ArrayList;
 import com.archonica.elementals.AbstractEntity;
 import com.archonica.elementals.Fire;
 
-public class Tile extends Location {
+public class Tile {
+	public int x;
+	public int z;
+	
+	Tile(int x, int z) {
+		this.x = x;
+		this.z = z;
+	}
+	
 	private ArrayList<Entity> stack = new ArrayList<Entity>();
 	private float stackSize = 0;
 	public AbstractEntity abstractEntity;
@@ -75,10 +83,6 @@ public class Tile extends Location {
 	
 	public void remove(Entity entity) {
 		stack.remove(entity);
-	}
-	
-	public Tile(int i, int j) {
-		super(i, j);
 	}
 	
 	/*************************************************************************************/

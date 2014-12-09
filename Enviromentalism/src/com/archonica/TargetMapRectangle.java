@@ -14,7 +14,7 @@ public class TargetMapRectangle implements TargetMapInterface {
 		this(i, i, j, j);
 	}
 	
-	public boolean contains(Location l) {
-		return l.x >= xLowerLimit && l.x <= xUpperLimit && l.z >= zLowerLimit && l.z <= zUpperLimit;
+	public boolean contains(Tile t) {
+		return t.x >= xLowerLimit && t.x <= xUpperLimit && t.z >= zLowerLimit && t.z <= zUpperLimit;
 	}
 }

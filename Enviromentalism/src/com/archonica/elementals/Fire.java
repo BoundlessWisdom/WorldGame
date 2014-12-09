@@ -3,7 +3,6 @@ package com.archonica.elementals;
 import static com.game.Archonica.activeWorld;
 
 import com.archonica.EDirection;
-import com.archonica.Interaction;
 import com.archonica.Tile;
 
 public class Fire extends AbstractEntity {
@@ -25,11 +24,10 @@ public class Fire extends AbstractEntity {
 				int x2 = x + d.x;
 				int z2 = z + d.z;  //Unsure of whether or not this saves calculations.  Hoping so.
 				
-				Interaction ia = activeWorld.getInteraction(d, x, z, x2, z2);
-				Tile t = activeWorld.getTile(x2, z2);
+				Tile t = activeWorld.worldMap[x2][z2];
 				//Test if fire passes interaction and next tile fire spread potentials.
 				//If so, spread.
-				if (ia.canFirePass(d, abstractSize) && t.canFireSpreadTo(abstractSize, abstractSpeed))
+				if (t.canFireSpreadTo(abstractSize, abstractSpeed))
 					fireSpread(x2, z2);
 				
 				if (correctSurrounding(t))
@@ -38,7 +36,7 @@ public class Fire extends AbstractEntity {
 		else
 			for (int i = 0; i < 4; i++) {
 				EDirection d = EDirection.directions[i];
-				Tile t = activeWorld.getTile(x + d.x, z + d.z);
+				Tile t = activeWorld.worldMap[x + d.x][z + d.z];
 				if (t.has(new Fire()) && !t.has(new FireSlow()))
 					surroundCount++;
 			}

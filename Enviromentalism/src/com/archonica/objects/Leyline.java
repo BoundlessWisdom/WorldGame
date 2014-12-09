@@ -3,7 +3,7 @@ package com.archonica.objects;
 import java.util.ArrayList;
 
 import com.archonica.ECastType;
-import com.archonica.Location;
+import com.archonica.Tile;
 import com.archonica.Updateable;
 import com.archonica.sparks.SparkLeyline;
 import com.archonica.sparks.SustainedSpark;
@@ -68,41 +68,41 @@ public class Leyline implements Updateable {
 			slopeSign = -1;
 	}
 	
-	public float powerReceived(Location l) {
+	public float powerReceived(Tile t) {
 		float distanceFromLeyline;
 		
 		if (vertical) {
-			if (l.z > upperz)
-				distanceFromLeyline = VectorMath.abs(l.x - leftx, l.z - upperz);
-			else if (l.z < lowerz)
-				distanceFromLeyline = VectorMath.abs(l.x - leftx, lowerz - l.z);
+			if (t.z > upperz)
+				distanceFromLeyline = VectorMath.abs(t.x - leftx, t.z - upperz);
+			else if (t.z < lowerz)
+				distanceFromLeyline = VectorMath.abs(t.x - leftx, lowerz - t.z);
 			else
-				distanceFromLeyline = Math.abs(l.x - leftx);
+				distanceFromLeyline = Math.abs(t.x - leftx);
 		} else if (zslope == 0) {
-			if (l.x > rightx)
-				distanceFromLeyline = VectorMath.abs(l.x - rightx, l.z - midz);
-			else if (l.x < leftx)
-				distanceFromLeyline = VectorMath.abs(leftx - l.x, l.z - midz);
+			if (t.x > rightx)
+				distanceFromLeyline = VectorMath.abs(t.x - rightx, t.z - midz);
+			else if (t.x < leftx)
+				distanceFromLeyline = VectorMath.abs(leftx - t.x, t.z - midz);
 			else
-				distanceFromLeyline = Math.abs(l.z - midz);
+				distanceFromLeyline = Math.abs(t.z - midz);
 		} else if (zslope > 0) {
 			float upperz = midz + zslope * (rightx - midx);
 			float lowerz = midz + zslope * (leftx - midx);
-			if (l.z > upperz + (l.x - rightx) * (-1 / zslope))
-				distanceFromLeyline = VectorMath.abs(l.x - rightx, l.z - upperz);
-			else if (l.z < lowerz + (l.x - leftx) * (-1 / zslope))
-				distanceFromLeyline = VectorMath.abs(leftx - l.x, lowerz - l.z);
+			if (t.z > upperz + (t.x - rightx) * (-1 / zslope))
+				distanceFromLeyline = VectorMath.abs(t.x - rightx, t.z - upperz);
+			else if (t.z < lowerz + (t.x - leftx) * (-1 / zslope))
+				distanceFromLeyline = VectorMath.abs(leftx - t.x, lowerz - t.z);
 			else
-				distanceFromLeyline = VectorMath.cProduct2D(1, zslope, l.x - midx, l.z - midz) / VectorMath.abs(1, zslope);
+				distanceFromLeyline = VectorMath.cProduct2D(1, zslope, t.x - midx, t.z - midz) / VectorMath.abs(1, zslope);
 		} else {
 			float upperz = midz + zslope * (leftx - midx);
 			float lowerz = midz + zslope * (rightx - midx);
-			if (l.z > upperz + (l.x - leftx) * (-1 / zslope))
-				distanceFromLeyline = VectorMath.abs(leftx - l.x, l.z - upperz);
-			else if (l.z < lowerz + (l.x - rightx) * (-1 / zslope))
-				distanceFromLeyline = VectorMath.abs(l.x - rightx, lowerz - l.z);
+			if (t.z > upperz + (t.x - leftx) * (-1 / zslope))
+				distanceFromLeyline = VectorMath.abs(leftx - t.x, t.z - upperz);
+			else if (t.z < lowerz + (t.x - rightx) * (-1 / zslope))
+				distanceFromLeyline = VectorMath.abs(t.x - rightx, lowerz - t.z);
 			else
-				distanceFromLeyline = VectorMath.cProduct2D(1, zslope, l.x - midx, l.z - midz) / VectorMath.abs(1, zslope);
+				distanceFromLeyline = VectorMath.cProduct2D(1, zslope, t.x - midx, t.z - midz) / VectorMath.abs(1, zslope);
 		}
 		
 		if (distanceFromLeyline > 1.00001)

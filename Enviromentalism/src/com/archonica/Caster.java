@@ -33,8 +33,8 @@ public abstract class Caster extends Entity {
 		
 	}
 	
-	public Location target;
-	public Location[] targets;
+	public Tile target;
+	public Tile[] targets;
 	
 	public ECastType castingType;
 	public ECastType[] castingTypes;
