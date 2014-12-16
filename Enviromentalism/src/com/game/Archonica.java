@@ -10,7 +10,7 @@ public class Archonica {
 	public static void main(String[] args) {
 		activeWorld = new World(20);
 		CoreEngine.CreateEngine(800, 600, 60, new ArchonicaApp());
-		CoreEngine.CreateWindow("Archonica");
+		CoreEngine.CreateWindow("Archonica", false);
 		//Window.
 		CoreEngine.Start();
 	}

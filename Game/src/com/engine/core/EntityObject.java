@@ -7,7 +7,7 @@ public abstract class EntityObject extends GameObject
 {
 	String name;
 	
-	private double mass = 0;
+	public double mass = 0;
 	
 	private Vector3f a = new Vector3f(0,0,0);
 	private Vector3f v = new Vector3f(0,0,0);

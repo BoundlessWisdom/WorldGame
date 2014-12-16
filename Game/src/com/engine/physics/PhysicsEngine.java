@@ -1,5 +1,7 @@
 package com.engine.physics;
 
+import com.engine.components.terrain.CompleteTerrain;
+import com.engine.components.terrain.Terrain;
 import com.engine.core.*;
 
 import java.util.*;
@@ -13,6 +15,8 @@ public class PhysicsEngine
 	private boolean frictionEnabled = false;
 	public static final double rho = .02;
 	public static final float g = .163f;
+	
+	public static CompleteTerrain terrain = null;
 	//boolean freeFall = false;
 	
 	private static PhysicsEngine instance = new PhysicsEngine();
@@ -84,7 +88,7 @@ public class PhysicsEngine
 				if(airEnabled)
 					ApplyAirResistance(i);
 				UpdateMomentum(i);
-				if(velocity.GetY() <= -obj.GetPos().GetY() && force.GetY() < 0)
+				if(velocity.GetY() <= -obj.GetPos().GetY() + terrain.GetHeight(obj.GetTransform().GetPos().GetXZ()) && force.GetY() < 0)
 				{
 					float ec = (float)obj.GetElasticConstant();
 					float fy = (float)-force.GetY(); //-force.GetY();
@@ -280,7 +284,7 @@ public class PhysicsEngine
 			Double mass = obj.GetMass();
 			
 			double mu = obj.GetMu();
-			double fN = obj.GetPos().GetY() <= 0 ? forces.get(index).GetY() : 0;
+			double fN = obj.GetPos().GetY() <= terrain.GetHeight(obj.GetTransform().GetPos().GetXZ()) ? forces.get(index).GetY() : 0;
 			double percentXMotion = velocity.GetX()  != 0 ? Math.cos(Math.atan(velocity.GetY() / velocity.GetX())) : 0;
 			double percentYMotion = velocity.GetY()  != 0 ? Math.sin(Math.atan(velocity.GetY() / velocity.GetX())) : 0;
 			double percentZMotion = velocity.GetZ()  != 0 ? Math.sin(Math.atan(velocity.GetZ() / velocity.GetX())) : 0;

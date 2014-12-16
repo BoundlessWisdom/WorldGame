@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.engine.components.terrain.Terrain.OriginGravity;
 import com.engine.core.GameObject;
+import com.engine.core.Vector2f;
 import com.engine.core.Vector3f;
 
 public class TerrainTile extends GameObject 
@@ -58,6 +59,11 @@ public class TerrainTile extends GameObject
 	
 	public boolean addTerrain(Terrain t)
 	{
+		if(!t.built)
+		{
+			t.compile();
+		}
+		
 		if(numTerrains == 0)
 		{
 			width = t.GetWidth();
@@ -108,5 +114,26 @@ public class TerrainTile extends GameObject
 		}
 		
 		terrains.clear();
+	}
+	
+	public boolean InRange(Vector2f xz)
+	{
+		if(xz.GetX() <= pos.GetX() + width && xz.GetX() >= pos.GetX() - width)
+		{
+			if(xz.GetY() <= pos.GetY() + depth && xz.GetX() >= pos.GetY() - depth)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public float GetHeight(Vector2f xz)
+	{
+		if(!InRange(xz))
+			return Float.NaN;
+		
+		return HeightMap.GetHeight(xz.GetX(), xz.GetY(), terrains.get(0));
 	}
 }

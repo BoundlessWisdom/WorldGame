@@ -21,6 +21,7 @@ public class Terrain extends GameObject
 	protected Vector2f terrainRadius;
 	protected ArrayList<Float> heights;
 	protected float width = 0, depth = 0;
+	public boolean built = false;
 
 	public static enum OriginGravity //what is terrain psoition based on?
 	{
@@ -159,11 +160,17 @@ public class Terrain extends GameObject
 	{
 	}
 	
+	public float GetHeight()
+	{
+		return 0;
+	}
+	
 	public Terrain compile()
 	{
 		build();
 		trans = GetTranslate(prevGravity, gravity);
 		m_transform.SetPos(m_transform.GetPos().Add(trans));
+		built = true;
 		return this;
 	}
 	
