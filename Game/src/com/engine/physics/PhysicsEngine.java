@@ -88,7 +88,10 @@ public class PhysicsEngine
 				if(airEnabled)
 					ApplyAirResistance(i);
 				UpdateMomentum(i);
-				if(velocity.GetY() <= -obj.GetPos().GetY() + terrain.GetHeight(obj.GetTransform().GetPos().GetXZ()) && force.GetY() < 0)
+				
+				float h = 0.0f;
+				
+				if(-velocity.GetY() <= -obj.GetPos().GetY() + (h = terrain.GetHeight(obj.GetTransform().GetPos().GetXZ())) && force.GetY() < 0)
 				{
 					float ec = (float)obj.GetElasticConstant();
 					float fy = (float)-force.GetY(); //-force.GetY();
@@ -98,7 +101,7 @@ public class PhysicsEngine
 							false, true);
 					
 					velocity.SetY(0);
-					obj.GetPos().SetY(0);
+					obj.GetPos().SetY(h);
 				}
 				
 				acceleration.Set(new Vector3f(

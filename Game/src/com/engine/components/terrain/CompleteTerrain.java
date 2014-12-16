@@ -46,11 +46,13 @@ public class CompleteTerrain extends GameObject
 	
 	public float GetHeight(Vector2f xz)
 	{
+		float h = 0;
 		for(int i = 0; i < tiles.size(); i++)
 		{
-			if(tiles.get(i).GetHeight(xz) != Float.NaN)
+			h = tiles.get(i).GetHeight(xz);
+			if(h != Float.NaN)
 			{
-				return tiles.get(i).GetHeight(xz);
+				return h;
 			}
 			
 			else
