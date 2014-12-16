@@ -112,8 +112,6 @@ public class TerrainTile extends GameObject
 		{
 			super.AddChild(t);
 		}
-		
-		terrains.clear();
 	}
 	
 	public boolean InRange(Vector2f xz)
