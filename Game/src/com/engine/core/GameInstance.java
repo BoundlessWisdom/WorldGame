@@ -64,7 +64,7 @@ public class GameInstance extends Game
 		entities.add(entity);
 		GetRootObject().AddChild(entity);
 		getPhysicsEngine().add(entity);
-		entityIndicies.add(GetRootObject().getNumberChildrenAttatched() - 1);
+		entityIndicies.add(GetRootObject().getNumberChildrenInSet() - 1);
 	}
 	
 	public void RemoveEntity(EntityObject entity) 
