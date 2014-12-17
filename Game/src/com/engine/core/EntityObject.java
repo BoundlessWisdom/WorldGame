@@ -9,20 +9,24 @@ public abstract class EntityObject extends GameObject
 	
 	public double mass = 0;
 	
-	private Vector3f a = new Vector3f(0,0,0);
-	private Vector3f v = new Vector3f(0,0,0);
-	private Vector3f P = new Vector3f(0,0,0); //momentum
+	protected Vector3f a = new Vector3f(0,0,0);
+	protected Vector3f v = new Vector3f(0,0,0);
+	protected Vector3f P = new Vector3f(0,0,0); //momentum
 	
-	private int index;
+	protected int index;
 	
-	private int health = 10000;
-	private boolean flying = false;
+	protected int health = 10000;
+	protected boolean flying = false;
 	
 	protected double elasticConstant = 0.0;
 	
+	protected Vector3f offset = new Vector3f(0, 0, 0);
+		
 	@Override
-	public void Update(float delta) {
+	public void Update(float delta) 
+	{
 		super.Update(delta);
+		GetTransform().SetPos(GetTransform().GetPos().Add(offset));
 	}
 	
 	public EntityObject()
