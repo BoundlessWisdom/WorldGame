@@ -129,7 +129,7 @@ public class ArchonicaApp extends GameInstance
 		
 		DifCameraInfo.put("Game", new CameraInfo(GetCameraObject()));
 		
-		GetRootObject().NewChildren();
+		GetRootObject().newRenderSet();
 		int[] keep = new int[]{
 				0, 2
 		};
