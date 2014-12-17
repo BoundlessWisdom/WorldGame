@@ -87,7 +87,7 @@ public class User extends GameObject {
 		{
 			this.IsServer = IsServer;
 			this.main = main;
-			com = CreateServer();
+			//com = CreateServer();
 			others = new ArrayList<User>();
 		}
 		
