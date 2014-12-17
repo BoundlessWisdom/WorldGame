@@ -28,8 +28,8 @@ public class User extends GameObject {
 	UserComs com;
 
 	public class UserInput {
-		boolean a;
 		boolean w;
+		boolean a;
 		boolean s;
 		boolean d;
 
