@@ -16,4 +16,8 @@ public class Archonica {
 	}
 	
 	public static World activeWorld;
+	
+	public static void enterCasting() {
+		
+	}
 }
