@@ -141,7 +141,7 @@ public abstract class EntityObject extends GameObject
 	public void Set(GameObject gameObj)
 	{
 		this.m_components = gameObj.m_components;
-		this.m_children = gameObj.m_children;
+		this.m_currentRenderSet = gameObj.m_currentRenderSet;
 		this.m_transform = gameObj.m_transform;
 	}
 

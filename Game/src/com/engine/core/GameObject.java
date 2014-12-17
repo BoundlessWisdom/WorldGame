@@ -20,31 +20,30 @@ import com.engine.components.GameComponent;
 import com.engine.rendering.RenderingEngine;
 import com.engine.rendering.Shader;
 
-import java.awt.Component;
 import java.util.ArrayList;
 
 public class GameObject
 {
-	protected ArrayList<ArrayList<GameObject>> childrens;
-	protected ArrayList<GameObject> m_children;
+	protected ArrayList<ArrayList<GameObject>> m_renderSets;
+	protected ArrayList<GameObject> m_currentRenderSet;
 	protected ArrayList<GameComponent> m_components;
 	protected Transform m_transform;
 	protected CoreEngine m_engine;
 
 	public GameObject()
 	{
-		childrens = new ArrayList<ArrayList<GameObject>>();
-		m_children = new ArrayList<GameObject>();
+		m_renderSets = new ArrayList<ArrayList<GameObject>>();
+		m_currentRenderSet = new ArrayList<GameObject>();
 		m_components = new ArrayList<GameComponent>();
 		m_transform = new Transform();
 		m_engine = null;
 		
-		childrens.add(m_children);
+		m_renderSets.add(m_currentRenderSet);
 	}
 
 	public void AddChild(GameObject child)
 	{
-		m_children.add(child);
+		m_currentRenderSet.add(child);
 		child.SetEngine(m_engine);
 		child.GetTransform().SetParent(m_transform);
 	}
@@ -61,7 +60,7 @@ public class GameObject
 	{
 		Input(delta);
 
-		for(GameObject child : m_children)
+		for(GameObject child : m_currentRenderSet)
 			child.InputAll(delta);
 	}
 
@@ -69,7 +68,7 @@ public class GameObject
 	{
 		Update(delta);
 
-		for(GameObject child : m_children)
+		for(GameObject child : m_currentRenderSet)
 			child.UpdateAll(delta);
 	}
 
@@ -77,7 +76,7 @@ public class GameObject
 	{
 		Render(shader, renderingEngine);
 
-		for(GameObject child : m_children)
+		for(GameObject child : m_currentRenderSet)
 			child.RenderAll(shader, renderingEngine);
 	}
 
@@ -105,7 +104,7 @@ public class GameObject
 	{
 		ArrayList<GameObject> result = new ArrayList<GameObject>();
 
-		for(GameObject child : m_children)
+		for(GameObject child : m_currentRenderSet)
 			result.addAll(child.GetAllAttached());
 
 		result.add(this);
@@ -126,7 +125,7 @@ public class GameObject
 			for(GameComponent component : m_components)
 				component.AddToEngine(engine);
 
-			for(GameObject child : m_children)
+			for(GameObject child : m_currentRenderSet)
 				child.SetEngine(engine);
 		}
 	}
@@ -138,22 +137,22 @@ public class GameObject
 	
 	public void setChild(int index, GameObject obj)
 	{
-		m_children.set(index, obj);
+		m_currentRenderSet.set(index, obj);
 	}
 	
-	public int getNumberChildrenAttatched()
+	public int getNumberChildrenInSet()
 	{
-		return m_children.size();
+		return m_currentRenderSet.size();
 	}
 	
-	public void NewChildren()
+	public void newRenderSet()
 	{
-		childrens.add(new ArrayList<GameObject>());
+		m_renderSets.add(new ArrayList<GameObject>());
 	}
 	
 	public void TransferChildren(int from, int to, int[] keep)
 	{
-		for(int i = 0; i < childrens.get(from).size(); i++)
+		for(int i = 0; i < m_renderSets.get(from).size(); i++)
 		{
 			for(int j = 0; j < keep.length; j++)
 			{
@@ -161,26 +160,26 @@ public class GameObject
 					continue;
 				else
 				{
-					childrens.get(to).add(childrens.get(from).get(i));
+					m_renderSets.get(to).add(m_renderSets.get(from).get(i));
 					break;
 				}
 			}
 		}
 		
-		m_children = childrens.get(to);
+		m_currentRenderSet = m_renderSets.get(to);
 	}
 	
 	public void SetChildren(int index)
 	{
-		m_children = childrens.get(index);
+		m_currentRenderSet = m_renderSets.get(index);
 	}
 	
 	public GameObject GetAttached(int index)
 	{
-		if(index >= m_children.size())
+		if(index >= m_currentRenderSet.size())
 			return null;
 		
-		return m_children.get(index);
+		return m_currentRenderSet.get(index);
 	}
 	
 	public GameComponent GetComponent(int index)

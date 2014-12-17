@@ -155,7 +155,7 @@ public abstract class Button extends GameObject{
 	{
 		MeshRender = null;
 		m_components.clear();
-		m_children.clear();
+		m_currentRenderSet.clear();
 		m_transform = new Transform();
 	}
 	
