@@ -192,9 +192,9 @@ public class PhysicsEngine extends EngineComponent {
 		objs.get(index).getMomentum().x += impulse.x;
 		objs.get(index).getMomentum().y += impulse.y;
 		objs.get(index).getMomentum().z += impulse.z;
-		objs.get(index).getVelocity().x = (float) (momentum.x / objs.get(index).getMass());
-		objs.get(index).getVelocity().y = (float) (momentum.y / objs.get(index).getMass());
-		objs.get(index).getVelocity().z = (float) (momentum.z / objs.get(index).getMass());
+		objs.get(index).getVelocity().x = (float) (objs.get(index).getMomentum().x / objs.get(index).getMass());
+		objs.get(index).getVelocity().y = (float) (objs.get(index).getMomentum().y / objs.get(index).getMass());
+		objs.get(index).getVelocity().z = (float) (objs.get(index).getMomentum().z / objs.get(index).getMass());
 	}
 	/**
 	 * Applies friction to a moving object.
