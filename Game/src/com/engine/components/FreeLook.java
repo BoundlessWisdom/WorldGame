@@ -19,6 +19,8 @@ package com.engine.components;
 
 import org.lwjgl.input.Mouse;
 
+import com.engine.core.EntityObject;
+import com.engine.core.GameObject;
 import com.engine.core.Input;
 import com.engine.core.Vector2f;
 import com.engine.core.Vector3f;
@@ -26,7 +28,7 @@ import com.engine.rendering.Window;
 
 public class FreeLook extends GameComponent
 {
-	private static final Vector3f Y_AXIS = new Vector3f(0,1,0);
+	public static final Vector3f Y_AXIS = new Vector3f(0,1,0);
 
 	private boolean m_mouseLocked = false;
 	private float   m_sensitivity;
@@ -35,6 +37,12 @@ public class FreeLook extends GameComponent
 	private boolean CanMove = true;
 	
 	public int zoomRadius;
+	
+	public static EntityObject obj;
+	public static float comp_radius = 5f;
+	public static float radius = 0f;
+	
+	//boolean set = false;
 
 	public FreeLook(float sensitivity)
 	{
@@ -43,6 +51,7 @@ public class FreeLook extends GameComponent
 
 	public FreeLook(float sensitivity, int unlockMouseKey)
 	{
+		radius = (float) (Math.sqrt(2) * comp_radius);
 		this.m_sensitivity = sensitivity;
 		this.m_unlockMouseKey = unlockMouseKey;
 	}
@@ -73,12 +82,45 @@ public class FreeLook extends GameComponent
 
 			boolean rotY = deltaPos.GetX() != 0;
 			boolean rotX = deltaPos.GetY() != 0;
+			
+			if(obj.GetTransform().GetPos().Sub(GetTransform().GetPos()).Length() > 5.5 || obj.GetTransform().GetPos().Sub(GetTransform().GetPos()).Length() < 4.5)
+			{
+				GetTransform().SetPos(GetTransform().GetPos().Add(obj.GetTransform().GetPos().Sub(GetTransform().GetPos())));
+			}
 
-			if(rotY)
+			/*if(rotY)
 				GetTransform().Rotate(Y_AXIS, (float) Math.toRadians(deltaPos.GetX() * m_sensitivity));
 			if(rotX)
-				GetTransform().Rotate(GetTransform().GetRot().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));
-
+				GetTransform().Rotate(GetTransform().GetRot().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));*/
+			
+			
+			//GetTransform().SetPos(obj.GetTransform().GetPos().GetX(), obj.GetTransform().GetPos().GetY() + offset, obj.GetTransform().GetPos().GetZ() - radius);
+			
+			if(rotY || rotX)
+			{
+				Vector3f d = GetTransform().GetRot().GetForward();
+				//Vector3f oldPos = GetTransform().GetPos();
+				GetTransform().SetPos(GetTransform().GetPos().Add(d.Mul(radius)));
+				
+				if(rotY)
+				{
+					obj.GetTransform().Rotate(Y_AXIS, (float)Math.toRadians(deltaPos.GetX() * m_sensitivity));
+					GetTransform().Rotate(Y_AXIS, (float)Math.toRadians(deltaPos.GetX() * m_sensitivity));
+					
+					Vector3f dir = GetTransform().GetRot().GetForward();
+					
+					GetTransform().SetPos(GetTransform().GetPos().Sub(dir.Mul(radius)));
+					GetTransform().LookAt(obj.GetTransform().GetPos(), Y_AXIS);
+				}
+				
+				/*if(rotX)
+				{
+					obj.GetTransform().Rotate(GetTransform().GetRot().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));
+					GetTransform().Rotate(GetTransform().GetRot().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));
+				}*/
+				
+			}
+			
 			if(rotY || rotX)
 				Input.SetMousePosition(centerPosition);
 		}

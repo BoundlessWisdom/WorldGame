@@ -76,6 +76,16 @@ public abstract class EntityObject extends GameObject
 		GetTransform().GetPos().Added(new Vector3f(x, y, z));
 		return;
 	}
+	
+	public void move(Vector3f r) {
+		GetTransform().GetPos().Added(r);
+		return;
+	}
+	
+	public void move(Vector3f r, float movAmt) {
+		GetTransform().GetPos().Added(r.Mul(movAmt));
+		return;
+	}
 
 	public void SetAcceleration(Vector3f accel) {
 		a = accel;
