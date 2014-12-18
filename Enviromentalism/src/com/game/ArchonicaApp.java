@@ -91,7 +91,6 @@ public class ArchonicaApp extends GameInstance
 		super.Init();
 		
 		MainUser = new User("BRAN", this, new Archon(new EntClass(), 1, 1));
-		GetCameraObject().GetTransform().SetPos(10, terrain.GetHeight(new Vector2f(10f, 10f)), 10);
 		
 		SetCurrentRootObject(RootObjects.get(0));
 		Terrain t = new HeightMap("flat2.png", "bricks.jpg", new Vector3f(1,1,1));	
@@ -109,6 +108,13 @@ public class ArchonicaApp extends GameInstance
 				new Texture("menubg.png"), new Texture("menubg.png"), 0.03f, -0.5f));
 		archon.mass = 100;
 		archon.GetTransform().SetPos(10f, 255f, 10f);
+		
+		FreeMove.obj = archon;
+		FreeLook.obj = archon;
+		GetCameraObject().GetTransform().SetPos(0, terrain.GetHeight(new Vector2f(0f, 0f)), 0);
+		GetCameraObject().GetTransform().SetPos(archon.GetTransform().GetPos().GetX(), 
+				archon.GetTransform().GetPos().GetY() + FreeLook.comp_radius, archon.GetTransform().GetPos().GetZ() - FreeLook.comp_radius);
+		//GetCameraObject().GetTransform().LookAt(archon.GetTransform().GetPos(), FreeLook.Y_AXIS);
 		
 		AddEntity(archon);
 		
@@ -136,12 +142,13 @@ public class ArchonicaApp extends GameInstance
 		GetRootObject().TransferChildren(0, 1, keep);
 		GetRootObject().AddChild(Menu.quitButton0);
 		GetCameraObject().GetTransform().SetPos(0, 0, 0);
+		//GetCameraObject().GetTransform().LookAt(new Vector3f(0, 0, 0), FreeLook.Y_AXIS);
 		CanMoveCamera(false);
 		DifCameraInfo.put("Menu", new CameraInfo(GetCameraObject()));
 		
 		PhysicsEngine.terrain = terrain;
 		
-		System.out.println(terrain.GetHeight(archon.GetTransform().GetPos().GetXZ()));
+		//System.out.println(terrain.GetHeight(archon.GetTransform().GetPos().GetXZ()));
 	}
 	
 	@Override

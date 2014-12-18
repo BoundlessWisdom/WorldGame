@@ -17,6 +17,7 @@ package com.engine.components;
 
 
 
+import com.engine.core.EntityObject;
 import com.engine.core.Input;
 import com.engine.core.Vector3f;
 
@@ -29,6 +30,8 @@ public class FreeMove extends GameComponent
 	private int   m_rightKey;
 	
 	private boolean CanMove = true;
+	
+	public static EntityObject obj;
 
 	public FreeMove(float speed)
 	{
@@ -51,7 +54,15 @@ public class FreeMove extends GameComponent
 			return;
 		
 		float movAmt = m_speed * delta;
-
+		
+		if(obj != null)
+		{
+			if(Input.GetKey(m_forwardKey))
+			{
+				obj.move(GetTransform().GetRot().GetForward(), movAmt);
+			}
+		}
+		
 		if(Input.GetKey(m_forwardKey))
 			Move(GetTransform().GetRot().GetForward(), movAmt);
 		if(Input.GetKey(m_backKey))
