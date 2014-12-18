@@ -1,5 +1,8 @@
 package com.archonica.objects;
 
-public class Projectile {
+import com.engine.core.Vector3f;
+import com.engine.core.EntityObject;
 
+public class Projectile extends EntityObject {
+	public Vector3f v0;
 }
