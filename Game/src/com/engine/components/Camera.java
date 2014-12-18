@@ -44,4 +44,6 @@ public class Camera extends GameComponent
 	{
 		CoreEngine.GetRenderingEngine().AddCamera(this);
 	}
+	
+	
 }

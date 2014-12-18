@@ -5,6 +5,8 @@ import com.engine.rendering.Mesh;
 
 public abstract class EntityObject extends GameObject
 {
+	protected Vector3f cameraLock;
+	
 	String name;
 	
 	public double mass = 0;
@@ -15,7 +17,6 @@ public abstract class EntityObject extends GameObject
 	
 	private int index;
 	
-	private int health = 10000;
 	private boolean flying = false;
 	
 	protected double elasticConstant = 0.0;
@@ -28,6 +29,7 @@ public abstract class EntityObject extends GameObject
 	public EntityObject()
 	{
 		super();
+		lockCamera();
 	}
 	
 	public EntityObject(EntityObject nObj)
@@ -38,12 +40,17 @@ public abstract class EntityObject extends GameObject
 	public EntityObject(GameObject gameObj, double mass, String name)
 	{
 		super();
+		lockCamera();
 		
 		this.mass = mass;
 		this.name = name;
 		
 		Set(gameObj);
 	}
+	
+	protected abstract void lockCamera();  //Initializes locking point for camera track.
+	
+	/*****************************************************************************/
 
 	public double GetMass() {
 		return mass;
@@ -103,29 +110,6 @@ public abstract class EntityObject extends GameObject
 		if(flying)
 		{
 			v.SetY(0);
-		}
-	}
-	
-	public int GetHealth()
-	{
-		return health;
-	}
-	
-	public void AddHealth(int h)
-	{
-		health += h;
-		if(health <=0)
-		{
-			die();
-		}
-	}
-	
-	public void SubtractHealth(int h)
-	{
-		health -= h;
-		if(health <= 0)
-		{
-			die();
 		}
 	}
 	

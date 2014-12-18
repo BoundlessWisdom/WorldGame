@@ -52,5 +52,9 @@ public class Ball extends EntityObject
 	@Override
 	public double GetCrossSectionArea() {
 		return 0;
-	}	
+	}
+	
+	protected void lockCamera() {
+		cameraLock = GetTransform().GetPos();
+	}
 }

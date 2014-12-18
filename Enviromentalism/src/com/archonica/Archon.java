@@ -49,5 +49,8 @@ public class Archon extends Caster {
 		
 		AddComponent(new MeshRenderer(mesh, material));
 	}
-
+	
+	protected void lockCamera() {
+		cameraLock = GetTransform().GetPos();
+	}
 }

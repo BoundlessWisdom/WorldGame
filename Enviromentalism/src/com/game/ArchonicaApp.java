@@ -21,7 +21,6 @@ import com.engine.components.terrain.CompleteTerrain;
 import com.engine.components.terrain.HeightMap;
 import com.engine.components.terrain.Terrain;
 import com.engine.components.terrain.TerrainTile;
-import com.engine.components.terrain.Terrain.OriginGravity;
 import com.engine.core.CoreEngine;
 import com.engine.core.GameInstance;
 import com.engine.core.GameObject;
@@ -129,7 +128,7 @@ public class ArchonicaApp extends GameInstance
 		
 		DifCameraInfo.put("Game", new CameraInfo(GetCameraObject()));
 		
-		GetRootObject().NewChildren();
+		GetRootObject().newRenderSet();
 		int[] keep = new int[]{
 				0, 2
 		};

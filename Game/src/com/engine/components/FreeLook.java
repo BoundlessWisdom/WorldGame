@@ -17,6 +17,8 @@ package com.engine.components;
 
 
 
+import org.lwjgl.input.Mouse;
+
 import com.engine.core.Input;
 import com.engine.core.Vector2f;
 import com.engine.core.Vector3f;
@@ -31,6 +33,8 @@ public class FreeLook extends GameComponent
 	private int     m_unlockMouseKey;
 	
 	private boolean CanMove = true;
+	
+	public int zoomRadius;
 
 	public FreeLook(float sensitivity)
 	{
@@ -78,6 +82,8 @@ public class FreeLook extends GameComponent
 			if(rotY || rotX)
 				Input.SetMousePosition(centerPosition);
 		}
+		
+		zoomRadius -= Mouse.getDWheel();
 	}
 	
 	public void SetMove(boolean CanMove)

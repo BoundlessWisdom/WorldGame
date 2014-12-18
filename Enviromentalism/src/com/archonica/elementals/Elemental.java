@@ -5,6 +5,10 @@ import com.archonica.Entity;
 
 public abstract class Elemental extends Entity {
 	
+	//TODO: Remove this method later.
+	protected void lockCamera() {
+		cameraLock = GetTransform().GetPos();
+	}
 	
 	public static final Elemental wisp			= new AirWisp(0.1f, 0);
 	public static final Elemental heavyWisp		= new AirWispHeavy(0.3f, 0);
