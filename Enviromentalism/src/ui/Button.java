@@ -62,7 +62,7 @@ public abstract class Button extends GameObject{
 		float ny = GetY();
 		
 		Vector2f mouse = new Vector2f(x, y);
-		mouse = mouse.Sub(0.5f).Mul(2f);
+		mouse = mouse.minus(0.5f).Mul(2f);
 		
 		return (mouse.GetX() > nx) && (mouse.GetX() < nx + lx) && (mouse.GetY() < ny) && (mouse.GetY() > ny - ly);
 		}

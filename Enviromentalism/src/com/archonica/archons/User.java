@@ -149,32 +149,32 @@ public class User extends GameObject {
 		Vector3f v = new Vector3f(0,0,0);
 		if(input.w)
 		{
-			v.Added(new Vector3f(0, 0, CurrentArchon.speed()));
+			v.add(new Vector3f(0, 0, CurrentArchon.speed()));
 		}
 		
 		if(input.s)
 		{
-			v.Added(new Vector3f(0, 0, -CurrentArchon.speed()));
+			v.add(new Vector3f(0, 0, -CurrentArchon.speed()));
 		}
 		
 		if(input.a)
 		{
-			v.Added(new Vector3f(CurrentArchon.speed(), 0, 0));
+			v.add(new Vector3f(CurrentArchon.speed(), 0, 0));
 		}
 		
 		if(input.d)
 		{
-			v.Added(new Vector3f(CurrentArchon.speed(), 0, 0));
+			v.add(new Vector3f(CurrentArchon.speed(), 0, 0));
 		}
 		
 		if(input.space)
 		{
-			v.Added(new Vector3f(0, CurrentArchon.speed(), 0));
+			v.add(new Vector3f(0, CurrentArchon.speed(), 0));
 		}
 		
 		if(input.shift)
 		{
-			v.Added(new Vector3f(0, -CurrentArchon.speed(), 0));
+			v.add(new Vector3f(0, -CurrentArchon.speed(), 0));
 		}
 	}
 	

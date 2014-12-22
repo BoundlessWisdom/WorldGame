@@ -1,7 +1,6 @@
 package com.engine.physics;
 
 import com.engine.components.terrain.CompleteTerrain;
-import com.engine.components.terrain.Terrain;
 import com.engine.core.*;
 
 import java.util.*;
@@ -110,7 +109,7 @@ public class PhysicsEngine
 						(float)(force.GetZ() / obj.GetMass())
 				));
 				
-				velocity.Added(new Vector3f(
+				velocity.add(new Vector3f(
 						acceleration.GetX(),
 						acceleration.GetY() * .1f,
 						acceleration.GetZ()
@@ -232,7 +231,7 @@ public class PhysicsEngine
 		{
 			if(add)
 			{
-				netForce.Added(new Vector3f(
+				netForce.add(new Vector3f(
 						force.GetX(),
 						force.GetY(),
 						force.GetZ()
@@ -259,7 +258,7 @@ public class PhysicsEngine
 	{
 		EntityObject obj = objs.get(index);
 		
-		obj.GetMomentum().Added(new Vector3f(
+		obj.GetMomentum().add(new Vector3f(
 				impulse.GetX(),
 				impulse.GetY(),
 				impulse.GetZ()

@@ -48,9 +48,9 @@ public class Transform
 		}
 		else
 		{
-			m_oldPos = new Vector3f(0,0,0).Set(m_pos).Add(1.0f);
+			m_oldPos = new Vector3f(0,0,0).Set(m_pos).plus(1.0f);
 			m_oldRot = new Quaternion(0,0,0,0).Set(m_rot).Mul(0.5f);
-			m_oldScale = new Vector3f(0,0,0).Set(m_scale).Add(1.0f);
+			m_oldScale = new Vector3f(0,0,0).Set(m_scale).plus(1.0f);
 		}
 	}
 
@@ -66,7 +66,7 @@ public class Transform
 
 	public Quaternion GetLookAtRotation(Vector3f point, Vector3f up)
 	{
-		return new Quaternion(new Matrix4f().InitRotation(point.Sub(m_pos).Normalized(), up));
+		return new Quaternion(new Matrix4f().InitRotation(point.minus(m_pos).Normalized(), up));
 	}
 
 	public boolean HasChanged()

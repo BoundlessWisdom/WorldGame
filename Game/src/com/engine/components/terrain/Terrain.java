@@ -126,30 +126,30 @@ public class Terrain extends GameObject
 		switch (g1) //from left_down
 		{
 		case LEFT_UP:
-			translate.Set(translate.Sub(new Vector3f(0, 0, -2 * terrainRadius.GetY())));
+			translate.Set(translate.minus(new Vector3f(0, 0, -2 * terrainRadius.GetY())));
 			break;
 		case LEFT_DOWN:
 			break;
 		case LEFT_CENTER:
-			translate.Set(translate.Sub(new Vector3f(0, 0, -terrainRadius.GetY())));
+			translate.Set(translate.minus(new Vector3f(0, 0, -terrainRadius.GetY())));
 			break;
 		case RIGHT_UP:
-			translate.Set(translate.Sub(new Vector3f(-terrainRadius.GetX() * 2, 0, -terrainRadius.GetY() * 2)));
+			translate.Set(translate.minus(new Vector3f(-terrainRadius.GetX() * 2, 0, -terrainRadius.GetY() * 2)));
 			break;
 		case RIGHT_DOWN:
-			translate.Set(translate.Sub(new Vector3f(-terrainRadius.GetX() * 2, 0, 0)));
+			translate.Set(translate.minus(new Vector3f(-terrainRadius.GetX() * 2, 0, 0)));
 			break;
 		case RIGHT_CENTER:
-			translate.Set(translate.Sub(new Vector3f(-terrainRadius.GetX() * 2, 0, -terrainRadius.GetY())));
+			translate.Set(translate.minus(new Vector3f(-terrainRadius.GetX() * 2, 0, -terrainRadius.GetY())));
 			break;
 		case CENTER_UP:
-			translate.Set(translate.Sub(new Vector3f(-terrainRadius.GetX(), 0,- terrainRadius.GetY() * 2)));
+			translate.Set(translate.minus(new Vector3f(-terrainRadius.GetX(), 0,- terrainRadius.GetY() * 2)));
 			break;
 		case CENTER_DOWN:
-			translate.Set(translate.Sub(new Vector3f(-terrainRadius.GetX(), 0, 0)));
+			translate.Set(translate.minus(new Vector3f(-terrainRadius.GetX(), 0, 0)));
 			break;
 		case CENTER_CENTER:
-			translate.Set(translate.Sub(new Vector3f(-terrainRadius.GetX(), 0, -terrainRadius.GetY())));
+			translate.Set(translate.minus(new Vector3f(-terrainRadius.GetX(), 0, -terrainRadius.GetY())));
 			break;
 		}
 		
@@ -169,7 +169,7 @@ public class Terrain extends GameObject
 	{
 		build();
 		trans = GetTranslate(prevGravity, gravity);
-		m_transform.SetPos(m_transform.GetPos().Add(trans));
+		m_transform.SetPos(m_transform.GetPos().plus(trans));
 		built = true;
 		return this;
 	}

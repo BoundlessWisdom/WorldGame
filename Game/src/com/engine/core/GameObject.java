@@ -28,7 +28,6 @@ public class GameObject
 	protected ArrayList<GameObject> m_currentRenderSet;
 	protected ArrayList<GameComponent> m_components;
 	protected Transform m_transform;
-	protected CoreEngine m_engine;
 
 	public GameObject()
 	{
@@ -36,7 +35,6 @@ public class GameObject
 		m_currentRenderSet = new ArrayList<GameObject>();
 		m_components = new ArrayList<GameComponent>();
 		m_transform = new Transform();
-		m_engine = null;
 		
 		m_renderSets.add(m_currentRenderSet);
 	}
@@ -44,7 +42,6 @@ public class GameObject
 	public void AddChild(GameObject child)
 	{
 		m_currentRenderSet.add(child);
-		child.SetEngine(m_engine);
 		child.GetTransform().SetParent(m_transform);
 	}
 
@@ -114,20 +111,6 @@ public class GameObject
 	public Transform GetTransform()
 	{
 		return m_transform;
-	}
-
-	public void SetEngine(CoreEngine engine)
-	{
-		if(this.m_engine != engine)
-		{
-			this.m_engine = engine;
-
-			for(GameComponent component : m_components)
-				component.AddToEngine(engine);
-
-			for(GameObject child : m_currentRenderSet)
-				child.SetEngine(engine);
-		}
 	}
 	
 	public void privatize()

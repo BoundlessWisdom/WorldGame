@@ -49,14 +49,14 @@ public class IndexedModel
 			int i1 = m_indices.get(i + 1);
 			int i2 = m_indices.get(i + 2);
 
-			Vector3f v1 = m_positions.get(i1).Sub(m_positions.get(i0));
-			Vector3f v2 = m_positions.get(i2).Sub(m_positions.get(i0));
+			Vector3f v1 = m_positions.get(i1).minus(m_positions.get(i0));
+			Vector3f v2 = m_positions.get(i2).minus(m_positions.get(i0));
 
 			Vector3f normal = v1.Cross(v2).Normalized();
 
-			m_normals.get(i0).Set(m_normals.get(i0).Add(normal));
-			m_normals.get(i1).Set(m_normals.get(i1).Add(normal));
-			m_normals.get(i2).Set(m_normals.get(i2).Add(normal));
+			m_normals.get(i0).Set(m_normals.get(i0).plus(normal));
+			m_normals.get(i1).Set(m_normals.get(i1).plus(normal));
+			m_normals.get(i2).Set(m_normals.get(i2).plus(normal));
 		}
 
 		for(int i = 0; i < m_normals.size(); i++)
@@ -71,8 +71,8 @@ public class IndexedModel
 			int i1 = m_indices.get(i + 1);
 			int i2 = m_indices.get(i + 2);
 
-			Vector3f edge1 = m_positions.get(i1).Sub(m_positions.get(i0));
-			Vector3f edge2 = m_positions.get(i2).Sub(m_positions.get(i0));
+			Vector3f edge1 = m_positions.get(i1).minus(m_positions.get(i0));
+			Vector3f edge2 = m_positions.get(i2).minus(m_positions.get(i0));
 
 			float deltaU1 = m_texCoords.get(i1).GetX() - m_texCoords.get(i0).GetX();
 			float deltaV1 = m_texCoords.get(i1).GetY() - m_texCoords.get(i0).GetY();
@@ -88,9 +88,9 @@ public class IndexedModel
 			tangent.SetY(f * (deltaV2 * edge1.GetY() - deltaV1 * edge2.GetY()));
 			tangent.SetZ(f * (deltaV2 * edge1.GetZ() - deltaV1 * edge2.GetZ()));
 
-			m_tangents.get(i0).Set(m_tangents.get(i0).Add(tangent));
-			m_tangents.get(i1).Set(m_tangents.get(i1).Add(tangent));
-			m_tangents.get(i2).Set(m_tangents.get(i2).Add(tangent));
+			m_tangents.get(i0).Set(m_tangents.get(i0).plus(tangent));
+			m_tangents.get(i1).Set(m_tangents.get(i1).plus(tangent));
+			m_tangents.get(i2).Set(m_tangents.get(i2).plus(tangent));
 		}
 
 		for(int i = 0; i < m_tangents.size(); i++)

@@ -6,6 +6,7 @@ import com.engine.rendering.Mesh;
 public abstract class EntityObject extends GameObject
 {
 	protected Vector3f cameraLock;
+	private Vector3f cameraPosStore;
 	
 	String name;
 	
@@ -50,6 +51,14 @@ public abstract class EntityObject extends GameObject
 	
 	protected abstract void lockCamera();  //Initializes locking point for camera track.
 	
+	public void storeCameraPos() {
+		cameraPosStore = CoreEngine.GetRenderingEngine().GetMainCamera().GetTransform().GetPos();
+	}
+	
+	public Vector3f getCameraPos() {
+		return cameraPosStore;
+	}
+	
 	/*****************************************************************************/
 
 	public double GetMass() {
@@ -73,17 +82,17 @@ public abstract class EntityObject extends GameObject
 	}
 
 	public void move(float x, float y, float z) {
-		GetTransform().GetPos().Added(new Vector3f(x, y, z));
+		GetTransform().GetPos().add(new Vector3f(x, y, z));
 		return;
 	}
 	
 	public void move(Vector3f r) {
-		GetTransform().GetPos().Added(r);
+		GetTransform().GetPos().add(r);
 		return;
 	}
 	
 	public void move(Vector3f r, float movAmt) {
-		GetTransform().GetPos().Added(r.Mul(movAmt));
+		GetTransform().GetPos().add(r.Mul(movAmt));
 		return;
 	}
 

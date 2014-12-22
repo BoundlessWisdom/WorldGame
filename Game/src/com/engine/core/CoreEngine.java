@@ -24,7 +24,7 @@ import com.engine.rendering.Window;
 
 public class CoreEngine
 {
-	private static final CoreEngine instance = new CoreEngine();
+	static final CoreEngine instance = new CoreEngine();
 	
 	private static boolean         m_isRunning = false;
 	private static Game    			m_game;
@@ -56,7 +56,6 @@ public class CoreEngine
 		m_width = width;
 		m_height = height;
 		m_frameTime = 1.0/framerate;
-		m_game.SetEngine(CoreEngine.getInstance());
 	}
 	public static void CreateWindow(String title)
 	{

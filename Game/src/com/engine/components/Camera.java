@@ -18,7 +18,6 @@ package com.engine.components;
 
 
 import com.engine.core.*;
-import com.engine.rendering.RenderingEngine;
 
 public class Camera extends GameComponent
 {
@@ -26,6 +25,7 @@ public class Camera extends GameComponent
 
 	public Camera(Matrix4f projection)
 	{
+		super();
 		this.m_projection = projection;
 	}
 
@@ -40,7 +40,7 @@ public class Camera extends GameComponent
 	}
 
 	@Override
-	public void AddToEngine(CoreEngine engine)
+	public void AddToEngine()
 	{
 		CoreEngine.GetRenderingEngine().AddCamera(this);
 	}

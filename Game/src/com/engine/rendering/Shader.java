@@ -290,6 +290,8 @@ public class Shader
 		AddProgram(text, GL_VERTEX_SHADER);
 	}
 
+	//TODO: Ask about Geo Shader.
+	@SuppressWarnings("unused")
 	private void AddGeometryShader(String text)
 	{
 		AddProgram(text, GL_GEOMETRY_SHADER);

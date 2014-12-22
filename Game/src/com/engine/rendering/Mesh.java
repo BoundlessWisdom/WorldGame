@@ -112,14 +112,14 @@ public class Mesh
 			int i1 = indices[i + 1];
 			int i2 = indices[i + 2];
 			
-			Vector3f v1 = vertices[i1].GetPos().Sub(vertices[i0].GetPos());
-			Vector3f v2 = vertices[i2].GetPos().Sub(vertices[i0].GetPos());
+			Vector3f v1 = vertices[i1].GetPos().minus(vertices[i0].GetPos());
+			Vector3f v2 = vertices[i2].GetPos().minus(vertices[i0].GetPos());
 			
 			Vector3f normal = v1.Cross(v2).Normalized();
 			
-			vertices[i0].SetNormal(vertices[i0].GetNormal().Add(normal));
-			vertices[i1].SetNormal(vertices[i1].GetNormal().Add(normal));
-			vertices[i2].SetNormal(vertices[i2].GetNormal().Add(normal));
+			vertices[i0].SetNormal(vertices[i0].GetNormal().plus(normal));
+			vertices[i1].SetNormal(vertices[i1].GetNormal().plus(normal));
+			vertices[i2].SetNormal(vertices[i2].GetNormal().plus(normal));
 		}
 		
 		for(int i = 0; i < vertices.length; i++)

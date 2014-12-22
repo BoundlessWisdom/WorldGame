@@ -33,7 +33,6 @@ public class GameInstance extends Game
 	public void Init()
 	{
 		super.Init();
-		GetRootObject().SetEngine(CoreEngine.getInstance());
 		
 		AddObject(new GameObject().AddComponent(new FreeLook(0.5f)).AddComponent(new FreeMove(10.0f))
 				.AddComponent(new Camera(new Matrix4f().InitPerspective(

@@ -65,8 +65,8 @@ public class Vector3f
 		float sinAngle = (float)Math.sin(-angle);
 		float cosAngle = (float)Math.cos(-angle);
 
-		return this.Cross(axis.Mul(sinAngle)).Add(           //Rotation on local X
-				(this.Mul(cosAngle)).Add(                     //Rotation on local Z
+		return this.Cross(axis.Mul(sinAngle)).plus(           //Rotation on local X
+				(this.Mul(cosAngle)).plus(                     //Rotation on local Z
 						axis.Mul(this.Dot(axis.Mul(1 - cosAngle))))); //Rotation on local Y
 	}
 
@@ -81,34 +81,33 @@ public class Vector3f
 
 	public Vector3f Lerp(Vector3f dest, float lerpFactor)
 	{
-		return dest.Sub(this).Mul(lerpFactor).Add(this);
+		return dest.minus(this).Mul(lerpFactor).plus(this);
 	}
 
-	public Vector3f Add(Vector3f r)
+	public Vector3f plus(Vector3f r)
 	{
 		return new Vector3f(m_x + r.m_x, m_y + r.m_y, m_z + r.m_z); 	
 	}
 	
-	public Vector3f Add(float r)
+	public Vector3f plus(float r)
 	{
-		return Add(new Vector3f(r, r, r));
+		return new Vector3f(m_x + r, m_y + r, m_z + r);
 	}
 	
-	public Vector3f Added(Vector3f r)
+	public Vector3f add(Vector3f r)
 	{
-		Vector3f n = Add(r);
-		m_x = n.m_x;
-		m_y = n.m_y;
-		m_z = n.m_z;
+		m_x += r.m_x;
+		m_y += r.m_y;
+		m_z += r.m_z;
 		return this;
 	}
 	
-	public Vector3f Sub(Vector3f r)
+	public Vector3f minus(Vector3f r)
 	{
 		return new Vector3f(m_x - r.GetX(), m_y - r.GetY(), m_z - r.GetZ());
 	}
 	
-	public Vector3f Sub(float r)
+	public Vector3f minus(float r)
 	{
 		return new Vector3f(m_x - r, m_y - r, m_z - r);
 	}
@@ -123,12 +122,12 @@ public class Vector3f
 		return new Vector3f(m_x * r, m_y * r, m_z * r);
 	}
 	
-	public Vector3f Div(Vector3f r)
+	public Vector3f div(Vector3f r)
 	{
 		return new Vector3f(m_x / r.GetX(), m_y / r.GetY(), m_z / r.GetZ());
 	}
 	
-	public Vector3f Div(float r)
+	public Vector3f div(float r)
 	{
 		return new Vector3f(m_x / r, m_y / r, m_z / r);
 	}
@@ -140,7 +139,7 @@ public class Vector3f
 	
 	public String toString()
 	{
-		return "(" + m_x + " " + m_y + " " + m_z + ")";
+		return "(" + m_x + ", " + m_y + ", " + m_z + ")";
 	}
 
 	public Vector2f GetXY() { return new Vector2f(m_x, m_y); }

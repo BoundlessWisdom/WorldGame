@@ -43,6 +43,4 @@ public abstract class Game
 	{
 		this.m_root = root;
 	}
-
-	public void SetEngine(CoreEngine engine) { GetRootObject().SetEngine(engine); }
 }

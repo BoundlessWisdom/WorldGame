@@ -56,7 +56,7 @@ public class Vector2f
 
 	public Vector2f Lerp(Vector2f dest, float lerpFactor)
 	{
-		return dest.Sub(this).Mul(lerpFactor).Add(this);
+		return dest.minus(this).Mul(lerpFactor).plus(this);
 	}
 
 	public Vector2f Rotate(float angle)
@@ -68,22 +68,22 @@ public class Vector2f
 		return new Vector2f((float)(m_x * cos - m_y * sin),(float)(m_x * sin + m_y * cos));
 	}
 	
-	public Vector2f Add(Vector2f r)
+	public Vector2f plus(Vector2f r)
 	{
 		return new Vector2f(m_x + r.GetX(), m_y + r.GetY());
 	}
 	
-	public Vector2f Add(float r)
+	public Vector2f plus(float r)
 	{
 		return new Vector2f(m_x + r, m_y + r);
 	}
 	
-	public Vector2f Sub(Vector2f r)
+	public Vector2f minus(Vector2f r)
 	{
 		return new Vector2f(m_x - r.GetX(), m_y - r.GetY());
 	}
 	
-	public Vector2f Sub(float r)
+	public Vector2f minus(float r)
 	{
 		return new Vector2f(m_x - r, m_y - r);
 	}
