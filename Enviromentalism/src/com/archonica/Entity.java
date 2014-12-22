@@ -99,7 +99,7 @@ public void attack() {	//Debug function
 	
 }
 
-public void die() {   //Write this up here.  TODO: Entity.die()
+public void die() {   //Write this up here.
 
 }
 

@@ -117,7 +117,6 @@ public class Leyline implements Updateable {
 	
 	/************************************************************************************************/
 	
-	//TODO: Leyline: Determine what logic is necessary.
 	ArrayList<SustainedSpark> boosterCasts = new ArrayList<SustainedSpark>();
 	{
 		boosterCasts.add(cast);

@@ -18,7 +18,6 @@ import com.engine.rendering.RenderingEngine;
 import com.engine.rendering.Shader;
 import com.engine.rendering.meshLoading.InputModel;
 import com.engine.rendering.meshLoading.OBJIndex;
-import com.engine.core.Input;
 
 public abstract class Button extends GameObject{
 	//public final Texture texture;

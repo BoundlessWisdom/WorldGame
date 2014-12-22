@@ -84,9 +84,9 @@ public class Vector3f
 		return dest.minus(this).Mul(lerpFactor).plus(this);
 	}
 
-	public Vector3f plus(Vector3f r)
+	public Vector3f plus(Vector3f v)
 	{
-		return new Vector3f(m_x + r.m_x, m_y + r.m_y, m_z + r.m_z); 	
+		return new Vector3f(m_x + v.m_x, m_y + v.m_y, m_z + v.m_z); 	
 	}
 	
 	public Vector3f plus(float r)
@@ -94,22 +94,29 @@ public class Vector3f
 		return new Vector3f(m_x + r, m_y + r, m_z + r);
 	}
 	
-	public Vector3f add(Vector3f r)
+	public Vector3f add(Vector3f v)
 	{
-		m_x += r.m_x;
-		m_y += r.m_y;
-		m_z += r.m_z;
+		m_x += v.m_x;
+		m_y += v.m_y;
+		m_z += v.m_z;
 		return this;
 	}
 	
-	public Vector3f minus(Vector3f r)
+	public Vector3f minus(Vector3f v)
 	{
-		return new Vector3f(m_x - r.GetX(), m_y - r.GetY(), m_z - r.GetZ());
+		return new Vector3f(m_x - v.GetX(), m_y - v.GetY(), m_z - v.GetZ());
 	}
 	
 	public Vector3f minus(float r)
 	{
 		return new Vector3f(m_x - r, m_y - r, m_z - r);
+	}
+	
+	public Vector3f sub(Vector3f v) {
+		m_x -= v.m_x;
+		m_y -= v.m_y;
+		m_z -= v.m_z;
+		return this;
 	}
 	
 	public Vector3f Mul(Vector3f r)

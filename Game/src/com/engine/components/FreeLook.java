@@ -95,8 +95,8 @@ public class FreeLook extends GameComponent
 		{
 			Vector2f deltaPos = Input.GetMousePosition().minus(centerPosition);
 
-			boolean rotY = false; //deltaPos.GetX() != 0;
-			boolean rotX = watchingArchon ? deltaPos.GetY() != 0 : false;
+			boolean rotY = /*false;*/ deltaPos.GetX() != 0;
+			boolean rotX = /*watchingArchon ?*/ deltaPos.GetY() != 0; //: false;
 			//TODO: Ask Rohan about rotX, rotY.
 			
 			if(distanceFromObj > 5.5 || distanceFromObj < 4.5) //TODO: Consider encapsulating a move/didn't move calculation into the setter for position.

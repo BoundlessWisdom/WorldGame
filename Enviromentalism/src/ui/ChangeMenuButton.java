@@ -1,9 +1,8 @@
 package ui;
 
-import com.game.Archonica;
-
 public class ChangeMenuButton extends Button {
 
+	@SuppressWarnings("unused")
 	private Menu changeTo;
 	
 	public ChangeMenuButton(Menu menu, int x, int xlength, int y, int ylength) {

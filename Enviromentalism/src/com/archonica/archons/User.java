@@ -101,6 +101,7 @@ public class User extends GameObject {
 			
 		}
 		
+		@SuppressWarnings("unused")
 		private Communications CreateServer()
 		{
 			Communications c = null;

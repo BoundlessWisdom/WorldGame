@@ -73,7 +73,7 @@ public class Tile {
 	}
 	
 	public void place(Entity entity) {
-		if (entity.getClass().isAssignableFrom(AbstractEntity.class))  //TODO: Figure out if works.
+		if (entity.getClass().isAssignableFrom(AbstractEntity.class))
 			abstractEntity = (AbstractEntity) entity;
 		else {
 			stack.add(entity);
