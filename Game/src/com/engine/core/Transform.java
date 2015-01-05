@@ -132,6 +132,10 @@ public class Transform
 	{
 		this.m_pos = pos;
 	}
+	
+	public void addPos(Vector3f pos) {
+		m_pos.add(pos);
+	}
 
 	public Quaternion GetRot()
 	{

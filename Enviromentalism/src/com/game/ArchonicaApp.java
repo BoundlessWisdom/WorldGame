@@ -117,7 +117,7 @@ public class ArchonicaApp extends GameInstance
 		
 		AddEntity(archon);
 		
-		/*monkey = new Monkey(new GameObject(), 100.0, "Monkey");
+		/*monkey = new Monkey(new GameObject(), 100.0);
 		monkey.AddMaterial(new Material(new Texture("bricks.jpg"), 1, 8,
 				new Texture("bricks_normal.jpg"), new Texture("bricks_disp.png"), 0.03f, -0.5f));
 		//monkey.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos());
@@ -129,7 +129,7 @@ public class ArchonicaApp extends GameInstance
 				.GetTransform()
 				.GetPos());
 		
-		/*Ball ball = new Ball(new GameObject(), 1000, "Ball");
+		/*Ball ball = new Ball(new GameObject(), 1000);
 		ball.AddMaterial(new Material(new Texture("bricks.jpg"), 1, 8,
 				new Texture("bricks_normal.jpg"), new Texture("bricks_disp.png"), 0.03f, -0.5f));
 		ball.GetTransform().SetPos(0, 300f,0);*/

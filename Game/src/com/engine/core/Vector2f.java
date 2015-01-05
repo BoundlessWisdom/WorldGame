@@ -18,8 +18,8 @@ package com.engine.core;
 
 public class Vector2f 
 {
-	private float m_x;
-	private float m_y;
+	public float m_x;
+	public float m_y;
 	
 	public Vector2f(float x, float y)
 	{
@@ -48,6 +48,15 @@ public class Vector2f
 		
 		return new Vector2f(m_x / length, m_y / length);
 	}
+	
+	public Vector2f normalize()
+	{
+		float length = Length();
+		
+		m_x /= length;
+		m_y /= length;
+		return this;
+	}
 
 	public float Cross(Vector2f r)
 	{
@@ -68,9 +77,9 @@ public class Vector2f
 		return new Vector2f((float)(m_x * cos - m_y * sin),(float)(m_x * sin + m_y * cos));
 	}
 	
-	public Vector2f plus(Vector2f r)
+	public Vector2f plus(Vector2f v)
 	{
-		return new Vector2f(m_x + r.GetX(), m_y + r.GetY());
+		return new Vector2f(m_x + v.GetX(), m_y + v.GetY());
 	}
 	
 	public Vector2f plus(float r)
@@ -78,14 +87,26 @@ public class Vector2f
 		return new Vector2f(m_x + r, m_y + r);
 	}
 	
-	public Vector2f minus(Vector2f r)
+	public Vector2f add(Vector2f v) {
+		m_x += v.m_x;
+		m_y += v.m_y;
+		return this;
+	}
+	
+	public Vector2f minus(Vector2f v)
 	{
-		return new Vector2f(m_x - r.GetX(), m_y - r.GetY());
+		return new Vector2f(m_x - v.GetX(), m_y - v.GetY());
 	}
 	
 	public Vector2f minus(float r)
 	{
 		return new Vector2f(m_x - r, m_y - r);
+	}
+	
+	public Vector2f sub(Vector2f v) {
+		m_x -= v.m_x;
+		m_y -= v.m_y;
+		return this;
 	}
 	
 	public Vector2f Mul(Vector2f r)
@@ -98,6 +119,13 @@ public class Vector2f
 		return new Vector2f(m_x * r, m_y * r);
 	}
 	
+	public Vector2f scale(float r)
+	{
+		m_x *= r;
+		m_y *= r;
+		return this;
+	}
+	
 	public Vector2f Div(Vector2f r)
 	{
 		return new Vector2f(m_x / r.GetX(), m_y / r.GetY());
@@ -106,6 +134,11 @@ public class Vector2f
 	public Vector2f Div(float r)
 	{
 		return new Vector2f(m_x / r, m_y / r);
+	}
+	
+	public Vector2f downscale(float r)
+	{
+		return scale(1/r);
 	}
 	
 	public Vector2f Abs()
@@ -118,8 +151,21 @@ public class Vector2f
 		return "(" + m_x + " " + m_y + ")";
 	}
 
-	public Vector2f Set(float x, float y) { this.m_x = x; this.m_y = y; return this; }
-	public Vector2f Set(Vector2f r) { Set(r.GetX(), r.GetY()); return this; }
+	public Vector2f Set(float x, float y)
+	{
+		this.m_x = x;
+		this.m_y = y;
+		if (x == 0 && y == 0)
+			zero = true;
+		else
+			zero = false;
+		return this;	
+	}
+	public Vector2f Set(Vector2f r)
+	{
+		Set(r.GetX(), r.GetY());
+		return this;
+	}
 
 	public float GetX()
 	{
@@ -144,5 +190,21 @@ public class Vector2f
 	public boolean equals(Vector2f r)
 	{
 		return m_x == r.GetX() && m_y == r.GetY();
+	}
+	
+	/*****************************************************************************/
+	
+	private boolean zero;
+	
+	public void setZero()
+	{
+		m_x = 0;
+		m_y = 0;
+		zero = true;
+	}
+	
+	public boolean zeroLength()
+	{
+		return zero;
 	}
 }

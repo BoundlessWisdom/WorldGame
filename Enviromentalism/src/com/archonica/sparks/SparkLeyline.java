@@ -29,7 +29,7 @@ public class SparkLeyline extends MultiphaseSpark {
 		
 	}
 
-	protected void onPhaseEnd() {
+	public void phaseEnd() {
 	}
 
 	protected void onNextPhase() {

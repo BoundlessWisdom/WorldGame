@@ -88,6 +88,8 @@ public class FreeLook extends GameComponent
 			zoomRadius -= Mouse.getDWheel();
 			relativePos = obj.GetTransform().GetPos().minus(GetTransform().GetPos());
 			distanceFromObj = relativePos.Length();
+			
+			
 		}
 		
 
@@ -101,7 +103,7 @@ public class FreeLook extends GameComponent
 			
 			if(distanceFromObj > 5.5 || distanceFromObj < 4.5) //TODO: Consider encapsulating a move/didn't move calculation into the setter for position.
 			{
-				GetTransform().SetPos(GetTransform().GetPos().plus(relativePos));
+				GetTransform().addPos(relativePos);
 			}
 
 			/*if(rotY)

@@ -18,15 +18,20 @@ package com.engine.core;
 
 public class Vector3f 
 {
-	private float m_x;
-	private float m_y;
-	private float m_z;
+	public float m_x;
+	public float m_y;
+	public float m_z;
 	
 	public Vector3f(float x, float y, float z)
 	{
 		this.m_x = x;
 		this.m_y = y;
 		this.m_z = z;
+	}
+	
+	public Vector3f(float x, float y, float z, float length) {
+		this(x, y, z);
+		normalize().scale(length);
 	}
 
 	public float Length()
@@ -59,6 +64,17 @@ public class Vector3f
 		
 		return new Vector3f(m_x / length, m_y / length, m_z / length);
 	}
+	
+	public Vector3f normalize()
+	{
+		float length = Length();
+		
+		this.m_x /= length;
+		this.m_y /= length;
+		this.m_z /= length;
+		
+		return this;
+	}
 
 	public Vector3f Rotate(Vector3f axis, float angle)
 	{
@@ -83,6 +99,11 @@ public class Vector3f
 	{
 		return dest.minus(this).Mul(lerpFactor).plus(this);
 	}
+	
+	public Vector3f plus2D(Vector2f v)
+	{
+		return new Vector3f(m_x + v.m_x, m_y, m_z + v.m_y);
+	}
 
 	public Vector3f plus(Vector3f v)
 	{
@@ -92,6 +113,13 @@ public class Vector3f
 	public Vector3f plus(float r)
 	{
 		return new Vector3f(m_x + r, m_y + r, m_z + r);
+	}
+	
+	public Vector3f add2D(Vector2f v)
+	{
+		m_x += v.m_x;
+		m_z += v.m_y;
+		return this;
 	}
 	
 	public Vector3f add(Vector3f v)
@@ -129,6 +157,14 @@ public class Vector3f
 		return new Vector3f(m_x * r, m_y * r, m_z * r);
 	}
 	
+	public Vector3f scale(float r)
+	{
+		m_x *= r;
+		m_y *= r;
+		m_z *= r;
+		return this;
+	}
+	
 	public Vector3f div(Vector3f r)
 	{
 		return new Vector3f(m_x / r.GetX(), m_y / r.GetY(), m_z / r.GetZ());
@@ -137,6 +173,11 @@ public class Vector3f
 	public Vector3f div(float r)
 	{
 		return new Vector3f(m_x / r, m_y / r, m_z / r);
+	}
+	
+	public Vector3f downscale(float r)
+	{
+		return scale(1/r);
 	}
 	
 	public Vector3f Abs()

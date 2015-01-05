@@ -8,8 +8,6 @@ public abstract class EntityObject extends GameObject
 	protected Vector3f cameraLock;
 	private Vector3f cameraPosStore;
 	
-	String name;
-	
 	public double mass = 0;
 	
 	private Vector3f a = new Vector3f(0,0,0);
@@ -35,16 +33,15 @@ public abstract class EntityObject extends GameObject
 	
 	public EntityObject(EntityObject nObj)
 	{
-		this(nObj, nObj.GetMass(), nObj.GetName());
+		this(nObj, nObj.GetMass());
 	}
 	
-	public EntityObject(GameObject gameObj, double mass, String name)
+	public EntityObject(GameObject gameObj, double mass)
 	{
 		super();
 		lockCamera();
 		
 		this.mass = mass;
-		this.name = name;
 		
 		Set(gameObj);
 	}
@@ -65,10 +62,6 @@ public abstract class EntityObject extends GameObject
 		return mass;
 	}
 
-	public String GetName() {
-		return name;
-	}
-
 	public Vector3f GetPos() {
 		return GetTransform().GetPos();
 	}
@@ -86,13 +79,17 @@ public abstract class EntityObject extends GameObject
 		return;
 	}
 	
-	public void move(Vector3f r) {
-		GetTransform().GetPos().add(r);
+	public void move(Vector2f v) {
+		GetTransform().GetPos().add2D(v);
+	}
+	
+	public void move(Vector3f v) {
+		GetTransform().GetPos().add(v);
 		return;
 	}
 	
-	public void move(Vector3f r, float movAmt) {
-		GetTransform().GetPos().add(r.Mul(movAmt));
+	public void move(Vector3f dir, float length) {
+		GetTransform().GetPos().add(dir.Mul(length));
 		return;
 	}
 

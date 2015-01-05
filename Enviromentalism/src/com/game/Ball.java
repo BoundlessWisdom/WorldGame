@@ -10,9 +10,9 @@ import com.engine.rendering.Mesh;
 public class Ball extends EntityObject
 {
 	private Mesh mesh = null;
-	public Ball(GameObject gameObj, double mass, String name) 
+	public Ball(GameObject gameObj, double mass) 
 	{
-		super(gameObj, mass, name);
+		super(gameObj, mass);
 		mesh = new Mesh("sphere.obj");
 		fixElastic(0.2);
 	}

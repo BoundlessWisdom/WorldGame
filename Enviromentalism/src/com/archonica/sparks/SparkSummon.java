@@ -9,7 +9,7 @@ public class SparkSummon extends Spark {
 	Elemental summonElemental;
 	
 	public void query(Caster caster) {
-		target = (Tile) caster.target;
+		target = caster.target;
 		summonElemental = caster.summoningElemental;
 		caster.target = null;
 		caster.summoningElemental = null;

@@ -1,9 +1,16 @@
 package com.archonica.sparks;
 
 public abstract class MultiphaseSpark extends SustainedSpark {
+	protected int phaseNumber = 0;
+	
 	protected boolean hibernating;
 
-	protected abstract void onPhaseEnd();
+	public abstract void phaseEnd();
+	
+	protected void nextPhase() {
+		phaseNumber++;
+		onNextPhase();
+	}
 	
 	protected abstract void onNextPhase();
 	
@@ -13,6 +20,10 @@ public abstract class MultiphaseSpark extends SustainedSpark {
 	
 	public boolean isHibernating() {
 		return hibernating;
+	}
+	
+	protected void activate() {
+		onNextPhase();
 	}
 
 }

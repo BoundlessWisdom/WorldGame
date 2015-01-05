@@ -11,9 +11,9 @@ public class Monkey extends EntityObject
 {	
 	private Mesh mesh = null;
 	
-	public Monkey(GameObject gameObj, double mass, String name) 
+	public Monkey(GameObject gameObj, double mass) 
 	{
-		super(gameObj, mass, name);
+		super(gameObj, mass);
 		mesh = new Mesh("test1.obj");
 		fixElastic(0.2);
 	}
