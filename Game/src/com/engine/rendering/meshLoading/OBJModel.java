@@ -49,7 +49,7 @@ public class OBJModel
 		{
 			meshReader = new BufferedReader(new FileReader(fileName));
 			String line;
-			float lowestX = 0, lowestY = 0, lowestZ = 0;
+			float lowestX = 0/*, lowestY = 0, lowestZ = 0*/;
 			while((line = meshReader.readLine()) != null)
 			{
 				String[] tokens = line.split(" ");
@@ -65,12 +65,12 @@ public class OBJModel
 					if(Float.valueOf(tokens[1]) < lowestX){
 						lowestX = Float.valueOf(tokens[1]);
 					}
-					if(Float.valueOf(tokens[2]) < lowestY){
-						lowestY = Float.valueOf(tokens[2]);
-					}
-					if(Float.valueOf(tokens[3]) < lowestZ){
-						lowestZ = Float.valueOf(tokens[3]);
-					}
+//					if(Float.valueOf(tokens[2]) < lowestY){
+//						lowestY = Float.valueOf(tokens[2]);
+//					}
+//					if(Float.valueOf(tokens[3]) < lowestZ){
+//						lowestZ = Float.valueOf(tokens[3]);
+//					}
 				}
 				else if(tokens[0].equals("vt"))
 				{
@@ -97,8 +97,8 @@ public class OBJModel
 			meshReader.close();
 			for (Vector3f vec : m_positions){
 				vec.SetX(vec.GetX() - lowestX);
-				vec.SetY(vec.GetY() - lowestY);
-				vec.SetZ(vec.GetZ() - lowestZ);
+//				vec.SetY(vec.GetY() - lowestY);
+//				vec.SetZ(vec.GetZ() - lowestZ);
 			}
 		}
 		catch(Exception e)
