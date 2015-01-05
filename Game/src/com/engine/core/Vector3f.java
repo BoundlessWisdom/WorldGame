@@ -33,6 +33,7 @@ public class Vector3f
 		this(x, y, z);
 		normalize().scale(length);
 	}
+	
 
 	public float Length()
 	{
