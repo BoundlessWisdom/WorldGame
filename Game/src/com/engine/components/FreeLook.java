@@ -86,7 +86,7 @@ public class FreeLook extends GameComponent
 		
 		if (zoom) {
 			zoomRadius -= Mouse.getDWheel();
-			relativePos = obj.GetTransform().GetPos().minus(GetTransform().GetPos());
+			//relativePos = obj.GetTransform().GetPos().minus(GetTransform().GetPos());
 			distanceFromObj = relativePos.Length();
 			
 			
@@ -97,14 +97,10 @@ public class FreeLook extends GameComponent
 		{
 			Vector2f deltaPos = Input.GetMousePosition().minus(centerPosition);
 
-			boolean rotY = /*false;*/ deltaPos.GetX() != 0;
-			boolean rotX = /*watchingArchon ?*/ deltaPos.GetY() != 0; //: false;
-			//TODO: Ask Rohan about rotX, rotY.
+			boolean rotYAxis = false; // deltaPos.GetX() != 0;
+			boolean rotXAxis = watchingArchon ? deltaPos.GetY() != 0 : false;
 			
-			if(distanceFromObj > 5.5 || distanceFromObj < 4.5) //TODO: Consider encapsulating a move/didn't move calculation into the setter for position.
-			{
-				GetTransform().addPos(relativePos);
-			}
+			GetTransform().SetPos(obj.GetTransform().m_pos.plus(relativePos));
 
 			/*if(rotY)
 				GetTransform().Rotate(Y_AXIS, (float) Math.toRadians(deltaPos.GetX() * m_sensitivity));
@@ -114,13 +110,13 @@ public class FreeLook extends GameComponent
 			
 			//GetTransform().SetPos(obj.GetTransform().GetPos().GetX(), obj.GetTransform().GetPos().GetY() + offset, obj.GetTransform().GetPos().GetZ() - radius);
 			
-			if(rotY || rotX)
+			if(rotYAxis || rotXAxis)
 			{
 				Vector3f d = GetTransform().GetRot().GetForward();
 				//Vector3f oldPos = GetTransform().GetPos();
 				GetTransform().SetPos(GetTransform().GetPos().plus(d.Mul(radius)));
 				
-				if(rotY)
+				if(rotYAxis)
 				{
 					obj.GetTransform().Rotate(Y_AXIS, (float)Math.toRadians(deltaPos.GetX() * m_sensitivity));
 					GetTransform().Rotate(Y_AXIS, (float)Math.toRadians(deltaPos.GetX() * m_sensitivity));
@@ -139,7 +135,7 @@ public class FreeLook extends GameComponent
 				
 			}
 			
-			if(rotY || rotX)
+			if(rotYAxis || rotXAxis)
 				Input.SetMousePosition(centerPosition);
 		}
 		

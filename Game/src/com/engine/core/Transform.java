@@ -21,9 +21,9 @@ public class Transform
 	private Transform  m_parent;
 	private Matrix4f   m_parentMatrix;
 
-	private Vector3f   m_pos;
-	private Quaternion m_rot;
-	private Vector3f   m_scale;
+	public Vector3f   m_pos;
+	public Quaternion m_rot;
+	public Vector3f   m_scale;
 
 	private Vector3f   m_oldPos;
 	private Quaternion m_oldRot;
@@ -133,8 +133,9 @@ public class Transform
 		this.m_pos = pos;
 	}
 	
-	public void addPos(Vector3f pos) {
+	public Transform addPos(Vector3f pos) {
 		m_pos.add(pos);
+		return this;
 	}
 
 	public Quaternion GetRot()
