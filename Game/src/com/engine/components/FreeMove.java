@@ -54,15 +54,7 @@ public class FreeMove extends GameComponent
 			return;
 		
 		float movAmt = m_speed * delta;
-		
-		if(obj != null)
-		{
-			if(Input.GetKey(m_forwardKey))
-			{
-				obj.move(GetTransform().GetRot().GetForward(), movAmt);
-			}
-		}
-		
+
 		if(Input.GetKey(m_forwardKey))
 			Move(GetTransform().GetRot().GetForward(), movAmt);
 		if(Input.GetKey(m_backKey))

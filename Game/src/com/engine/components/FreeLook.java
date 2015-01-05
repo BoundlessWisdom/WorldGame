@@ -80,65 +80,19 @@ public class FreeLook extends GameComponent
 			Input.SetCursor(false);
 			m_mouseLocked = true;
 		}
-		
-		
-		zoom = Mouse.getDWheel() != 0;
-		
-		if (zoom) {
-			zoomRadius -= Mouse.getDWheel();
-			relativePos = obj.GetTransform().GetPos().minus(GetTransform().GetPos());
-			distanceFromObj = relativePos.Length();
-			
-			
-		}
-		
 
 		if(m_mouseLocked)
 		{
 			Vector2f deltaPos = Input.GetMousePosition().minus(centerPosition);
 
-			boolean rotY = /*false;*/ deltaPos.GetX() != 0;
-			boolean rotX = /*watchingArchon ?*/ deltaPos.GetY() != 0; //: false;
-			//TODO: Ask Rohan about rotX, rotY.
-			
-			if(distanceFromObj > 5.5 || distanceFromObj < 4.5) //TODO: Consider encapsulating a move/didn't move calculation into the setter for position.
-			{
-				GetTransform().addPos(relativePos);
-			}
+			boolean rotY = deltaPos.GetX() != 0;
+			boolean rotX = deltaPos.GetY() != 0;
 
-			/*if(rotY)
+			if(rotY)
 				GetTransform().Rotate(Y_AXIS, (float) Math.toRadians(deltaPos.GetX() * m_sensitivity));
 			if(rotX)
-				GetTransform().Rotate(GetTransform().GetRot().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));*/
-			
-			
-			//GetTransform().SetPos(obj.GetTransform().GetPos().GetX(), obj.GetTransform().GetPos().GetY() + offset, obj.GetTransform().GetPos().GetZ() - radius);
-			
-			if(rotY || rotX)
-			{
-				Vector3f d = GetTransform().GetRot().GetForward();
-				//Vector3f oldPos = GetTransform().GetPos();
-				GetTransform().SetPos(GetTransform().GetPos().plus(d.Mul(radius)));
-				
-				if(rotY)
-				{
-					obj.GetTransform().Rotate(Y_AXIS, (float)Math.toRadians(deltaPos.GetX() * m_sensitivity));
-					GetTransform().Rotate(Y_AXIS, (float)Math.toRadians(deltaPos.GetX() * m_sensitivity));
-					
-					Vector3f dir = GetTransform().GetRot().GetForward();
-					
-					GetTransform().SetPos(GetTransform().GetPos().minus(dir.Mul(radius)));
-					GetTransform().LookAt(obj.GetTransform().GetPos(), Y_AXIS);
-				}
-				
-				/*if(rotX)
-				{
-					obj.GetTransform().Rotate(GetTransform().GetRot().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));
-					GetTransform().Rotate(GetTransform().GetRot().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));
-				}*/
-				
-			}
-			
+				GetTransform().Rotate(GetTransform().GetRot().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));
+
 			if(rotY || rotX)
 				Input.SetMousePosition(centerPosition);
 		}
