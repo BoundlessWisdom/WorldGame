@@ -7,7 +7,7 @@ import com.engine.core.Vector3f;
 import com.game.EntityObject;
 
 public abstract class Projectile extends EntityObject implements Updateable {
-	public Vector3f v0;  //?
+	public Vector3f v0;  //Initial Velocity, stored for possible later use
 	
 	public final float speed;
 	protected Vector2f direction;
