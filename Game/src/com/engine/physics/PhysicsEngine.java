@@ -16,7 +16,6 @@ public class PhysicsEngine
 	public static final float g = .163f;
 	
 	public static CompleteTerrain terrain = null;
-	//boolean freeFall = false;
 	
 	private static PhysicsEngine instance = new PhysicsEngine();
 	
@@ -24,7 +23,9 @@ public class PhysicsEngine
 	{
 		init();
 	}
-	
+	/**
+	 * @return the current instance.
+	 */
 	public static PhysicsEngine GetInstance()
 	{
 		return instance;
@@ -78,43 +79,44 @@ public class PhysicsEngine
 				EntityObject obj = objs.get(i);
 				Vector3f velocity = obj.GetVelocity();
 				Vector3f acceleration = obj.GetAcceleration();
-				
+				//If the object is not flying
 				if(gravityEnabled && !obj.isFlying())
 					ApplyGravity(i);
-				
+				//If there is friction
 				if(frictionEnabled)
 					ApplyMovingFriction(i);
+				//If there is air resistance
 				if(airEnabled)
 					ApplyAirResistance(i);
 				UpdateMomentum(i);
-				
+				//Object's height
 				float h = 0.0f;
-				
+				//If we are on the ground
 				if(-velocity.GetY() <= -obj.GetPos().GetY() + (h = terrain.GetHeight(obj.GetTransform().GetPos().GetXZ())) && force.GetY() < 0)
 				{
 					float ec = (float)obj.GetElasticConstant();
 					float fy = (float)-force.GetY(); //-force.GetY();
 					float nY = Math.abs(velocity.GetY()) > 0.15  ? fy * ec : 0;
-					
+					//bounce
 					ApplyForce(i, new Vector3f((float) (force.GetX()), nY /*(float)(-force.GetY()*obj.GetElasticConstant())*/, (float) (force.GetZ())),
 							false, true);
 					
 					velocity.SetY(0);
 					obj.GetPos().SetY(h);
 				}
-				
+				//Update acceleration
 				acceleration.Set(new Vector3f(
 						(float)(force.GetX() / obj.GetMass()),
 						(float)(force.GetY() / obj.GetMass()),
 						(float)(force.GetZ() / obj.GetMass())
 				));
-				
+				//Update velocity
 				velocity.add(new Vector3f(
 						acceleration.GetX(),
 						acceleration.GetY() * .1f,
 						acceleration.GetZ()
 				));
-				
+				//Update position
 				obj.move(velocity.GetX(), 
 						 velocity.GetY(), 
 						 velocity.GetZ()
@@ -144,7 +146,10 @@ public class PhysicsEngine
 	{
 		ApplyForce(obj.GetIndex(), force, true);
 	}
-	
+	/**
+	 * Sets the force acting on an object to zero.
+	 * @param obj the object.
+	 */
 	public void ZeroForce(EntityObject obj)
 	{
 		int i = obj.GetIndex();
@@ -154,31 +159,47 @@ public class PhysicsEngine
 			ApplyGravity(i);
 		}
 	}
-	
+	/**
+	 * @return the state of gravity (enabled = true, disabled = false).
+	 */
 	public boolean IsGravityEnabled() 
 	{
 		return gravityEnabled;
 	}
-	
+	/**
+	 * Enables or disables gravity.
+	 * @param enabled whether it is to be enabled.
+	 */
 	public void SetGravityEnabled(boolean enabled) 
 	{
 		this.gravityEnabled = enabled;
 	}
+	/**
+	 * @return the state of air resistance (enabled = true, disabled = false).
+	 */
 	public boolean IsAirResistanceEnabled() 
 	{
 		return airEnabled;
 	}
-	
+	/**
+	 * Enables or disables air resistance.
+	 * @param enabled whether it is to be enabled.
+	 */
 	public void SetAirResistanceEnabled(boolean enabled) 
 	{
 		this.airEnabled = enabled;
 	}
-	
+	/**
+	 * @return the state of friction (enabled = true, disabled = false).
+	 */
 	public boolean IsFrictionEnabled() 
 	{
 		return frictionEnabled;
 	}
-	
+	/**
+	 * Enables or disables friction.
+	 * @param enabled whether it is to be enabled.
+	 */
 	public void SetFrictionEnabled(boolean enabled) 
 	{
 		this.frictionEnabled = enabled;
@@ -287,12 +308,14 @@ public class PhysicsEngine
 			
 			double mu = obj.GetMu();
 			double fN = obj.GetPos().GetY() <= terrain.GetHeight(obj.GetTransform().GetPos().GetXZ()) ? forces.get(index).GetY() : 0;
+			//Scale vector components.
 			double percentXMotion = velocity.GetX()  != 0 ? Math.cos(Math.atan(velocity.GetY() / velocity.GetX())) : 0;
 			double percentYMotion = velocity.GetY()  != 0 ? Math.sin(Math.atan(velocity.GetY() / velocity.GetX())) : 0;
 			double percentZMotion = velocity.GetZ()  != 0 ? Math.sin(Math.atan(velocity.GetZ() / velocity.GetX())) : 0;
 			double finalX = mu * fN * percentXMotion;
 			double finalY = mu * fN * percentYMotion;
 			double finalZ = mu * fN * percentZMotion;
+			//Disregard friction on a motionless object.
 			if(velocity.GetX() == 0)
 			{
 				finalX=0;
@@ -305,6 +328,7 @@ public class PhysicsEngine
 			{
 				finalZ=0;
 			}
+			//Make sure we don't reverse the direction of the object, just stop it.
 			if(Math.abs(finalX / mass) > Math.abs(velocity.GetX()))
 			{
 				velocity.SetX(0);
@@ -334,8 +358,9 @@ public class PhysicsEngine
 		Vector3f velocity = obj.GetVelocity();
 		
 		float dotprod = velocity.Dot(velocity);
-		//float dotprod = Vector3f.dot(velocity, velocity);
+		//Consolidate our constants.
 		double halfpcda = .5 * rho * obj.GetDragConstant() * obj.GetCrossSectionArea();
+		//Scale vector components.
 		double percentXMotion = velocity.GetX() != 0 ? Math.cos(Math.atan(velocity.GetZ()/velocity.GetX())) : 0;
 		double percentYMotion = velocity.GetY() != 0 ? Math.sin(Math.atan(velocity.GetY()/velocity.GetX())) : 0;
 		double percentZMotion = velocity.GetZ() != 0 ? Math.sin(Math.atan(velocity.GetZ()/velocity.GetX())) : 0;
@@ -343,7 +368,6 @@ public class PhysicsEngine
 		float FinalY = (float) (-dotprod * halfpcda * percentYMotion);
 		float FinalZ = (float) (-dotprod * halfpcda * percentZMotion);
 		ApplyForce(index, new Vector3f(FinalX, FinalY, FinalZ), true);
-		//Uhh, Nathan, I just capitalized the coordinate, 'cause Finaly looked like Finally.
 	}
 	
 	/**
@@ -355,7 +379,6 @@ public class PhysicsEngine
 		ApplyForce(i, new Vector3f(forces.get(i).GetX(), (float) (-g * objs.get(i).GetMass()),
 				forces.get(i).GetZ()), false);	
 	}
-	//TODO: Ask Nathan about applyGravity logic.
 	
 	/**
 	 * Updates the momentum values of an object.
