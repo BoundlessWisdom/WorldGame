@@ -35,7 +35,7 @@ public class FreeLook extends GameComponent
 	
 	private boolean CanMove = true;
 	
-	private int zoomRadius;
+	private float zoomRadius;
 	private boolean zoom;
 	final float zoomTick = 1;
 	
@@ -86,21 +86,13 @@ public class FreeLook extends GameComponent
 		
 		zoom = Mouse.getDWheel() != 0;
 		
-		if (zoom) {
-			zoomRadius -= zoomTick * Mouse.getDWheel();
-			yDist = (float) Math.pow(zoomRadius, 2);
-			
-			
-			relativePos = obj.GetTransform().GetPos().minus(GetTransform().GetPos());
-			distanceFromObj = relativePos.Length();
-		}
+//		if (zoom)
+//			reposition(Mouse.getDWheel());
 		
 
 		if(m_mouseLocked)
 		{
-			GetTransform().SetPos(obj.GetTransform().m_pos.plus(relativePos));
-
-			
+			//GetTransform().SetPos(obj.GetTransform().m_pos.plus(relativePos));
 			
 			Vector2f deltaPos = Input.GetMousePosition().minus(centerPosition);
 			
@@ -120,6 +112,17 @@ public class FreeLook extends GameComponent
 				Input.SetMousePosition(centerPosition);
 		}
 		
+	}
+	
+	private void reposition(int dWheel) {
+		zoomRadius -= zoomTick * dWheel;
+		yDist = (float) Math.pow(zoomRadius, 2);
+
+		relativePos = new Vector3f(yDist, zoomRadius, GetTransform().GetRot().GetForward().GetXZ());
+		
+		relativePos.add(new Vector3f(0, 500f, 0));
+		
+		distanceFromObj = relativePos.Length();
 	}
 	
 	public void lockMouse() {

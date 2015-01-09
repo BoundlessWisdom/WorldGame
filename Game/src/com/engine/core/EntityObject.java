@@ -48,6 +48,10 @@ public abstract class EntityObject extends GameObject
 	
 	protected abstract void lockCamera();  //Initializes locking point for camera track.
 	
+	public Vector3f camPos() {
+		return cameraLock;
+	}
+	
 	public void storeCameraPos() {
 		cameraPosStore = CoreEngine.GetRenderingEngine().GetMainCamera().GetTransform().GetPos();
 	}

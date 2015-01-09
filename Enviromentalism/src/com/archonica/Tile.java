@@ -6,7 +6,7 @@ import com.archonica.elementals.AbstractEntity;
 import com.archonica.elementals.Fire;
 
 public class Tile {
-	public int x;
+	public int x;  //Self-explanatory
 	public int z;
 	
 	Tile(int x, int z) {
@@ -14,18 +14,19 @@ public class Tile {
 		this.z = z;
 	}
 	
+	//Stack of entities on this tile.
 	private ArrayList<Entity> stack = new ArrayList<Entity>();
 	private float stackSize = 0;
-	public AbstractEntity abstractEntity;
-	
-	public static final int tileSpace = 1;
-//	public static final int abstractSpace = 1;
+	private boolean occupied = false;
+	/********************************************************************************/
+	public AbstractEntity abstractEntity;  //Currently useless.
+	/********************************************************************************/
 	
 	public boolean attemptPlacement(Entity entity) {
 		if (stack.get(0).getTeamID() != entity.getTeamID())
 			return false;
 		
-		if (entity.size + stackSize > tileSpace)
+		if (occupied)
 			return false;
 		
 		place(entity);
