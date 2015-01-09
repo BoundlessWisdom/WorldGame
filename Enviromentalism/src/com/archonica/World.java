@@ -14,8 +14,15 @@ public class World {
 		this.height = height;
 		worldMap = new Tile[width][height];
 		environmentMap = new TerrainTile[width][height];
-	}
-	
+		
+		for(int i = 0; i < width; i++)
+		{
+			for(int j = 0; j < height; j++)
+			{
+				worldMap[i][j] = new Tile((1 + (2 * i)), (1 + (2 * j)));
+			}
+		}
+	}	
 	public World(int size) {
 		this(size, size);
 	}
