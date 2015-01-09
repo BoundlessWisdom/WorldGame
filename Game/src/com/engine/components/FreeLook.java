@@ -35,9 +35,11 @@ public class FreeLook extends GameComponent
 	
 	private boolean CanMove = true;
 	
-	private int zoomRadius;
+	private float zoomRadius;
 	private boolean zoom;
+	final float zoomTick = 1;
 	
+	private float yDist;
 	private Vector3f relativePos = new Vector3f(0, 0, 0);
 	private float distanceFromObj;
 	
@@ -82,23 +84,47 @@ public class FreeLook extends GameComponent
 			Input.SetCursor(false);
 			m_mouseLocked = true;
 		}
+		
+		
+		zoom = Mouse.getDWheel() != 0;
+		
+//		if (zoom)
+//			reposition(Mouse.getDWheel());
+		
 
 		if(m_mouseLocked)
 		{
+			//GetTransform().SetPos(obj.GetTransform().m_pos.plus(relativePos));
+			
 			Vector2f deltaPos = Input.GetMousePosition().minus(centerPosition);
-
+			
 			boolean rotY = deltaPos.GetX() != 0;
 			boolean rotX = deltaPos.GetY() != 0;
+
 
 			if(rotY)
 				GetTransform().Rotate(Y_AXIS, (float) Math.toRadians(deltaPos.GetX() * m_sensitivity));
 			if(rotX)
 				GetTransform().Rotate(GetTransform().GetRot().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));
-
+			
+			
+			//GetTransform().SetPos(obj.GetTransform().GetPos().GetX(), obj.GetTransform().GetPos().GetY() + offset, obj.GetTransform().GetPos().GetZ() - radius);
+				
 			if(rotY || rotX)
 				Input.SetMousePosition(centerPosition);
 		}
 		
+	}
+	
+	private void reposition(int dWheel) {
+		zoomRadius -= zoomTick * dWheel;
+		yDist = (float) Math.pow(zoomRadius, 2);
+
+		relativePos = new Vector3f(yDist, zoomRadius, GetTransform().GetRot().GetForward().GetXZ());
+		
+		relativePos.add(new Vector3f(0, 500f, 0));
+		
+		distanceFromObj = relativePos.Length();
 	}
 	
 	public void lockMouse() {

@@ -1,6 +1,7 @@
 package com.archonica;
 
 public class TargetMapN implements TargetMapInterface {
+	
 	TargetMapRectangle baseMap;
 	TargetMapList nMap;
 	

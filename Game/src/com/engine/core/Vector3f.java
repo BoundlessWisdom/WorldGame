@@ -33,7 +33,14 @@ public class Vector3f
 		this(x, y, z);
 		normalize().scale(length);
 	}
-
+	
+	public Vector3f(float height, float r, Vector2f dir2D) {
+		m_y = height;
+		
+		m_x = r * dir2D.normalize().m_x;
+		m_z = r * dir2D.normalize().m_y;
+	}
+	
 	public float Length()
 	{
 		return (float)Math.sqrt(m_x * m_x + m_y * m_y + m_z * m_z);
@@ -234,5 +241,22 @@ public class Vector3f
 	public boolean equals(Vector3f r)
 	{
 		return m_x == r.GetX() && m_y == r.GetY() && m_z == r.GetZ();
+	}
+	
+	/*****************************************************************************/
+	
+	private boolean zero;
+	
+	public void setZero()
+	{
+		m_x = 0;
+		m_y = 0;
+		m_z = 0;
+		zero = true;
+	}
+	
+	public boolean zeroLength()
+	{
+		return zero;
 	}
 }

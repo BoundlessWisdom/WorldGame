@@ -5,6 +5,7 @@ import com.archonica.sparks.SparkProjectile;
 import com.engine.rendering.Material;
 import com.engine.rendering.Mesh;
 import com.engine.rendering.Texture;
+import com.game.EntityObject;
 
 public class ProjectileFireball extends Projectile {
 	static{
@@ -28,7 +29,10 @@ public class ProjectileFireball extends Projectile {
 	private float age;
 	
 	protected void onLanding() {
-//		Elemental.fire.entity.place(target.x, target.z);
+		//Elemental.fire.entity.place(target.x, target.z);
+	}
+	
+	protected void onCollision(EntityObject otherObject) {
 	}
 
 	public void respond() {
