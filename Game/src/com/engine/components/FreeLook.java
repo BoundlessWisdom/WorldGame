@@ -26,13 +26,13 @@ public class FreeLook extends GameComponent
 	
 	private float yDist;
 	private Vector3f relativePos = new Vector3f(0, 0, 0);
-	private float distanceFromObj;
+	public float distanceFromObj;
 	
 	public static EntityObject obj;
 	private boolean watchingArchon;
 	
 	public static float comp_radius = 5f;
-	public static float radius = 0f;
+	public static float radius = 5f;
 	
 	//boolean set = false;
 
@@ -43,7 +43,7 @@ public class FreeLook extends GameComponent
 
 	public FreeLook(float sensitivity, int unlockMouseKey)
 	{
-		radius = (float) (Math.sqrt(2) * comp_radius);
+		//radius = (float) (Math.sqrt(2) * comp_radius);
 		this.m_sensitivity = sensitivity;
 		this.m_unlockMouseKey = unlockMouseKey;
 	}

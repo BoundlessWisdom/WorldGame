@@ -2,11 +2,26 @@ package com.archonica.objects;
 
 import com.archonica.Tile;
 import com.archonica.sparks.SparkProjectile;
+import com.engine.rendering.Material;
+import com.engine.rendering.Mesh;
+import com.engine.rendering.Texture;
 import com.game.EntityObject;
 
 public class ProjectileFireball extends Projectile {
-	
-	protected ProjectileFireball(float spd) { super(spd); }
+	static{
+		class_mesh = new Mesh("fireball_placeholder.obj");
+	}
+	protected ProjectileFireball(float spd) { 
+		super(spd); 
+		
+		try {
+			AddMaterial(new Material(new Texture("menubg.png"), 1, 8,
+					new Texture("menubg.png"), new Texture("menubg.png"), 0.03f, -0.5f));
+		} catch (NoSuchFieldException | SecurityException
+				| IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+	}
 
 	Tile origin;
 	Tile target;
