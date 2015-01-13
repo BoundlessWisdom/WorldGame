@@ -35,6 +35,8 @@ public class FreeLook extends GameComponent
 	
 	private boolean CanMove = true;
 	
+	private boolean zoomMode = true;
+	
 	private float zoomRadius;
 	private boolean zoom;
 	final float zoomTick = 1;
@@ -86,8 +88,6 @@ public class FreeLook extends GameComponent
 		
 		zoom = Mouse.getDWheel() != 0;
 		
-//		if (zoom)
-//			reposition(Mouse.getDWheel());
 		
 
 		if(m_mouseLocked)
@@ -98,13 +98,17 @@ public class FreeLook extends GameComponent
 			
 			boolean rotY = deltaPos.GetX() != 0;
 			boolean rotX = deltaPos.GetY() != 0;
-
-
-			if(rotY)
-				GetTransform().Rotate(Y_AXIS, (float) Math.toRadians(deltaPos.GetX() * m_sensitivity));
-			if(rotX)
-				GetTransform().Rotate(GetTransform().GetRot().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));
 			
+			if (zoomMode) {
+				if (zoom)
+					reposition(Mouse.getDWheel());
+			}
+			else {
+				if(rotY)
+					GetTransform().Rotate(Y_AXIS, (float) Math.toRadians(deltaPos.GetX() * m_sensitivity));
+				if(rotX)
+					GetTransform().Rotate(GetTransform().GetRot().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));
+			}
 			
 			//GetTransform().SetPos(obj.GetTransform().GetPos().GetX(), obj.GetTransform().GetPos().GetY() + offset, obj.GetTransform().GetPos().GetZ() - radius);
 				
