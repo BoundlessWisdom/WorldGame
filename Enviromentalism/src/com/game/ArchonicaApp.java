@@ -112,7 +112,7 @@ public class ArchonicaApp extends GameInstance
 		FreeLook.obj = archon;
 		GetCameraObject().GetTransform().SetPos(0, terrain.GetHeight(new Vector2f(0f, 0f)), 0);
 		GetCameraObject().GetTransform().SetPos(archon.GetTransform().GetPos().GetX(), 
-				archon.GetTransform().GetPos().GetY() + FreeLook.comp_radius, archon.GetTransform().GetPos().GetZ() - FreeLook.comp_radius);
+				archon.GetTransform().GetPos().GetY() + FreeLook.radius, archon.GetTransform().GetPos().GetZ() - FreeLook.comp_radius);
 		//GetCameraObject().GetTransform().LookAt(archon.GetTransform().GetPos(), FreeLook.Y_AXIS);
 		
 		AddEntity(archon);

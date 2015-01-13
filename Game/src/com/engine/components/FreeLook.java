@@ -1,21 +1,4 @@
 package com.engine.components;
-/*
- * Copyright (C) 2014 Benny Bobaganoosh
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-
 
 import org.lwjgl.input.Mouse;
 
@@ -85,6 +68,13 @@ public class FreeLook extends GameComponent
 			m_mouseLocked = true;
 		}
 		
+		if (Input.GetKey(Input.KEY_Z)) {
+			if (zoomMode)
+				disableZoom();
+			else
+				enableZoom();
+		}
+		
 		
 		zoom = Mouse.getDWheel() != 0;
 		
@@ -102,10 +92,18 @@ public class FreeLook extends GameComponent
 			if (zoomMode) {
 				if (zoom)
 					reposition(Mouse.getDWheel());
-			}
-			else {
+				
 				if(rotY)
-					GetTransform().Rotate(Y_AXIS, (float) Math.toRadians(deltaPos.GetX() * m_sensitivity));
+				{
+					yAxisRotate(deltaPos);
+				}
+			}
+			else
+			{
+				if(rotY)
+				{
+					yAxisRotate(deltaPos);
+				}
 				if(rotX)
 					GetTransform().Rotate(GetTransform().GetRot().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));
 			}
@@ -118,21 +116,60 @@ public class FreeLook extends GameComponent
 		
 	}
 	
+	private void yAxisRotate(Vector2f deltaPos) {
+		float y_0 = GetTransform().GetPos().m_y;
+		
+		GetTransform().SetPos(new Vector3f(
+				GetTransform().GetPos().m_x, 
+				obj.GetTransform().GetPos().m_y, 
+				GetTransform().GetPos().m_z));
+		
+		//GetTransform().LookAt(obj.GetTransform().GetPos(), Y_AXIS);
+		
+		//Move(GetTransform().GetRot().GetForward(), radius.Length());
+		GetTransform().SetPos(obj.GetTransform().GetPos());
+		
+		GetTransform().Rotate(Y_AXIS, (float) Math.toRadians(deltaPos.GetX() * m_sensitivity));
+		
+		Move(GetTransform().GetRot().GetForward(), -distanceFromObj * (float)Math.cos(Math.PI / 4));
+		
+		//y_0 += y_0 - obj.GetTransform().GetPos().m_y;
+		GetTransform().SetPos(new Vector3f(
+				GetTransform().GetPos().m_x, 
+				y_0, 
+				GetTransform().GetPos().m_z));
+		
+		//GetTransform().LookAt(obj.GetTransform().GetPos(), Y_AXIS);
+	}
+	
 	private void reposition(int dWheel) {
 		zoomRadius -= zoomTick * dWheel;
 		yDist = (float) Math.pow(zoomRadius, 2);
 
 		relativePos = new Vector3f(yDist, zoomRadius, GetTransform().GetRot().GetForward().GetXZ());
 		
-		relativePos.add(new Vector3f(0, 500f, 0));
+		//relativePos.add(new Vector3f(0, 500f, 0));
 		
 		distanceFromObj = relativePos.Length();
+	}
+	
+	void enableZoom() {
+		zoomMode = true;
+	}
+	
+	void disableZoom() {
+		zoomMode = false;
 	}
 	
 	public void lockMouse() {
 		Input.SetMousePosition(new Vector2f(Window.GetWidth()/2, Window.GetHeight()/2));
 		Input.SetCursor(false);
 		m_mouseLocked = true;
+	}
+	
+	private void Move(Vector3f dir, float amt)
+	{
+		GetTransform().SetPos(GetTransform().GetPos().plus(dir.Mul(amt)));
 	}
 	
 	public void SetMove(boolean CanMove)
