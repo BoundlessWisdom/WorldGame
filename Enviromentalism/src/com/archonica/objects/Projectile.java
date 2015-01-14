@@ -12,6 +12,7 @@ public abstract class Projectile extends EntityObject implements Updateable {
 	protected Vector2f direction;
 	
 	protected Projectile(float spd) {
+		super(new GameObject(), 1.0);
 		this.speed = spd;
 	}
 	
