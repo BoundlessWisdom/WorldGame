@@ -2,6 +2,7 @@ package com.archonica.objects;
 
 import com.archonica.Tile;
 import com.archonica.sparks.SparkProjectile;
+import com.engine.components.MeshRenderer;
 import com.engine.rendering.Material;
 import com.engine.rendering.Mesh;
 import com.engine.rendering.Texture;
