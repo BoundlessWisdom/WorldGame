@@ -74,7 +74,7 @@ public abstract class EntityObject extends GameObject
 	}
 
 	public Mesh GetSprite() {
-		return class_mesh;
+		return null;
 	}
 
 	public Vector3f GetMomentum() {
