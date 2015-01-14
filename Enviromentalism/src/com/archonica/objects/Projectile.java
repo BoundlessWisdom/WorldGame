@@ -29,6 +29,9 @@ public abstract class Projectile extends EntityObject implements Updateable {
 	
 	public void launch(Vector2f dir) {
 		this.direction = dir.Normalized();
+		Vector3f vel = new Vector3f(dir.GetX(), 0, dir.GetY());
+		vel.Mul(speed);
+		this.SetVelocity(vel);
 	}
 	
 	//What it does while it's flying.
