@@ -10,6 +10,7 @@ import ui.Menu;
 import com.archonica.Archon;
 import com.archonica.EntClass;
 import com.archonica.archons.User;
+import com.archonica.objects.ProjectileFireball;
 import com.engine.physics.PhysicsEngine;
 import com.engine.rendering.Texture;
 import com.engine.components.FreeLook;
@@ -119,7 +120,12 @@ public class ArchonicaApp extends GameInstance
 		//GetCameraObject().GetTransform().LookAt(archon.GetTransform().GetPos(), FreeLook.Y_AXIS);
 		
 		AddEntity(archon);
-		
+		ProjectileFireball fire = new ProjectileFireball(3);
+		fire.GetTransform().SetPos(0, 0, 0);
+		fire.AddMaterial(new Material(new Texture("menubg.png"), 1, 8,
+				new Texture("menubg.png"), new Texture("menubg.png"), 0.03f, -0.5f));
+		AddEntity(fire);
+		fire.launch(new Vector2f(1,1));
 		/*monkey = new Monkey(new GameObject(), 100.0);
 		monkey.AddMaterial(new Material(new Texture("bricks.jpg"), 1, 8,
 				new Texture("bricks_normal.jpg"), new Texture("bricks_disp.png"), 0.03f, -0.5f));

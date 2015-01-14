@@ -10,7 +10,7 @@ import com.game.EntityObject;
 
 public class ProjectileFireball extends Projectile {
 	private Mesh class_mesh = null;
-	protected ProjectileFireball(float spd) { 
+	public ProjectileFireball(float spd) { 
 		super(spd); 
 		class_mesh = new Mesh("fireball_placeholder.obj");
 	}
