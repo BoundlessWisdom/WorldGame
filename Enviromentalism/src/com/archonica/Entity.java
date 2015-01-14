@@ -21,6 +21,7 @@ public float speed() { return speed; }
 
 World w;
 public int x, z;
+public float colrad;
 
 protected final int maxHealth = 0;
 public float health;
@@ -85,6 +86,106 @@ public void update(long dtime) {
 	for (AttachedEffect e : attachedEffects)
 		e.update(dtime);
 	think(dtime);
+}
+
+public void worldmanage()
+{
+	this.x = (int)(this.GetTransform().GetPos().GetX()) / 2;
+	this.z = (int)(this.GetTransform().GetPos().GetZ()) / 2;
+	
+	boolean add = true;
+	
+	if(w.worldMap[x][z].stack.size() > 0)
+	{
+		for(Entity e : w.worldMap[x][z].stack)
+		{
+			if(e == this)
+				add = false;
+		}
+	}
+	
+	if(add)
+		w.worldMap[x][z].stack.add(this);
+	int oldx = -1;
+	int oldz = -1;
+	for(int i = x - 1; i < x + 2; i++)
+	{
+		for(int j = z - 1; j < z + 2; j++)
+		{
+			if(i == x && j == z)
+				continue;
+			if((x == 0 && i == -1) || (z == 0 && j == -1))
+				continue;
+			if(w.worldMap[i][j].stack.size() > 0)
+			{
+				for(Entity e : w.worldMap[i][j].stack)
+				{
+					if(e == this)
+					{
+						oldx = i;
+						oldz = j;
+					}
+				}
+			}
+		}
+		if(oldx >= 0 && oldz >= 0)
+			w.worldMap[oldx][oldz].stack.remove(this);
+	}
+}
+
+public void collisioncheck()
+{
+	ArrayList<int[]> filledtileindex = new ArrayList<int[]>();
+	boolean nearbyobjects = false;
+	for(int i = x - 1; i < x + 2; i++)
+	{
+		for(int j = z - 1; j < z + 2; j++)
+		{
+			if(i == -1 || j == -1)
+				continue;
+			if(i == x && j == z)
+			{
+				if(w.worldMap[i][j].stack.size() >= 2)
+				{
+					nearbyobjects = true;
+					int[] index = new int[2];
+					index[0] = i;
+					index[1] = j;
+					filledtileindex.add(index);
+				}
+			}
+			else if(w.worldMap[i][j].stack.size() >= 1)
+			{
+				nearbyobjects = true;
+				int[] index = new int[2];
+				index[0] = i;
+				index[1] = j;
+				filledtileindex.add(index);
+			}
+		}
+	}
+	//System.out.println("This");
+	//System.out.println(this.x);
+	//System.out.println(this.z);
+	if(nearbyobjects)
+	{
+		for(int[] tiles : filledtileindex)
+		{
+			for(Entity second : w.worldMap[tiles[0]][tiles[1]].stack)
+			{
+				//System.out.println("Near");
+				//System.out.println(tiles[0]);
+				//System.out.println(tiles[1]);
+				if(this.GetTransform().GetPos().minus(second.GetTransform().GetPos()).Length() <= (this.colrad + second.colrad))
+					collide(this, second);
+			}
+		}
+	}
+}
+
+public void collide(Entity first, Entity second)
+{
+	System.out.println("Collision!");
 }
 
 public abstract void think(long dtime);

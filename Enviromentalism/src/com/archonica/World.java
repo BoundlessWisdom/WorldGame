@@ -27,6 +27,27 @@ public class World {
 		this(size, size);
 	}
 	
+	public float[] getGLCoords(int xTile, int zTile)
+	{
+		float[] glcoords = new float[2];
+		
+		glcoords[0] = (xTile * 2) + 1;
+		glcoords[1] = (zTile * 2) + 1;
+		
+		return glcoords;
+	}
+	
+	public int[] getTileIndex(float GLx, float GLz)
+	{
+		int[] index = new int[2];
+		
+		index[0] = (int)(GLx / 2);
+		index[1] = (int)(GLz / 2);
+		
+		return index;
+	}
+
+	
 	public void update(long dtime) {
 		updateObjects(dtime);
 	}
