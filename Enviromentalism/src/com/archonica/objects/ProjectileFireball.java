@@ -61,4 +61,8 @@ public class ProjectileFireball extends Projectile {
 			age += dtime;
 		}
 	}
+	public void AddMaterial(Material material)
+	{
+		AddComponent(new MeshRenderer(class_mesh, material));
+	}
 }
