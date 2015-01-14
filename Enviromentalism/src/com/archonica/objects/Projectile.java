@@ -38,7 +38,7 @@ public abstract class Projectile extends EntityObject implements Updateable {
 	public abstract void fly(long dtime);
 	
 	public void update(long dtime) {
-		move(direction.Mul(speed * dtime)); //Movement
+	//	move(direction.Mul(speed * dtime)); //Movement
 		fly(dtime);							//Other effects
 		detectCollision();
 	}
