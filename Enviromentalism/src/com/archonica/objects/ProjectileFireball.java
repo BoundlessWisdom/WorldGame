@@ -8,19 +8,10 @@ import com.engine.rendering.Texture;
 import com.game.EntityObject;
 
 public class ProjectileFireball extends Projectile {
-	static{
-		class_mesh = new Mesh("fireball_placeholder.obj");
-	}
+	private Mesh class_mesh = null;
 	protected ProjectileFireball(float spd) { 
 		super(spd); 
-		
-		try {
-			AddMaterial(new Material(new Texture("menubg.png"), 1, 8,
-					new Texture("menubg.png"), new Texture("menubg.png"), 0.03f, -0.5f));
-		} catch (NoSuchFieldException | SecurityException
-				| IllegalArgumentException | IllegalAccessException e) {
-			e.printStackTrace();
-		}
+		class_mesh = new Mesh("fireball_placeholder.obj");
 	}
 
 	Tile origin;
