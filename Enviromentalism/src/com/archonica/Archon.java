@@ -19,6 +19,7 @@ public class Archon extends Caster {
 		super(sz, spd); 
 		mesh = new Mesh("Archon Placeholder.obj");
 		fixElastic(0.2);
+		this.colrad = .982875f;
 	}
 
 	public void update(long dtime) {

@@ -3,6 +3,7 @@ package com.archonica.objects;
 import com.archonica.Updateable;
 import com.archonica.sparks.SparkProjectile;
 import com.engine.core.Vector2f;
+import com.engine.core.Vector3f;
 import com.game.EntityObject;
 
 public abstract class Projectile extends EntityObject implements Updateable {
