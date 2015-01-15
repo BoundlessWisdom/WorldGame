@@ -15,7 +15,7 @@ public class Tile {
 	}
 	
 	//Stack of entities on this tile.
-	private ArrayList<Entity> stack = new ArrayList<Entity>();
+	public ArrayList<Entity> stack = new ArrayList<Entity>();
 	private float stackSize = 0;
 	private boolean occupied = false;
 	/********************************************************************************/
