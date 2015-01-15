@@ -32,7 +32,7 @@ public class FreeLook extends GameComponent
 	private boolean watchingArchon;
 	
 	public static float comp_radius = 5f;
-	public static Vector2f radius = new Vector2f(3f, 3f); //legs of the right triangle created by the radius between the archon and the camera
+	public static Vector2f radius = new Vector2f(10f, 10f); //legs of the right triangle created by the radius between the archon and the camera
 	public static Vector3f dhArchon = new Vector3f(0f, 2f, 0f); //the archon's position is his butt! We don't want to look at his butt!
 	
 	//boolean set = false;
@@ -135,20 +135,21 @@ public class FreeLook extends GameComponent
 
 		relativePos = new Vector3f(yDist, zoomRadius, GetTransform().GetRot().GetForward().GetXZ());
 		
-		distanceFromObj = relativePos.Length();
-//relativePos.add(new Vector3f(0, 500f, 0));
-		
+		distanceFromObj = relativePos.Length();		
 	}
 	
-	void enableZoom() {
+	void enableZoom() 
+	{
 		zoomMode = true;
 	}
 	
-	void disableZoom() {
+	void disableZoom() 
+	{
 		zoomMode = false;
 	}
 	
-	public void lockMouse() {
+	public void lockMouse() 
+	{
 		Input.SetMousePosition(new Vector2f(Window.GetWidth()/2, Window.GetHeight()/2));
 		Input.SetCursor(false);
 		m_mouseLocked = true;
