@@ -1,6 +1,7 @@
 package com.archonica.objects;
 
 import com.archonica.Tile;
+import com.archonica.effects.LModFire;
 import com.archonica.sparks.SparkProjectile;
 import com.engine.rendering.Material;
 import com.engine.rendering.Mesh;
@@ -8,9 +9,7 @@ import com.engine.rendering.Texture;
 import com.game.EntityObject;
 
 public class ProjectileFireball extends Projectile {
-	static{
-		class_mesh = new Mesh("fireball_placeholder.obj");
-	}
+	
 	protected ProjectileFireball(float spd) { 
 		super(spd); 
 		
@@ -33,6 +32,8 @@ public class ProjectileFireball extends Projectile {
 	}
 	
 	protected void onCollision(EntityObject otherObject) {
+		//Burn.
+		otherObject.modify(new LModFire());
 	}
 
 	public void respond() {
@@ -69,5 +70,9 @@ public class ProjectileFireball extends Projectile {
 		else {
 			age += dtime;
 		}
+	}
+	
+	static{
+		class_mesh = new Mesh("fireball_placeholder.obj");
 	}
 }

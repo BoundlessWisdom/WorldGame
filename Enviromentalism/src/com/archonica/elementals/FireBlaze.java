@@ -10,7 +10,6 @@ public class FireBlaze extends Fire {
 
 	public FireBlaze() {
 		super(1.0f, 6);
-		setStrength(2);
 	}
 	
 	protected void fireSpread(int x, int z) {

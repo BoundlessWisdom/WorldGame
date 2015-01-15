@@ -16,7 +16,6 @@ public class Tile {
 	
 	//Stack of entities on this tile.
 	private ArrayList<Entity> stack = new ArrayList<Entity>();
-	private float stackSize = 0;
 	private boolean occupied = false;
 	/********************************************************************************/
 	public AbstractEntity abstractEntity;  //Currently useless.
@@ -78,7 +77,6 @@ public class Tile {
 			abstractEntity = (AbstractEntity) entity;
 		else {
 			stack.add(entity);
-			stackSize += entity.size;
 		}
 	}
 	

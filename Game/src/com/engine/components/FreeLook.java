@@ -124,7 +124,7 @@ public class FreeLook extends GameComponent
 				obj.GetTransform().GetPos().m_y, 
 				GetTransform().GetPos().m_z));
 		
-		//GetTransform().LookAt(obj.GetTransform().GetPos(), Y_AXIS);
+		GetTransform().LookAt(obj.GetTransform().GetPos(), Y_AXIS);
 		
 		//Move(GetTransform().GetRot().GetForward(), radius.Length());
 		GetTransform().SetPos(obj.GetTransform().GetPos());
@@ -139,7 +139,7 @@ public class FreeLook extends GameComponent
 				y_0, 
 				GetTransform().GetPos().m_z));
 		
-		//GetTransform().LookAt(obj.GetTransform().GetPos(), Y_AXIS);
+		GetTransform().LookAt(obj.GetTransform().GetPos(), Y_AXIS);
 	}
 	
 	private void reposition(int dWheel) {
