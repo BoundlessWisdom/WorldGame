@@ -23,7 +23,7 @@ public class Tile {
 	/********************************************************************************/
 	
 	public boolean attemptPlacement(EntityObject entity) {
-		if (stack.get(0).getTeamID() != entity.getTeamID())
+		if (stack.size() > 0 && stack.get(0).getTeamID() != entity.getTeamID())
 			return false;
 		
 		if (occupied)

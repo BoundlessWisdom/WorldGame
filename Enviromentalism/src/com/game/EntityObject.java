@@ -46,6 +46,7 @@ public void worldmanage()
 				continue;
 			if((x == 0 && i == -1) || (z == 0 && j == -1))
 				continue;
+			
 			if(world.worldMap[i][j].occupied())
 			{
 				
