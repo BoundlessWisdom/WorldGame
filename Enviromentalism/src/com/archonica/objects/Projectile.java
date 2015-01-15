@@ -47,7 +47,7 @@ public abstract class Projectile extends EntityObject implements Updateable {
 	}
 	
 	private void detectCollision() {
-		
+		collisioncheck();
 	}
 
 	protected void lockCamera() {
