@@ -46,7 +46,7 @@ public Entity place(int x, int z) {
 	this.x = x;
 	this.z = z;
 	
-	//w.getTile(x, z).place(this);
+	//world.getTile(x, z).place(this);
 	
 	
 	return this;
@@ -87,23 +87,6 @@ public void respond() {
 	{
 		
 	}
-}
-
-/************************************************************************/
-
-private int teamID = -1;
-
-public void joinTeam(int id) {
-	if (teamID == -1)
-		teamID = id;
-}
-
-public int getTeamID() {
-	return teamID;
-}
-
-public void goRogue() {
-	teamID = -1;
 }
 
 /*********************************************************************************************/

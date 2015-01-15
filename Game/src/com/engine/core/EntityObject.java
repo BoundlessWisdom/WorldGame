@@ -10,7 +10,6 @@ import com.engine.rendering.Mesh;
 
 public abstract class EntityObject extends GameObject
 {
-	protected static Mesh class_mesh = null;
 	protected Vector3f cameraLock;
 	private Vector3f cameraPosStore;
 	public double mass = 0;
@@ -75,7 +74,7 @@ public abstract class EntityObject extends GameObject
 	}
 
 	public Mesh GetSprite() {
-		return class_mesh;
+		return null;
 	}
 
 	public Vector3f GetMomentum() {
@@ -169,27 +168,5 @@ public abstract class EntityObject extends GameObject
 
 	public double GetMu() {
 		return 0;
-	}
-	public void AddMaterial(Material material) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException
-	{
-		Field m = this.getClass().getDeclaredField("class_mesh");
-		Mesh mesh = (Mesh) m.get(null);
-		int index = 0;
-		for(GameComponent component : m_components)
-		{
-			if(component instanceof MeshRenderer)
-			{
-				m_components.set(index, new MeshRenderer(mesh, material));
-				return;
-			}
-			
-			index++;
-		}
-		
-		AddComponent(new MeshRenderer(mesh, material));
-	}
-	public static Mesh getTypeMesh()
-	{
-		return class_mesh;
 	}
 }

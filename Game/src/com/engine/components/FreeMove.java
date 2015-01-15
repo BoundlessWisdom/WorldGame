@@ -108,7 +108,10 @@ public class FreeMove extends GameComponent
 			Move(GetTransform().GetRot().GetRight(), movAmt);
 		}
 		
-		float r = radius.Length();
+		//float r = radius.Length();
+		GetTransform().SetPos(GetTransform().GetPos().m_x, 
+				obj.GetTransform().GetPos().m_y + FreeLook.radius.m_y + FreeLook.dhArchon.m_y, 
+				GetTransform().GetPos().m_z);
 		
 		
 	}
