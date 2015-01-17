@@ -14,12 +14,6 @@ import com.engine.rendering.RenderingEngine;
 
 public class GameInstance extends Game
 {	
-	/*
-		NOTE:
-			
-
-	*/
-	
 	//private static GameInstance instance = new GameInstance();
 	public static ArrayList<GameObject> RootObjects = new ArrayList<GameObject>(); //Allows for multiple root game objects
 	private static ArrayList<EntityObject> entities = new ArrayList<EntityObject>(); //stores entities (Game Objects that are affected by physics) in the game
