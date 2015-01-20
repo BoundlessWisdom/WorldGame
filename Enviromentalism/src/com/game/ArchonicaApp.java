@@ -41,6 +41,7 @@ public class ArchonicaApp extends GameInstance
 	CompleteTerrain terrain = CompleteTerrain.getInstance();
 	Monkey monkey;
 	Archon archon;
+	Archon archoff;
 	GameObject lightObj = new GameObject();
 	Menu menu;
 	Button button;
@@ -109,6 +110,12 @@ public class ArchonicaApp extends GameInstance
 		archon.mass = 100;
 		archon.GetTransform().SetPos(10f, 0f, 10f);
 		
+		archoff = new Archon(100.0f, 0f);
+		archoff.AddMaterial(new Material(new Texture("menubg.png"), 1, 8,
+				new Texture("menubg.png"), new Texture("menubg.png"), 0.03f, -0.5f));
+		archoff.mass = 100;
+		archoff.GetTransform().SetPos(20f, 15f, 20f);
+		
 		FreeMove.obj = archon;
 		FreeLook.obj = archon;
 		//GetCameraObject().GetTransform().SetPos(0, terrain.GetHeight(new Vector2f(0f, 0f)), 0);
@@ -120,6 +127,7 @@ public class ArchonicaApp extends GameInstance
 		GetCameraObject().GetTransform().LookAt(archon.GetTransform().GetPos(), FreeLook.Y_AXIS);
 		
 		AddEntity(archon);
+		AddEntity(archoff);
 		ProjectileFireball fire = new ProjectileFireball(3);
 		fire.GetTransform().SetPos(0, 0, 0);
 		fire.AddMaterial(new Material(new Texture("menubg.png"), 1, 8,
@@ -176,6 +184,9 @@ public class ArchonicaApp extends GameInstance
 		lightObj.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos());
 		lightObj.GetTransform().SetRot(getRenderingEngine().GetMainCamera().GetTransform().GetRot());
 		//archon.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos().Add(new Vector3f(0, 0, 10f)));
+		archon.worldmanage();
+		archon.collisioncheck();
+		archoff.worldmanage();
 	}
 	
 	

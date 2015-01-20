@@ -10,7 +10,6 @@ public class FireInferno extends Fire {
 
 	public FireInferno() {
 		super(1.0f, 8);
-		setStrength(3);
 	}
 	
 	protected void fireSpread(int x, int z) {

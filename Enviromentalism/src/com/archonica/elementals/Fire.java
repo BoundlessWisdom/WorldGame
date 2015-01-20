@@ -11,7 +11,6 @@ public class Fire extends AbstractEntity {
 	
 	public Fire() {
 		super(1.0f, 5);
-		setStrength(1);
 	}
 
 	

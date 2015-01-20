@@ -401,4 +401,11 @@ public class PhysicsEngine
 	{
 		return objs;
 	}
+	private boolean isCollision(int i, int j)
+	{
+		EntityObject a = GetObjects().get(i);
+		EntityObject b = GetObjects().get(j);
+		//Check Collision
+		return false;
+	}
 }
