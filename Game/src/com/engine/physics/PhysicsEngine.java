@@ -2,6 +2,7 @@ package com.engine.physics;
 
 import com.engine.components.terrain.CompleteTerrain;
 import com.engine.core.*;
+import com.engine.rendering.meshLoading.IndexedModel;
 
 import java.util.*;
 
@@ -403,9 +404,71 @@ public class PhysicsEngine
 	}
 	private boolean isCollision(int i, int j)
 	{
-		EntityObject a = GetObjects().get(i);
-		EntityObject b = GetObjects().get(j);
-		//Check Collision
+		if(i == j) return false;
+		return isCollision(GetObjects().get(i), GetObjects().get(j));
+	}
+	public static boolean isCollision(EntityObject a, EntityObject b)
+	{
+		ArrayList<Triangle> at = Triangle.loadFromModel(a.GetSprite().getOriginalModel());
+		ArrayList<Triangle> bt = Triangle.loadFromModel(b.GetSprite().getOriginalModel());
+		for(Triangle t : at)
+		{
+			for(Triangle s : bt)
+			{
+				if(t.isIntersection(s))
+				{
+					return true;
+				}
+			}
+		}
 		return false;
+	}
+	private static class Triangle
+	{
+		Vector3f a, b ,c;
+		Triangle(Vector3f a, Vector3f b, Vector3f c)
+		{
+			this.a = a;
+			this.b = b;
+			this.c = c;
+		}
+		Vector3f getN()
+		{
+			Vector3f vn1 = null;
+		    vn1 = b.sub(a);
+		    Vector3f vn2 = null;
+		    vn2 = c.sub(a);
+		    Vector3f n = null;
+		    n = vn1.Cross(vn2);
+		    return n;
+		}
+		boolean isIntersection(Triangle T)
+		{
+			Vector3f n1 = getN();
+			Vector3f n2 = T.getN();
+			Vector3f v = n1.Cross(n2);
+			float C1 = n1.Dot(a);
+			float C2 = n2.Dot(T.a);
+			float Kn = n2.GetX()/n1.GetX();
+			float y = (C2 - C1 * Kn)/(n2.GetY() - n1.GetY() * Kn);
+			Vector3f p = new Vector3f((C2 - C1 * Kn)/(n2.GetY() - n1.GetY() * Kn) ,(C1 - n1.GetY() * y) / n2.GetX() , 0);
+			Vector3f x = p.add(v);
+			Vector3f xq1 = x.sub(a);
+			float i1 = xq1.Dot(n1);
+			Vector3f xq2 = x.sub(T.a);
+			float i2 = xq2.Dot(n2);
+			return i1 == 0 && i2 == 0;
+		}
+		static ArrayList<Triangle> loadFromModel(IndexedModel model)
+		{
+			ArrayList<Integer> indices = model.GetIndices();
+			ArrayList<Vector3f> poses = model.GetPositions();
+			ArrayList<Triangle> ret = new ArrayList<Triangle>();
+			for(int i = 0; i < indices.size(); i += 3)
+			{
+				ret.add(new Triangle(poses.get(i), poses.get(i + 1), poses.get(i + 2)));
+			}
+			return ret;
+		}
 	}
 }
