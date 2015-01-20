@@ -12,7 +12,8 @@ public abstract class Caster extends Entity {
 	
 	public Caster(EntClass e, float sz, float spd) { super(e, sz, spd); }
 	public Caster(float sz, float spd) { super(sz, spd); }
-	
+	public Caster(EntClass e, float sz, float spd, String sprt){super(e, sz,spd,sprt);}
+	public Caster( float sz, float spd, String sprt){super(sz,spd,sprt);}
 	public void updatePower() {
 		if (health/maxHealth >= 0.8f) {
 			power = 1.0f;

@@ -24,7 +24,7 @@ public void addThis() {
 public EntityObject() { super(); }
 public EntityObject(EntityObject e) { super(e); }
 public EntityObject(GameObject o, double m) { super(o, m); }
-
+public EntityObject(GameObject o, double m, String s){super(o,m,s);}
 public float colrad;
 
 public void worldmanage()

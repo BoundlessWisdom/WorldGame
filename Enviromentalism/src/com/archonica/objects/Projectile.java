@@ -17,7 +17,10 @@ public abstract class Projectile extends EntityObject implements Updateable {
 		super(new GameObject(), 1.0);
 		this.speed = spd;
 	}
-	
+	protected Projectile(float spd, String sprite){
+		super(new GameObject(), 1.0, sprite);
+		this.speed = spd;
+	}
 	//The spark which created this projectile.
 	SparkProjectile source;
 	

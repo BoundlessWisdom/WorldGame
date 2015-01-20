@@ -13,7 +13,7 @@ public abstract class EntityObject extends GameObject
 	protected Vector3f cameraLock;
 	private Vector3f cameraPosStore;
 	public double mass = 0;
-	
+	private Mesh mesh = null;
 	private Vector3f a = new Vector3f(0,0,0);
 	private Vector3f v = new Vector3f(0,0,0);
 	private Vector3f P = new Vector3f(0,0,0); //momentum
@@ -33,6 +33,7 @@ public abstract class EntityObject extends GameObject
 	{
 		super();
 		lockCamera();
+		mesh = new Mesh("fireball_placeholder.obj");
 	}
 	
 	public EntityObject(EntityObject nObj)
@@ -47,8 +48,16 @@ public abstract class EntityObject extends GameObject
 		
 		this.mass = mass;
 		Set(gameObj);
+		mesh = new Mesh("fireball_placeholder.obj");
 	}
-	
+	public EntityObject(GameObject gameObj, double mass, String sprite)
+	{
+		super();
+		lockCamera();
+		this.mass = mass;
+		Set(gameObj);
+		mesh = new Mesh(sprite);
+	}
 	protected abstract void lockCamera();  //Initializes locking point for camera track.
 	
 	public Vector3f camPos() {
@@ -74,7 +83,7 @@ public abstract class EntityObject extends GameObject
 	}
 
 	public Mesh GetSprite() {
-		return null;
+		return mesh;
 	}
 
 	public Vector3f GetMomentum() {
@@ -168,5 +177,21 @@ public abstract class EntityObject extends GameObject
 
 	public double GetMu() {
 		return 0;
+	}
+	public void AddMaterial(Material material)
+	{
+		int index = 0;
+		for(GameComponent component : m_components)
+		{
+			if(component instanceof MeshRenderer)
+			{
+				m_components.set(index, new MeshRenderer(mesh, material));
+				return;
+			}
+			
+			index++;
+		}
+		
+		AddComponent(new MeshRenderer(mesh, material));
 	}
 }
