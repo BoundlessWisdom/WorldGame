@@ -464,9 +464,9 @@ public class PhysicsEngine
 			ArrayList<Integer> indices = model.GetIndices();
 			ArrayList<Vector3f> poses = model.GetPositions();
 			ArrayList<Triangle> ret = new ArrayList<Triangle>();
-			for(int i = 0; i < indices.size() - 2; i += 3)
+			for(int i = 0; i < indices.size(); i += 3)
 			{
-				ret.add(new Triangle(poses.get(i), poses.get(i + 1), poses.get(i + 2)));
+				ret.add(new Triangle(poses.get(indices.get(i) - 1), poses.get(indices.get(i)), poses.get(indices.get(i) + 1)));
 			}
 			return ret;
 		}

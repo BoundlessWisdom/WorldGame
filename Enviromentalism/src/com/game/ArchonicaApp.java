@@ -185,8 +185,6 @@ public class ArchonicaApp extends GameInstance
 		archon.collisioncheck();
 		archoff.worldmanage();
 
-		
-		System.out.println(archon.world.worldMap[5][5].stack.size());
 	}
 	
 	

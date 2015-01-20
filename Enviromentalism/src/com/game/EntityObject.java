@@ -8,6 +8,7 @@ import com.archonica.World;
 import com.archonica.effects.LongModifier;
 import com.archonica.effects.Modifier;
 import com.engine.core.GameObject;
+import com.engine.physics.PhysicsEngine;
 
 public abstract class EntityObject extends com.engine.core.EntityObject implements Updateable {
 
@@ -110,10 +111,13 @@ public void collisioncheck()
 				//System.out.println("Near");
 				//System.out.println(tiles[0]);
 				//System.out.println(tiles[1]);
-				if(this.GetTransform().GetPos().minus(second.GetTransform().GetPos()).Length() <= (this.colrad + second.colrad))
+				//if(this.GetTransform().GetPos().minus(second.GetTransform().GetPos()).Length() <= (this.colrad + second.colrad))
+				if(PhysicsEngine.isCollision(this, second))
 					collide(this, second);
 			}
 		}
+		
+		
 	}
 }
 
