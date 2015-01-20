@@ -15,9 +15,10 @@ import com.engine.rendering.RenderingEngine;
 public class GameInstance extends Game
 {	
 	//private static GameInstance instance = new GameInstance();
-	public static ArrayList<GameObject> RootObjects = new ArrayList<GameObject>();
-	private static ArrayList<EntityObject> entities = new ArrayList<EntityObject>();
-	private static ArrayList<Integer> entityIndicies = new ArrayList<Integer>();
+	public static ArrayList<GameObject> RootObjects = new ArrayList<GameObject>(); //Allows for multiple root game objects
+	private static ArrayList<EntityObject> entities = new ArrayList<EntityObject>(); //stores entities (Game Objects that are affected by physics) in the game
+	private static ArrayList<Integer> entityIndicies = new ArrayList<Integer>(); //since entities extend GameObject, we want a way to find the location of an 
+										//EntityObject from entities in the place where the GameObjects are stored (in GameObject itself)
 	
 	/*public static GameInstance getInstance()
 	{
@@ -37,9 +38,10 @@ public class GameInstance extends Game
 		AddObject(new GameObject().AddComponent(new FreeLook(0.5f)).AddComponent(new FreeMove(10.0f))
 				.AddComponent(new Camera(new Matrix4f().InitPerspective(
 						(float) Math.toRadians(70.0f), (float) Window.GetWidth() / (float) Window.GetHeight(), 
-						0.01f, 1000.0f))));
+						0.01f, 1000.0f)))); //adds camera, freemove, and freelook to a game object,
+									//which will represent a world camera
 		
-		GetRootObject().AddChild(CompleteTerrain.getInstance());
+		GetRootObject().AddChild(CompleteTerrain.getInstance()); //Actually adds camera object to the game
 		RootObjects.add(GetRootObject());
 	}
 	
@@ -57,7 +59,7 @@ public class GameInstance extends Game
 			GetRootObject().setChild(index, entities.get(i));
 		}
 	}
-	
+		
 	public void AddEntity(EntityObject entity)
 	{
 		entities.add(entity);

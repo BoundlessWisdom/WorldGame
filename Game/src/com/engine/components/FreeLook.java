@@ -1,5 +1,7 @@
 package com.engine.components;
 
+import java.util.ArrayList;
+
 import org.lwjgl.input.Mouse;
 
 import com.engine.core.EntityObject;
@@ -30,10 +32,10 @@ public class FreeLook extends GameComponent
 	
 	public static EntityObject obj;
 	private boolean watchingArchon;
-	
-	public static float comp_radius = 5f;
+
 	public static Vector2f radius = new Vector2f(10f, 10f); //legs of the right triangle created by the radius between the archon and the camera
 	public static Vector3f dhArchon = new Vector3f(0f, 2f, 0f); //the archon's position is his butt! We don't want to look at his butt!
+
 	
 	//boolean set = false;
 
@@ -56,7 +58,8 @@ public class FreeLook extends GameComponent
 			return;
 		
 		Vector2f centerPosition = new Vector2f(Window.GetWidth()/2, Window.GetHeight()/2);
-
+		
+		
 		if(Input.GetKey(m_unlockMouseKey))
 		{
 			Input.SetCursor(true);
@@ -83,8 +86,7 @@ public class FreeLook extends GameComponent
 		{
 			//GetTransform().SetPos(obj.GetTransform().m_pos.plus(relativePos));
 			
-			Vector2f deltaPos = Input.GetMousePosition().minus(centerPosition);
-			
+			Vector2f deltaPos = Input.GetMousePosition().minus(centerPosition);			
 			boolean rotY = deltaPos.GetX() != 0;
 			boolean rotX = deltaPos.GetY() != 0;
 			
@@ -109,18 +111,18 @@ public class FreeLook extends GameComponent
 				{
 					yAxisRotate(deltaPos);
 				}
-				//if(rotX)
-				//	GetTransform().Rotate(GetTransform().GetRot().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));
 			}
 			
-			//GetTransform().SetPos(obj.GetTransform().GetPos().GetX(), obj.GetTransform().GetPos().GetY() + offset, obj.GetTransform().GetPos().GetZ() - radius);
-				
 			if(rotY || rotX)
 				Input.SetMousePosition(centerPosition);
 		}
 		
 	}
 	
+	private void Move(Vector3f dir, float amt)
+	{
+		GetTransform().SetPos(GetTransform().GetPos().plus(dir.Mul(amt)));
+	}
 
 	private void yAxisRotate(Vector2f deltaPos) 
 	{
@@ -154,11 +156,6 @@ public class FreeLook extends GameComponent
 		Input.SetMousePosition(new Vector2f(Window.GetWidth()/2, Window.GetHeight()/2));
 		Input.SetCursor(false);
 		m_mouseLocked = true;
-	}
-	
-	private void Move(Vector3f dir, float amt)
-	{
-		GetTransform().SetPos(GetTransform().GetPos().plus(dir.Mul(amt)));
 	}
 	
 	public void SetMove(boolean CanMove)

@@ -32,11 +32,21 @@ protected Entity(EntClass entClass, float size, float speed) {
 	this.baseSpeed = speed;
 	this.speed = this.baseSpeed;
 }
-
+protected Entity(EntClass entClass, float size, float speed, String sprite) {
+	super(new GameObject(), size, sprite);
+	this.world = Archonica.activeWorld;
+		this.health = maxHealth;
+	this.entClass = entClass;
+	this.size = size;
+	this.baseSpeed = speed;
+	this.speed = this.baseSpeed;
+}
 protected Entity(float size, float speed) {
 	this(baseEnt, size, speed);
 }
-
+protected Entity(float size, float speed, String sprt) {
+	this(baseEnt, size, speed, sprt);
+}
 boolean placed = false;
 public Entity place(int x, int z) {
 	if (placed)

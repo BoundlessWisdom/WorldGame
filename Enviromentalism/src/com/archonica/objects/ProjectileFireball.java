@@ -10,11 +10,10 @@ import com.game.EntityObject;
 
 public class ProjectileFireball extends Projectile {
 
-	private Mesh class_mesh = null;
+	
 	
 	public ProjectileFireball(float spd) {
-		super(spd); 
-		class_mesh = new Mesh("fireball_placeholder.obj");
+		super(spd, "fireball_placeholder.obj"); 
 	}
 
 	Tile origin;
@@ -67,8 +66,4 @@ public class ProjectileFireball extends Projectile {
 		}
 	}
 	
-	public void AddMaterial(Material material)
-	{
-		AddComponent(new MeshRenderer(class_mesh, material));
-	}
 }
