@@ -32,29 +32,34 @@ public void worldmanage()
 	this.x = (int)(this.GetTransform().GetPos().GetX()) / 2;
 	this.z = (int)(this.GetTransform().GetPos().GetZ()) / 2;
 	
-	boolean add = true;
-	
-	world.worldMap[x][z].attemptPlacement(this);
+	if (!world.worldMap[x][z].stack.contains(this))
+		world.worldMap[x][z].place(this);//attemptPlacement(this);
 	
 	int oldx = -1;
 	int oldz = -1;
+	
+	//Loops through 9 tiles in 3x3 around target.
 	for(int i = x - 1; i < x + 2; i++)
 	{
 		for(int j = z - 1; j < z + 2; j++)
 		{
+			//Skip analyzing own tile.
 			if(i == x && j == z)
 				continue;
+			
+			//Do not analyze tiles outside world.
 			if((x == 0 && i == -1) || (z == 0 && j == -1))
+				continue;
+			if(x >= world.width || z >= world.height)
 				continue;
 			
 			if(world.worldMap[i][j].occupied())
 			{
-				
-					if(world.worldMap[i][j].equals(this))
-					{
-						oldx = i;
-						oldz = j;
-					}
+				if(world.worldMap[i][j].stack.contains(this))
+				{
+					oldx = i;
+					oldz = j;
+				}
 			}
 		}
 		if(oldx >= 0 && oldz >= 0)

@@ -23,12 +23,6 @@ public class Tile {
 	/********************************************************************************/
 	
 	public boolean attemptPlacement(EntityObject entity) {
-		if (stack.size() > 0 && stack.get(0).getTeamID() != entity.getTeamID())
-			return false;
-		
-		if (occupied)
-			return false;
-		
 		place(entity);
 		return true;
 	}
@@ -41,8 +35,9 @@ public class Tile {
 		return false;
 	}
 	
-	public boolean occupied() {
-		return occupied;
+	public boolean occupied() 
+	{
+		return this.stack.size() > 0;
 	}
 	
 /*	public boolean hasAny(Entity[] question) {
