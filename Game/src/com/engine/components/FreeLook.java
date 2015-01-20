@@ -47,7 +47,7 @@ public class FreeLook extends GameComponent
 	public static float comp_radius = 5f;
 	//public static float radius = 5f;
 	
-	public static Vector2f radius = new Vector2f(3f, 3f);
+	public static Vector2f radius = new Vector2f(10f, 10f);
 	
 	//boolean set = false;
 
@@ -70,7 +70,8 @@ public class FreeLook extends GameComponent
 			return;
 		
 		Vector2f centerPosition = new Vector2f(Window.GetWidth()/2, Window.GetHeight()/2);
-
+		
+		
 		if(Input.GetKey(m_unlockMouseKey))
 		{
 			Input.SetCursor(true);
@@ -86,19 +87,36 @@ public class FreeLook extends GameComponent
 		if(m_mouseLocked)
 		{
 			Vector2f deltaPos = Input.GetMousePosition().minus(centerPosition);
-
+			
+			GetTransform().LookAt(new Vector3f(
+					obj.GetTransform().GetPos().m_x, 
+					obj.GetTransform().GetPos().m_y + 2f, 
+					obj.GetTransform().GetPos().m_z), 
+					Y_AXIS);
+			
 			boolean rotY = deltaPos.GetX() != 0;
 			boolean rotX = deltaPos.GetY() != 0;
 
 			if(rotY)
-				GetTransform().Rotate(Y_AXIS, (float) Math.toRadians(deltaPos.GetX() * m_sensitivity));
-			if(rotX)
-				GetTransform().Rotate(GetTransform().GetRot().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));
+			{
+				Move(GetTransform().GetRot().GetForward(), radius.Length());
+				GetTransform().Rotate(Y_AXIS, (float)Math.toRadians(deltaPos.GetX() * m_sensitivity));
+				Move(GetTransform().GetRot().GetBack(), radius.Length());
+				//GetTransform().Rotate(Y_AXIS, (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));
+			}
+			/*if(rotX)
+				GetTransform().Rotate(GetTransform().GetRot().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));*/
+				
 
 			if(rotY || rotX)
 				Input.SetMousePosition(centerPosition);
 		}
 		
+	}
+	
+	private void Move(Vector3f dir, float amt)
+	{
+		GetTransform().SetPos(GetTransform().GetPos().plus(dir.Mul(amt)));
 	}
 	
 	public void lockMouse() {

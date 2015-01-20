@@ -106,23 +106,23 @@ public class ArchonicaApp extends GameInstance
 		archon.AddMaterial(new Material(new Texture("menubg.png"), 1, 8,
 				new Texture("menubg.png"), new Texture("menubg.png"), 0.03f, -0.5f));
 		archon.mass = 100;
-		archon.GetTransform().SetPos(10f, 255f, 10f);
+		archon.GetTransform().SetPos(10f, terrain.GetHeight(new Vector2f(10f, 10f)), 10f);
 		
 		FreeMove.obj = archon;
 		FreeLook.obj = archon;
-		GetCameraObject().GetTransform().SetPos(0, terrain.GetHeight(new Vector2f(0f, 0f)), 0);
+		//GetCameraObject().GetTransform().SetPos(0, terrain.GetHeight(new Vector2f(0f, 0f)), 0);
 		GetCameraObject().GetTransform().SetPos(archon.GetTransform().GetPos().GetX(), 
-				archon.GetTransform().GetPos().GetY() + FreeLook.comp_radius, archon.GetTransform().GetPos().GetZ() - FreeLook.comp_radius);
+				archon.GetTransform().GetPos().GetY() + FreeLook.radius.m_y + 2f, archon.GetTransform().GetPos().GetZ() - FreeLook.radius.m_y);
 		//GetCameraObject().GetTransform().LookAt(archon.GetTransform().GetPos(), FreeLook.Y_AXIS);
 		
 		AddEntity(archon);
 		
-		/*monkey = new Monkey(new GameObject(), 100.0);
+		monkey = new Monkey(new GameObject(), 100.0);
 		monkey.AddMaterial(new Material(new Texture("bricks.jpg"), 1, 8,
 				new Texture("bricks_normal.jpg"), new Texture("bricks_disp.png"), 0.03f, -0.5f));
 		//monkey.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos());
 		monkey.GetTransform().SetPos(0,0,0);
-		AddEntity(monkey);*/
+		AddEntity(monkey);
 		
 		lightObj.GetTransform().SetPos(
 				getRenderingEngine().GetMainCamera()
