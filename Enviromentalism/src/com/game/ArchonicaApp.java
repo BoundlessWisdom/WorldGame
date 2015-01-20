@@ -108,7 +108,7 @@ public class ArchonicaApp extends GameInstance
 		archon.AddMaterial(new Material(new Texture("menubg.png"), 1, 8,
 				new Texture("menubg.png"), new Texture("menubg.png"), 0.03f, -0.5f));
 		archon.mass = 100;
-		archon.GetTransform().SetPos(10f, 255f, 10f);
+		archon.GetTransform().SetPos(10f, terrain.GetHeight(new Vector2f(10f, 10f)), 10f);
 		
 		archoff = new Archon(100.0f, 0f);
 		archoff.AddMaterial(new Material(new Texture("menubg.png"), 1, 8,
@@ -118,13 +118,10 @@ public class ArchonicaApp extends GameInstance
 		
 		FreeMove.obj = archon;
 		FreeLook.obj = archon;
-		GetCameraObject().GetTransform().SetPos(0, terrain.GetHeight(new Vector2f(0f, 0f)), 0);
-		GetCameraObject().GetTransform().SetPos(archon.GetTransform().GetPos().plus(
-				new Vector3f(0f,  FreeLook.radius.m_y, FreeLook.radius.m_x)));
-				//archon.GetTransform().GetPos().GetX(), 
-				//archon.GetTransform().GetPos().GetY() + FreeLook.radius.m_y, 
-				//archon.GetTransform().GetPos().GetZ() - FreeLook.radius.m_x);
-		//GetCameraObject().GetTransform().LookAt(archon.GetTransform().GetPos(), FreeLook.Y_AXIS);
+		//GetCameraObject().GetTransform().SetPos(0, terrain.GetHeight(new Vector2f(0f, 0f)), 0);
+		GetCameraObject().GetTransform().SetPos(archon.GetTransform().GetPos().GetX(), 
+				archon.GetTransform().GetPos().GetY() + FreeLook.radius.m_y + 2f, archon.GetTransform().GetPos().GetZ() - FreeLook.radius.m_y);
+
 		
 		AddEntity(archon);
 		AddEntity(archoff);
@@ -177,15 +174,19 @@ public class ArchonicaApp extends GameInstance
 		{
 			return;
 		}
-		
+		//System.out.println(GetCameraObject().GetTransform().GetPos().toString());
+
 		super.Update(delta);
 		getPhysicsEngine().run(delta);
 		lightObj.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos());
 		lightObj.GetTransform().SetRot(getRenderingEngine().GetMainCamera().GetTransform().GetRot());
-		//archon.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos().Add(new Vector3f(0, 0, 10f)));
+		
 		archon.worldmanage();
 		archon.collisioncheck();
 		archoff.worldmanage();
+
+		
+		System.out.println(archon.world.worldMap[5][5].stack.size());
 	}
 	
 	
