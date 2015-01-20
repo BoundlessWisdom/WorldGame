@@ -107,17 +107,17 @@ public class ArchonicaApp extends GameInstance
 		archon.AddMaterial(new Material(new Texture("menubg.png"), 1, 8,
 				new Texture("menubg.png"), new Texture("menubg.png"), 0.03f, -0.5f));
 		archon.mass = 100;
-		archon.GetTransform().SetPos(10f, 255f, 10f);
+		archon.GetTransform().SetPos(10f, 0f, 10f);
 		
 		FreeMove.obj = archon;
 		FreeLook.obj = archon;
-		GetCameraObject().GetTransform().SetPos(0, terrain.GetHeight(new Vector2f(0f, 0f)), 0);
-		GetCameraObject().GetTransform().SetPos(archon.GetTransform().GetPos().plus(
-				new Vector3f(0f,  FreeLook.radius.m_y, FreeLook.radius.m_x)));
-				//archon.GetTransform().GetPos().GetX(), 
-				//archon.GetTransform().GetPos().GetY() + FreeLook.radius.m_y, 
-				//archon.GetTransform().GetPos().GetZ() - FreeLook.radius.m_x);
-		//GetCameraObject().GetTransform().LookAt(archon.GetTransform().GetPos(), FreeLook.Y_AXIS);
+		//GetCameraObject().GetTransform().SetPos(0, terrain.GetHeight(new Vector2f(0f, 0f)), 0);
+		System.out.println(archon.GetTransform().GetPos().toString());
+		GetCameraObject().GetTransform().SetPos(new Vector3f(
+				archon.GetTransform().GetPos().GetX(), 
+				archon.GetTransform().GetPos().GetY() + FreeLook.radius.m_y, 
+				archon.GetTransform().GetPos().GetZ() - FreeLook.radius.m_x));
+		GetCameraObject().GetTransform().LookAt(archon.GetTransform().GetPos(), FreeLook.Y_AXIS);
 		
 		AddEntity(archon);
 		ProjectileFireball fire = new ProjectileFireball(3);
@@ -169,7 +169,8 @@ public class ArchonicaApp extends GameInstance
 		{
 			return;
 		}
-		
+		//System.out.println(GetCameraObject().GetTransform().GetPos().toString());
+
 		super.Update(delta);
 		getPhysicsEngine().run(delta);
 		lightObj.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos());

@@ -44,6 +44,8 @@ public class FreeMove extends GameComponent
 		
 		float movAmt = m_speed * delta;
 		
+		boolean move = false;
+		
 		if(Input.GetKey(m_forwardKey))
 		{
 			//GetTransform().SetRot(GetTransform().GetRot().);
@@ -58,6 +60,7 @@ public class FreeMove extends GameComponent
 			//GetTransform().LookAt(obj.GetTransform().GetPos(), FreeLook.Y_AXIS);
 			GetTransform().SetRot(quat);
 			Move(GetTransform().GetRot().GetForward(), movAmt);
+			move = true;
 		}
 		
 		if(Input.GetKey(m_backKey))
@@ -74,6 +77,7 @@ public class FreeMove extends GameComponent
 			//GetTransform().LookAt(obj.GetTransform().GetPos(), FreeLook.Y_AXIS);
 			GetTransform().SetRot(quat);
 			Move(GetTransform().GetRot().GetForward(), -movAmt);
+			move = true;
 		}
 		
 		if(Input.GetKey(m_leftKey))
@@ -90,6 +94,7 @@ public class FreeMove extends GameComponent
 			//GetTransform().LookAt(obj.GetTransform().GetPos(), FreeLook.Y_AXIS);
 			GetTransform().SetRot(quat);
 			Move(GetTransform().GetRot().GetLeft(), movAmt);
+			move = true;
 		}
 		
 		if(Input.GetKey(m_rightKey))
@@ -106,14 +111,19 @@ public class FreeMove extends GameComponent
 			//GetTransform().LookAt(obj.GetTransform().GetPos(), FreeLook.Y_AXIS);
 			GetTransform().SetRot(quat);
 			Move(GetTransform().GetRot().GetRight(), movAmt);
+			move = true;
+		}
+		
+		if(move)
+		{
+			GetTransform().SetPos(obj.GetPos());
+			Move(GetTransform().GetRot().GetForward(), -radius.Length());
 		}
 		
 		//float r = radius.Length();
-		GetTransform().SetPos(GetTransform().GetPos().m_x, 
+		/*GetTransform().SetPos(GetTransform().GetPos().m_x, 
 				obj.GetTransform().GetPos().m_y + FreeLook.radius.m_y + FreeLook.dhArchon.m_y, 
-				GetTransform().GetPos().m_z);
-		
-		
+				GetTransform().GetPos().m_z);*/	
 	}
 
 	private void Move(Vector3f dir, float amt)
