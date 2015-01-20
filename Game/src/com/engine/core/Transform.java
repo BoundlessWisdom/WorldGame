@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2014 Benny Bobaganoosh
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.engine.core;
 
 public class Transform
@@ -21,9 +5,9 @@ public class Transform
 	private Transform  m_parent;
 	private Matrix4f   m_parentMatrix;
 
-	private Vector3f   m_pos;
-	private Quaternion m_rot;
-	private Vector3f   m_scale;
+	public Vector3f   m_pos;
+	public Quaternion m_rot;
+	public Vector3f   m_scale;
 
 	private Vector3f   m_oldPos;
 	private Quaternion m_oldRot;
@@ -133,8 +117,9 @@ public class Transform
 		this.m_pos = pos;
 	}
 	
-	public void addPos(Vector3f pos) {
+	public Transform addPos(Vector3f pos) {
 		m_pos.add(pos);
+		return this;
 	}
 
 	public Quaternion GetRot()

@@ -1,21 +1,4 @@
 package com.engine.components;
-/*
- * Copyright (C) 2014 Benny Bobaganoosh
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-
 
 import org.lwjgl.input.Mouse;
 
@@ -35,19 +18,22 @@ public class FreeLook extends GameComponent
 	
 	private boolean CanMove = true;
 	
-	private int zoomRadius;
-	private boolean zoom;
+	private boolean zoomMode = false;
 	
+	private float zoomRadius;
+	private boolean zoom;
+	final float zoomTick = 1;
+	
+	private float yDist;
 	private Vector3f relativePos = new Vector3f(0, 0, 0);
-	private float distanceFromObj;
+	public float distanceFromObj;
 	
 	public static EntityObject obj;
 	private boolean watchingArchon;
-	
-	public static float comp_radius = 5f;
-	//public static float radius = 5f;
-	
-	public static Vector2f radius = new Vector2f(10f, 10f);
+
+	public static Vector2f radius = new Vector2f(10f, 10f); //legs of the right triangle created by the radius between the archon and the camera
+	public static Vector3f dhArchon = new Vector3f(0f, 2f, 0f); //the archon's position is his butt! We don't want to look at his butt!
+
 	
 	//boolean set = false;
 
@@ -62,7 +48,7 @@ public class FreeLook extends GameComponent
 		this.m_sensitivity = sensitivity;
 		this.m_unlockMouseKey = unlockMouseKey;
 	}
-
+	
 	@Override
 	public void Input(float delta)
 	{
@@ -83,10 +69,24 @@ public class FreeLook extends GameComponent
 			Input.SetCursor(false);
 			m_mouseLocked = true;
 		}
+		
+		if (Input.GetKey(Input.KEY_Z)) {
+			if (zoomMode)
+				disableZoom();
+			else
+				enableZoom();
+		}
+		
+		
+		zoom = Mouse.getDWheel() != 0;
 
 		if(m_mouseLocked)
 		{
-			Vector2f deltaPos = Input.GetMousePosition().minus(centerPosition);
+			//GetTransform().SetPos(obj.GetTransform().m_pos.plus(relativePos));
+			
+			Vector2f deltaPos = Input.GetMousePosition().minus(centerPosition);			
+			boolean rotY = deltaPos.GetX() != 0;
+			boolean rotX = deltaPos.GetY() != 0;
 			
 			GetTransform().LookAt(new Vector3f(
 					obj.GetTransform().GetPos().m_x, 
@@ -94,20 +94,23 @@ public class FreeLook extends GameComponent
 					obj.GetTransform().GetPos().m_z), 
 					Y_AXIS);
 			
-			boolean rotY = deltaPos.GetX() != 0;
-			boolean rotX = deltaPos.GetY() != 0;
-
-			if(rotY)
-			{
-				Move(GetTransform().GetRot().GetForward(), radius.Length());
-				GetTransform().Rotate(Y_AXIS, (float)Math.toRadians(deltaPos.GetX() * m_sensitivity));
-				Move(GetTransform().GetRot().GetBack(), radius.Length());
-				//GetTransform().Rotate(Y_AXIS, (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));
-			}
-			/*if(rotX)
-				GetTransform().Rotate(GetTransform().GetRot().GetRight(), (float) Math.toRadians(-deltaPos.GetY() * m_sensitivity));*/
+			if (zoomMode) {
+				if (zoom)
+					reposition(Mouse.getDWheel());
 				
-
+				if(rotY)
+				{
+					yAxisRotate(deltaPos);
+				}
+			}
+			else
+			{
+				if(rotY)
+				{
+					yAxisRotate(deltaPos);
+				}
+			}
+			
 			if(rotY || rotX)
 				Input.SetMousePosition(centerPosition);
 		}
@@ -118,8 +121,36 @@ public class FreeLook extends GameComponent
 	{
 		GetTransform().SetPos(GetTransform().GetPos().plus(dir.Mul(amt)));
 	}
+
+	private void yAxisRotate(Vector2f deltaPos) 
+	{
+		Move(GetTransform().GetRot().GetForward(), radius.Length());
+		GetTransform().Rotate(Y_AXIS, (float)Math.toRadians(deltaPos.GetX() * m_sensitivity));
+		Move(GetTransform().GetRot().GetBack(), radius.Length());
+	}
 	
-	public void lockMouse() {
+	private void reposition(int dWheel) 
+	{
+		zoomRadius -= zoomTick * dWheel;
+		yDist = (float) Math.pow(zoomRadius, 2);
+
+		relativePos = new Vector3f(yDist, zoomRadius, GetTransform().GetRot().GetForward().GetXZ());
+		
+		distanceFromObj = relativePos.Length();		
+	}
+	
+	void enableZoom() 
+	{
+		zoomMode = true;
+	}
+	
+	void disableZoom() 
+	{
+		zoomMode = false;
+	}
+	
+	public void lockMouse() 
+	{
 		Input.SetMousePosition(new Vector2f(Window.GetWidth()/2, Window.GetHeight()/2));
 		Input.SetCursor(false);
 		m_mouseLocked = true;

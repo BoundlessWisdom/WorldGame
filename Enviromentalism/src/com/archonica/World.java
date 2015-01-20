@@ -14,11 +14,39 @@ public class World {
 		this.height = height;
 		worldMap = new Tile[width][height];
 		environmentMap = new TerrainTile[width][height];
-	}
-	
+		
+		for(int i = 0; i < width; i++)
+		{
+			for(int j = 0; j < height; j++)
+			{
+				worldMap[i][j] = new Tile((1 + (2 * i)), (1 + (2 * j)));
+			}
+		}
+	}	
 	public World(int size) {
 		this(size, size);
 	}
+	
+	public float[] getGLCoords(int xTile, int zTile)
+	{
+		float[] glcoords = new float[2];
+		
+		glcoords[0] = (xTile * 2) + 1;
+		glcoords[1] = (zTile * 2) + 1;
+		
+		return glcoords;
+	}
+	
+	public int[] getTileIndex(float GLx, float GLz)
+	{
+		int[] index = new int[2];
+		
+		index[0] = (int)(GLx / 2);
+		index[1] = (int)(GLz / 2);
+		
+		return index;
+	}
+
 	
 	public void update(long dtime) {
 		updateObjects(dtime);

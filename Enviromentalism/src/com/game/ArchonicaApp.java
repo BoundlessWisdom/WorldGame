@@ -10,6 +10,7 @@ import ui.Menu;
 import com.archonica.Archon;
 import com.archonica.EntClass;
 import com.archonica.archons.User;
+import com.archonica.objects.ProjectileFireball;
 import com.engine.physics.PhysicsEngine;
 import com.engine.rendering.Texture;
 import com.engine.components.FreeLook;
@@ -40,6 +41,7 @@ public class ArchonicaApp extends GameInstance
 	CompleteTerrain terrain = CompleteTerrain.getInstance();
 	Monkey monkey;
 	Archon archon;
+	Archon archoff;
 	GameObject lightObj = new GameObject();
 	Menu menu;
 	Button button;
@@ -108,21 +110,35 @@ public class ArchonicaApp extends GameInstance
 		archon.mass = 100;
 		archon.GetTransform().SetPos(10f, terrain.GetHeight(new Vector2f(10f, 10f)), 10f);
 		
+		archoff = new Archon(100.0f, 0f);
+		archoff.AddMaterial(new Material(new Texture("menubg.png"), 1, 8,
+				new Texture("menubg.png"), new Texture("menubg.png"), 0.03f, -0.5f));
+		archoff.mass = 100;
+		archoff.GetTransform().SetPos(20f, 15f, 20f);
+		
 		FreeMove.obj = archon;
 		FreeLook.obj = archon;
+
 		//GetCameraObject().GetTransform().SetPos(0, terrain.GetHeight(new Vector2f(0f, 0f)), 0);
 		GetCameraObject().GetTransform().SetPos(archon.GetTransform().GetPos().GetX(), 
 				archon.GetTransform().GetPos().GetY() + FreeLook.radius.m_y + 2f, archon.GetTransform().GetPos().GetZ() - FreeLook.radius.m_y);
+
+				//archon.GetTransform().GetPos().GetX(), 
+				//archon.GetTransform().GetPos().GetY() + FreeLook.radius.m_y, 
+				//archon.GetTransform().GetPos().GetZ() - FreeLook.radius.m_x);
 		//GetCameraObject().GetTransform().LookAt(archon.GetTransform().GetPos(), FreeLook.Y_AXIS);
 		
 		AddEntity(archon);
 		
-		monkey = new Monkey(new GameObject(), 100.0);
-		monkey.AddMaterial(new Material(new Texture("bricks.jpg"), 1, 8,
-				new Texture("bricks_normal.jpg"), new Texture("bricks_disp.png"), 0.03f, -0.5f));
-		//monkey.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos());
-		monkey.GetTransform().SetPos(0,0,0);
-		AddEntity(monkey);
+		//monkey = new Monkey(new GameObject(), 100.0);
+
+		AddEntity(archoff);
+		ProjectileFireball fire = new ProjectileFireball(3);
+		fire.GetTransform().SetPos(0, 0, 0);
+		fire.AddMaterial(new Material(new Texture("menubg.png"), 1, 8,
+				new Texture("menubg.png"), new Texture("menubg.png"), 0.03f, -0.5f));
+		AddEntity(fire);
+		fire.launch(new Vector2f(1,1));
 		
 		lightObj.GetTransform().SetPos(
 				getRenderingEngine().GetMainCamera()
@@ -166,6 +182,9 @@ public class ArchonicaApp extends GameInstance
 		lightObj.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos());
 		lightObj.GetTransform().SetRot(getRenderingEngine().GetMainCamera().GetTransform().GetRot());
 		//archon.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos().Add(new Vector3f(0, 0, 10f)));
+		archon.worldmanage();
+		archon.collisioncheck();
+		archoff.worldmanage();
 	}
 	
 	

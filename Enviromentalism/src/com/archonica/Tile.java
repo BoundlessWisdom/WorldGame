@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 import com.archonica.elementals.AbstractEntity;
 import com.archonica.elementals.Fire;
+import com.game.EntityObject;
 
 public class Tile {
-	public int x;
+	public int x;  //Self-explanatory
 	public int z;
 	
 	Tile(int x, int z) {
@@ -14,18 +15,18 @@ public class Tile {
 		this.z = z;
 	}
 	
-	private ArrayList<Entity> stack = new ArrayList<Entity>();
-	private float stackSize = 0;
-	public AbstractEntity abstractEntity;
+	public ArrayList<EntityObject> stack = new ArrayList<EntityObject>();
 	
-	public static final int tileSpace = 1;
-//	public static final int abstractSpace = 1;
+	private boolean occupied = false;
+	/********************************************************************************/
+	public AbstractEntity abstractEntity;  //Currently useless.
+	/********************************************************************************/
 	
-	public boolean attemptPlacement(Entity entity) {
-		if (stack.get(0).getTeamID() != entity.getTeamID())
+	public boolean attemptPlacement(EntityObject entity) {
+		if (stack.size() > 0 && stack.get(0).getTeamID() != entity.getTeamID())
 			return false;
 		
-		if (entity.size + stackSize > tileSpace)
+		if (occupied)
 			return false;
 		
 		place(entity);
@@ -33,11 +34,15 @@ public class Tile {
 	}
 	
 	public boolean has(Entity question) {
-		for (Entity e : stack)
-			if (e.getClass().isAssignableFrom(question.getClass()))
+		for (int i = 0; i < stack.size(); i++)
+			if (stack.get(i).getClass().isAssignableFrom(question.getClass()))
 				return true;
 		
 		return false;
+	}
+	
+	public boolean occupied() {
+		return occupied;
 	}
 	
 /*	public boolean hasAny(Entity[] question) {
@@ -51,12 +56,8 @@ public class Tile {
 	public boolean hasAll(Entity[] question) {
 		return false;
 	}
-*/	
-	public boolean hasThis(Entity target) {
-		return stack.contains(target);
-	}
-	
-/*	public boolean hasAnyOne(Entity[] targets) {
+
+	public boolean hasAnyOne(Entity[] targets) {
 		return false;
 	}
 	
@@ -72,16 +73,15 @@ public class Tile {
 		return e.getClass().equals(abstractEntity.getClass());
 	}
 	
-	public void place(Entity entity) {
+	public void place(EntityObject entity) {
 		if (entity.getClass().isAssignableFrom(AbstractEntity.class))
 			abstractEntity = (AbstractEntity) entity;
 		else {
 			stack.add(entity);
-			stackSize += entity.size;
 		}
 	}
 	
-	public void remove(Entity entity) {
+	public void remove(EntityObject entity) {
 		stack.remove(entity);
 	}
 	

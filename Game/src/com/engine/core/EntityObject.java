@@ -1,13 +1,17 @@
 package com.engine.core;
 
+import java.lang.reflect.Field;
+
+import com.engine.components.GameComponent;
+import com.engine.components.MeshRenderer;
 import com.engine.physics.PhysicsEngine;
+import com.engine.rendering.Material;
 import com.engine.rendering.Mesh;
 
 public abstract class EntityObject extends GameObject
 {
 	protected Vector3f cameraLock;
 	private Vector3f cameraPosStore;
-	
 	public double mass = 0;
 	
 	private Vector3f a = new Vector3f(0,0,0);
@@ -42,11 +46,14 @@ public abstract class EntityObject extends GameObject
 		lockCamera();
 		
 		this.mass = mass;
-		
 		Set(gameObj);
 	}
 	
 	protected abstract void lockCamera();  //Initializes locking point for camera track.
+	
+	public Vector3f camPos() {
+		return cameraLock;
+	}
 	
 	public void storeCameraPos() {
 		cameraPosStore = CoreEngine.GetRenderingEngine().GetMainCamera().GetTransform().GetPos();
