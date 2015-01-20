@@ -182,10 +182,13 @@ public class ArchonicaApp extends GameInstance
 		getPhysicsEngine().run(delta);
 		lightObj.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos());
 		lightObj.GetTransform().SetRot(getRenderingEngine().GetMainCamera().GetTransform().GetRot());
-		//archon.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos().Add(new Vector3f(0, 0, 10f)));
+		
 		archon.worldmanage();
 		archon.collisioncheck();
 		archoff.worldmanage();
+
+		
+		System.out.println(archon.world.worldMap[5][5].stack.size());
 	}
 	
 	
