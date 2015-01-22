@@ -3,6 +3,7 @@ package com.engine.rendering.meshLoading;
 import com.engine.core.Util;
 import com.engine.core.Vector2f;
 import com.engine.core.Vector3f;
+import com.engine.physics.PhysicsEngine.Triangle;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,7 +18,7 @@ public class OBJModel
 	private ArrayList<OBJIndex> m_indices;
 	private boolean             m_hasTexCoords;
 	private boolean             m_hasNormals;
-
+	private ArrayList<Triangle> m_triangles;
 	public OBJModel(String fileName)
 	{
 		m_positions = new ArrayList<Vector3f>();
@@ -26,16 +27,16 @@ public class OBJModel
 		m_indices = new ArrayList<OBJIndex>();
 		m_hasTexCoords = false;
 		m_hasNormals = false;
-
+		m_triangles = new ArrayList<Triangle>();
 		BufferedReader meshReader = null;
 
 		try
 		{
 			meshReader = new BufferedReader(new FileReader(fileName));
 			String line;
-//			float lowestX = 0;
+			float lowestX = 0;
 			float lowestY = 0;
-//			float lowestZ = 0;
+			float lowestZ = 0;
 			while((line = meshReader.readLine()) != null)
 			{
 				String[] tokens = line.split(" ");
@@ -48,15 +49,15 @@ public class OBJModel
 					m_positions.add(new Vector3f(Float.valueOf(tokens[1]),
 							Float.valueOf(tokens[2]),
 							Float.valueOf(tokens[3])));
-//					if(Float.valueOf(tokens[1]) < lowestX){
-//						lowestX = Float.valueOf(tokens[1]);
-//					}
+					if(Float.valueOf(tokens[1]) < lowestX){
+						lowestX = Float.valueOf(tokens[1]);
+					}
 					if(Float.valueOf(tokens[2]) < lowestY){
 						lowestY = Float.valueOf(tokens[2]);
 					}
-//					if(Float.valueOf(tokens[3]) < lowestZ){
-//						lowestZ = Float.valueOf(tokens[3]);
-//					}
+					if(Float.valueOf(tokens[3]) < lowestZ){
+						lowestZ = Float.valueOf(tokens[3]);
+					}
 				}
 				else if(tokens[0].equals("vt"))
 				{
@@ -77,15 +78,22 @@ public class OBJModel
 						m_indices.add(ParseOBJIndex(tokens[2 + i]));
 						m_indices.add(ParseOBJIndex(tokens[3 + i]));
 					}
+					m_triangles.add(new Triangle(m_positions.get(ParseOBJIndex(tokens[1]).GetVertexIndex()),
+							m_positions.get(ParseOBJIndex(tokens[2]).GetVertexIndex()),
+							m_positions.get(ParseOBJIndex(tokens[3]).GetVertexIndex())));
 				}
 			}
 
 			meshReader.close();
 			for (Vector3f vec : m_positions){
-//				vec.SetX(vec.GetX() - lowestX);
+				vec.SetX(vec.GetX() - lowestX);
 				vec.SetY(vec.GetY() - lowestY);
-//				vec.SetZ(vec.GetZ() - lowestZ);
+				vec.SetZ(vec.GetZ() - lowestZ);
 			}
+//			for(Triangle t : m_triangles)
+//			{
+//				t.offset(new Vector3f(-lowestX, -lowestY, -lowestZ));
+//			}
 		}
 		catch(Exception e)
 		{
@@ -193,5 +201,9 @@ public class OBJModel
 		}
 
 		return result;
+	}
+	public ArrayList<Triangle> GetTriangles()
+	{
+		return m_triangles;
 	}
 }

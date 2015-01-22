@@ -3,6 +3,7 @@ package com.engine.physics;
 import com.engine.components.terrain.CompleteTerrain;
 import com.engine.core.*;
 import com.engine.rendering.meshLoading.IndexedModel;
+import com.engine.rendering.meshLoading.OBJModel;
 
 import java.util.*;
 
@@ -407,68 +408,100 @@ public class PhysicsEngine
 		if(i == j) return false;
 		return isCollision(GetObjects().get(i), GetObjects().get(j));
 	}
+	static HashMap<EntityObject, ArrayList<Triangle>> alreadyLoaded = new HashMap<EntityObject, ArrayList<Triangle>>();
 	public static boolean isCollision(EntityObject a, EntityObject b)
 	{
-		ArrayList<Triangle> at = Triangle.loadFromModel(a.GetSprite().getOriginalModel());
-		ArrayList<Triangle> bt = Triangle.loadFromModel(b.GetSprite().getOriginalModel());
+		
+		ArrayList<Triangle> at = alreadyLoaded.get(a);
+		if(at == null)
+		{
+			at = Triangle.loadFromObject(a);
+			alreadyLoaded.put(a, at);
+		}
+		ArrayList<Triangle> bt = alreadyLoaded.get(b);
+		if(bt == null)
+		{
+			bt = Triangle.loadFromObject(b);
+			alreadyLoaded.put(b,bt);
+		}
+		int dbg_int = 0;
+		Random random = new Random();
 		for(Triangle t : at)
 		{
+			t.offset(a.GetPos());
+		}
+		for(Triangle t : bt)
+		{
+			t.offset(b.GetPos());
+		}
+		for(Triangle t : at)
+		{
+			if(random.nextInt(10) != 2)
+				continue;
 			for(Triangle s : bt)
 			{
+				if(random.nextInt(10) != 2)
+					continue;
 				if(t.isIntersection(s))
 				{
+					for(Triangle v : at)
+					{
+						v.offset(a.GetPos().Mul(-1));
+					}
+					for(Triangle v : bt)
+					{
+						v.offset(b.GetPos().Mul(-1));
+					}
+					System.out.println(dbg_int);
 					return true;
 				}
+				dbg_int++;
 			}
+		}
+		for(Triangle t : at)
+		{
+			t.offset(a.GetPos().Mul(-1));
+		}
+		for(Triangle t : bt)
+		{
+			t.offset(b.GetPos().Mul(-1));
 		}
 		return false;
 	}
-	private static class Triangle
 	{
-		Vector3f a, b ,c;
-		Triangle(Vector3f a, Vector3f b, Vector3f c)
-		{
-			this.a = a;
-			this.b = b;
-			this.c = c;
-		}
-		Vector3f getN()
-		{
-			Vector3f vn1 = null;
-		    vn1 = b.sub(a);
-		    Vector3f vn2 = null;
-		    vn2 = c.sub(a);
-		    Vector3f n = null;
-		    n = vn1.Cross(vn2);
-		    return n;
+		System.loadLibrary("Archonica_native");
+	}
+	static native boolean isIntersection(float V0[],float V1[],float V2[],float U0[],float U1[],float U2[]);
+	public static class Triangle
+	{
+		float u[], v[], w[];
+		public Triangle(Vector3f a, Vector3f b, Vector3f c)
+		{			
+			u = new float[]{a.m_x,a.m_y,a.m_z};
+		    v = new float[]{b.m_x,b.m_y,b.m_z};
+			w = new float[]{c.m_x,c.m_y,c.m_z};
 		}
 		boolean isIntersection(Triangle T)
 		{
-			Vector3f n1 = getN();
-			Vector3f n2 = T.getN();
-			Vector3f v = n1.Cross(n2);
-			float C1 = n1.Dot(a);
-			float C2 = n2.Dot(T.a);
-			float Kn = n2.GetX()/n1.GetX();
-			float y = (C2 - C1 * Kn)/(n2.GetY() - n1.GetY() * Kn);
-			Vector3f p = new Vector3f((C2 - C1 * Kn)/(n2.GetY() - n1.GetY() * Kn) ,(C1 - n1.GetY() * y) / n2.GetX() , 0);
-			Vector3f x = p.add(v);
-			Vector3f xq1 = x.sub(a);
-			float i1 = xq1.Dot(n1);
-			Vector3f xq2 = x.sub(T.a);
-			float i2 = xq2.Dot(n2);
-			return i1 == 0 && i2 == 0;
+			return PhysicsEngine.isIntersection(u,v,w,T.u,T.v, T.w);
 		}
-		static ArrayList<Triangle> loadFromModel(IndexedModel model)
+		
+		static ArrayList<Triangle> loadFromObject(EntityObject obj)
 		{
-			ArrayList<Integer> indices = model.GetIndices();
-			ArrayList<Vector3f> poses = model.GetPositions();
-			ArrayList<Triangle> ret = new ArrayList<Triangle>();
-			for(int i = 0; i < indices.size(); i += 3)
-			{
-				ret.add(new Triangle(poses.get(indices.get(i) - 1), poses.get(indices.get(i)), poses.get(indices.get(i) + 1)));
-			}
+			ArrayList<Triangle> ret = (new OBJModel(obj.GetSprite().origFileName())).GetTriangles();
 			return ret;
+		}
+		public void offset(Vector3f offset)
+		{
+			u[0] += offset.m_x;
+			u[1] += offset.m_y;
+			u[2] += offset.m_z;
+			v[0] += offset.m_x;
+			v[1] += offset.m_y;
+			v[2] += offset.m_z;
+			w[0] += offset.m_x;
+			w[1] += offset.m_y;
+			w[2] += offset.m_z;
 		}
 	}
 }

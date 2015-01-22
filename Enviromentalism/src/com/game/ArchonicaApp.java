@@ -108,7 +108,7 @@ public class ArchonicaApp extends GameInstance
 		archon.AddMaterial(new Material(new Texture("menubg.png"), 1, 8,
 				new Texture("menubg.png"), new Texture("menubg.png"), 0.03f, -0.5f));
 		archon.mass = 100;
-		archon.GetTransform().SetPos(10f, terrain.GetHeight(new Vector2f(10f, 10f)), 10f);
+		archon.GetTransform().SetPos(15f, terrain.GetHeight(new Vector2f(10f, 10f)), 15f);
 		
 		archoff = new Archon(100.0f, 0f);
 		archoff.AddMaterial(new Material(new Texture("menubg.png"), 1, 8,
