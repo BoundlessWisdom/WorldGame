@@ -2,6 +2,8 @@ package com.engine.physics;
 
 import com.engine.components.terrain.CompleteTerrain;
 import com.engine.core.*;
+import com.engine.rendering.meshLoading.IndexedModel;
+import com.engine.rendering.meshLoading.OBJModel;
 
 import java.util.*;
 
@@ -403,9 +405,103 @@ public class PhysicsEngine
 	}
 	private boolean isCollision(int i, int j)
 	{
-		EntityObject a = GetObjects().get(i);
-		EntityObject b = GetObjects().get(j);
-		//Check Collision
+		if(i == j) return false;
+		return isCollision(GetObjects().get(i), GetObjects().get(j));
+	}
+	static HashMap<EntityObject, ArrayList<Triangle>> alreadyLoaded = new HashMap<EntityObject, ArrayList<Triangle>>();
+	public static boolean isCollision(EntityObject a, EntityObject b)
+	{
+		
+		ArrayList<Triangle> at = alreadyLoaded.get(a);
+		if(at == null)
+		{
+			at = Triangle.loadFromObject(a);
+			alreadyLoaded.put(a, at);
+		}
+		ArrayList<Triangle> bt = alreadyLoaded.get(b);
+		if(bt == null)
+		{
+			bt = Triangle.loadFromObject(b);
+			alreadyLoaded.put(b,bt);
+		}
+		int dbg_int = 0;
+		Random random = new Random();
+		for(Triangle t : at)
+		{
+			t.offset(a.GetPos());
+		}
+		for(Triangle t : bt)
+		{
+			t.offset(b.GetPos());
+		}
+		for(Triangle t : at)
+		{
+			if(random.nextInt(10) != 2)
+				continue;
+			for(Triangle s : bt)
+			{
+				if(random.nextInt(10) != 2)
+					continue;
+				if(t.isIntersection(s))
+				{
+					for(Triangle v : at)
+					{
+						v.offset(a.GetPos().Mul(-1));
+					}
+					for(Triangle v : bt)
+					{
+						v.offset(b.GetPos().Mul(-1));
+					}
+					System.out.println(dbg_int);
+					return true;
+				}
+				dbg_int++;
+			}
+		}
+		for(Triangle t : at)
+		{
+			t.offset(a.GetPos().Mul(-1));
+		}
+		for(Triangle t : bt)
+		{
+			t.offset(b.GetPos().Mul(-1));
+		}
 		return false;
+	}
+	{
+		System.loadLibrary("Archonica_native");
+	}
+	static native boolean isIntersection(float V0[],float V1[],float V2[],float U0[],float U1[],float U2[]);
+	public static class Triangle
+	{
+		float u[], v[], w[];
+		public Triangle(Vector3f a, Vector3f b, Vector3f c)
+		{			
+			u = new float[]{a.m_x,a.m_y,a.m_z};
+		    v = new float[]{b.m_x,b.m_y,b.m_z};
+			w = new float[]{c.m_x,c.m_y,c.m_z};
+		}
+		boolean isIntersection(Triangle T)
+		{
+			return PhysicsEngine.isIntersection(u,v,w,T.u,T.v, T.w);
+		}
+		
+		static ArrayList<Triangle> loadFromObject(EntityObject obj)
+		{
+			ArrayList<Triangle> ret = (new OBJModel(obj.GetSprite().origFileName())).GetTriangles();
+			return ret;
+		}
+		public void offset(Vector3f offset)
+		{
+			u[0] += offset.m_x;
+			u[1] += offset.m_y;
+			u[2] += offset.m_z;
+			v[0] += offset.m_x;
+			v[1] += offset.m_y;
+			v[2] += offset.m_z;
+			w[0] += offset.m_x;
+			w[1] += offset.m_y;
+			w[2] += offset.m_z;
+		}
 	}
 }

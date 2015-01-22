@@ -22,7 +22,6 @@ public class Mesh
 	private MeshResource m_resource;
 	private String       m_fileName;
 	private int dWay = GL_TRIANGLES;
-	
 	public enum DRAW_WAY
 	{
 		TRIANGLES,
@@ -140,7 +139,6 @@ public class Mesh
 
 		OBJModel test = new OBJModel("./res/models/" + fileName);
 		IndexedModel model = test.ToIndexedModel();
-
 		ArrayList<Vertex> vertices = new ArrayList<Vertex>();
 
 		for(int i = 0; i < model.GetPositions().size(); i++)
@@ -174,5 +172,9 @@ public class Mesh
 		default:
 			break;
 		}
+	}
+	public String origFileName()
+	{
+		return "./res/models/" + m_fileName;
 	}
 }
