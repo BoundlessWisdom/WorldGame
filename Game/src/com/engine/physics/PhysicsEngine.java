@@ -419,7 +419,7 @@ public class PhysicsEngine
 	 */
 	public static boolean isCollision(EntityObject a, EntityObject b)
 	{
-		//If we have already loaded the sets of triangles, don't bother to do it again
+		//If we have already loaded the sets of triangles, don't bother to do it again.
 		ArrayList<Triangle> at = alreadyLoaded.get(a);
 		if(at == null)
 		{
@@ -434,7 +434,7 @@ public class PhysicsEngine
 		}
 		int dbg_int = 0; //Just for debugging
 		Random random = new Random();
-		//Make sure we know the actual positions of the triangles
+		//Make sure we know the actual positions of the triangles.
 		for(Triangle t : at)
 		{
 			t.offset(a.GetPos());
@@ -445,17 +445,17 @@ public class PhysicsEngine
 		}
 		for(Triangle t : at)
 		{
-			//Doing all the triangles lags the game, so just do 1 out of every 10
+			//Checking all the triangles lags the game, so just do 1 out of every 10.
 			if(random.nextInt(10) != 2)
 				continue;
 			for(Triangle s : bt)
 			{
 				if(random.nextInt(10) != 2)
 					continue;
-				//If there is an intersection
+				//If there is an intersection...
 				if(t.isIntersection(s))
 				{
-					//There is a collision. Reset the positions of the triangles..
+					//There is a collision. Reset the positions of the triangles...
 					for(Triangle v : at)
 					{
 						v.offset(a.GetPos().Mul(-1));
