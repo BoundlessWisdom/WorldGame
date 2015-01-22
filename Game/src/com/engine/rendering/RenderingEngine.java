@@ -34,7 +34,7 @@ public class RenderingEngine extends MappedValues
 		m_samplerMap.put("normalMap", 1);
 		m_samplerMap.put("dispMap", 2);
 
-		AddVector3f("ambient", new Vector3f(0.1f, 0.1f, 0.1f));
+		AddVector3f("ambient", new Vector3f(0.8f, 0.8f, 0.8f));
 
 		m_forwardAmbient = new Shader("forward-ambient");
 

@@ -119,7 +119,7 @@ public class FreeMove extends GameComponent
 
 	private void Move(Vector3f dir, float amt)
 	{
-		GetTransform().SetPos(GetTransform().GetPos().plus(dir.Mul(amt)));
+		GetTransform().SetPos(GetTransform().GetPos().plus(dir.Mul(amt * 20f)));
 		//GetTransform().addPos(GetTransform().GetRot().GetForward().Mul(amt));
 	}
 	

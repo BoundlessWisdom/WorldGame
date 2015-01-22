@@ -18,10 +18,19 @@ import com.engine.rendering.meshLoading.OBJIndex;
 public class HeightMap extends Terrain
 {	
 	String png, texture; //files
+	Material mat;
 	
 	public HeightMap()
 	{
 		super();
+	}
+	
+	public HeightMap(String pngFile, Material mat, Vector3f scale, OriginGravity gravity)
+	{
+		png = pngFile;
+		this.mat = mat;
+		SetScale(scale);
+		SetOriginGravity(gravity);
 	}
 	
 	public HeightMap(String pngFile, String textureFile)
@@ -136,9 +145,10 @@ public class HeightMap extends Terrain
 		
 		InputModel iModel = new InputModel(pos, texCoords, null, indices);
 		
-		Material material = new Material(new Texture(textureFile), 1, 8, null, null, 0.03f, -0.5f);
+		if(mat == null)
+			mat = new Material(new Texture(textureFile), 1, 8, null, null, 0.03f, -0.5f);
 		
-		if(!createMeshRenderer(iModel, material))
+		if(!createMeshRenderer(iModel, mat))
 		{
 			return false;
 		}
