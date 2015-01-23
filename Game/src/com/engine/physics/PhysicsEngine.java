@@ -486,7 +486,7 @@ public class PhysicsEngine
 	}
 	{
 		//Load our native code.
-		System.loadLibrary("Archonica_native");
+		System.loadLibrary("CollisionUtils");
 	}
 	/**
 	 * The native function for detecting triangle intersections.
