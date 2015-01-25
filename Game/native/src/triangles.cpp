@@ -327,24 +327,19 @@ extern "C"{
 JNIEXPORT jboolean JNICALL Java_com_engine_physics_PhysicsEngine_isIntersection
   (JNIEnv *env, jclass cls, jfloatArray a, jfloatArray b, jfloatArray c, jfloatArray d, jfloatArray e, jfloatArray f)
 {
-	bool ret = false;
-	jfloat *a1 = (env)->GetFloatArrayElements(a, 0);
-	jfloat *b1 = (env)->GetFloatArrayElements(b, 0);
-	jfloat *c1 = (env)->GetFloatArrayElements(c, 0);
-	jfloat *d1 = (env)->GetFloatArrayElements(d, 0);
-	jfloat *e1 = (env)->GetFloatArrayElements(e, 0);
-	jfloat *f1 = (env)->GetFloatArrayElements(f, 0);
-	if(NoDivTriTriIsect(a1,b1,c1,d1,e1,f1) == 1)
-	{
-		ret =  true;
-	}
+	jfloat *a1 = env->GetFloatArrayElements(a, 0);
+	jfloat *b1 = env->GetFloatArrayElements(b, 0);
+	jfloat *c1 = env->GetFloatArrayElements(c, 0);
+	jfloat *d1 = env->GetFloatArrayElements(d, 0);
+	jfloat *e1 = env->GetFloatArrayElements(e, 0);
+	jfloat *f1 = env->GetFloatArrayElements(f, 0);
+	bool ret =  NoDivTriTriIsect(a1,b1,c1,d1,e1,f1);
 	env->ReleaseFloatArrayElements(a,a1,0);
 	env->ReleaseFloatArrayElements(b,b1,0);
 	env->ReleaseFloatArrayElements(c,c1,0);
 	env->ReleaseFloatArrayElements(d,d1,0);
 	env->ReleaseFloatArrayElements(e,e1,0);
 	env->ReleaseFloatArrayElements(f,f1,0);
-
 	return ret;
 }
 #ifdef __cplusplus
