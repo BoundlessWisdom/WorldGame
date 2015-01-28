@@ -47,7 +47,7 @@ public class FreeMove extends GameComponent
 		//GetTransform().LookAt(obj.GetPos(), FreeLook.Y_AXIS);
 		//GetTransform().SetPos(obj.GetTransform().GetPos());
 		//Move(obj.GetTransform().GetRot().GetBack(), radius.Length());
-		
+		obj.SetVelocity(new Vector3f(0,0,0));
 		if(Input.GetKey(m_forwardKey))
 		{
 			//GetTransform().SetRot(GetTransform().GetRot().);
@@ -57,7 +57,7 @@ public class FreeMove extends GameComponent
 					GetTransform().GetRot().GetZ(), GetTransform().GetRot().GetW());
 			GetTransform().SetPos(new Vector3f(pos.m_x, obj.GetTransform().GetPos().m_y, pos.m_z));
 			GetTransform().LookAt(obj.GetTransform().GetPos(), FreeLook.Y_AXIS);
-			obj.GetTransform().addPos(GetTransform().GetRot().GetForward().Mul(movAmt / 20f));
+			obj.SetVelocity(obj.GetVelocity().add(GetTransform().GetRot().GetForward().Mul(movAmt / 20f)));
 			//obj.GetTransform().SetPos(obj.GetTransform().GetPos().plus(GetTransform().GetRot().GetForward().Mul(movAmt)));
 			Move(GetTransform().GetRot().GetForward(), movAmt);
 			GetTransform().SetPos(pos);
@@ -74,7 +74,7 @@ public class FreeMove extends GameComponent
 					GetTransform().GetRot().GetZ(), GetTransform().GetRot().GetW());
 			GetTransform().SetPos(new Vector3f(pos.m_x, obj.GetTransform().GetPos().m_y, pos.m_z));
 			GetTransform().LookAt(obj.GetTransform().GetPos(), FreeLook.Y_AXIS);
-			obj.GetTransform().addPos(GetTransform().GetRot().GetForward().Mul(-movAmt / 20f));
+			obj.SetVelocity(obj.GetVelocity().add(GetTransform().GetRot().GetForward().Mul(-movAmt / 20f)));
 			Move(GetTransform().GetRot().GetForward(), -movAmt);
 			GetTransform().SetPos(pos);
 			//GetTransform().LookAt(obj.GetTransform().GetPos(), FreeLook.Y_AXIS);
@@ -91,7 +91,7 @@ public class FreeMove extends GameComponent
 					GetTransform().GetRot().GetZ(), GetTransform().GetRot().GetW());
 			GetTransform().SetPos(new Vector3f(pos.m_x, obj.GetTransform().GetPos().m_y, pos.m_z));
 			GetTransform().LookAt(obj.GetTransform().GetPos(), FreeLook.Y_AXIS);
-			obj.GetTransform().addPos(GetTransform().GetRot().GetLeft().Mul(movAmt / 20f));
+			obj.SetVelocity(obj.GetVelocity().add(GetTransform().GetRot().GetLeft().Mul(movAmt / 20f)));
 			Move(GetTransform().GetRot().GetLeft(), movAmt);
 			GetTransform().SetPos(pos);
 			//GetTransform().LookAt(obj.GetTransform().GetPos(), FreeLook.Y_AXIS);
@@ -108,7 +108,7 @@ public class FreeMove extends GameComponent
 					GetTransform().GetRot().GetZ(), GetTransform().GetRot().GetW());
 			GetTransform().SetPos(new Vector3f(pos.m_x, obj.GetTransform().GetPos().m_y, pos.m_z));
 			GetTransform().LookAt(obj.GetTransform().GetPos(), FreeLook.Y_AXIS);
-			obj.GetTransform().addPos(GetTransform().GetRot().GetRight().Mul(movAmt / 20f));
+			obj.SetVelocity(obj.GetVelocity().add(GetTransform().GetRot().GetRight().Mul(movAmt / 20f)));
 			Move(GetTransform().GetRot().GetRight(), movAmt);
 			GetTransform().SetPos(pos);
 			//GetTransform().LookAt(obj.GetTransform().GetPos(), FreeLook.Y_AXIS);
