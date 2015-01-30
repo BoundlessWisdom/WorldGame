@@ -15,6 +15,11 @@ public class MeshRenderer extends GameComponent
 		this.m_mesh = mesh;
 		this.m_material = material;
 	}
+	
+	public void SetMesh(Mesh mesh)
+	{
+		m_mesh = mesh;
+	}
 
 	@Override
 	public void Render(Shader shader, RenderingEngine renderingEngine)

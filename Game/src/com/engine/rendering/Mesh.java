@@ -28,6 +28,13 @@ public class Mesh
 		TRIANGLE_STRIP
 	}
 	
+	public void Clear()
+	{
+		s_loadedModels.clear();
+		m_resource = null;
+		m_fileName = null;
+	}
+	
 	public Mesh(String fileName)
 	{
 		this.m_fileName = fileName;
@@ -41,6 +48,23 @@ public class Mesh
 		else
 		{
 			LoadMesh(fileName);
+			s_loadedModels.put(fileName, m_resource);
+		}
+	}
+	
+	public Mesh(String fileName, float percent)
+	{
+		this.m_fileName = fileName;
+		MeshResource oldResource = s_loadedModels.get(fileName);
+
+		if(oldResource != null)
+		{
+			m_resource = oldResource;
+			m_resource.AddReference();
+		}
+		else
+		{
+			LoadMesh(fileName, percent);
 			s_loadedModels.put(fileName, m_resource);
 		}
 	}
@@ -123,6 +147,41 @@ public class Mesh
 		
 		for(int i = 0; i < vertices.length; i++)
 			vertices[i].SetNormal(vertices[i].GetNormal().Normalized());
+	}
+	
+	private Mesh LoadMesh(String fileName, float percent)
+	{
+		String[] splitArray = fileName.split("\\.");
+		String ext = splitArray[splitArray.length - 1];
+
+		if(!ext.equals("obj"))
+		{
+			System.err.println("Error: '" + ext + "' file format not supported for mesh data.");
+			new Exception().printStackTrace();
+			System.exit(1);
+		}
+
+		OBJModel test = new OBJModel("./res/models/" + fileName);
+		IndexedModel model = test.ToIndexedModel(percent);
+		ArrayList<Vertex> vertices = new ArrayList<Vertex>();
+
+		for(int i = 0; i < (int)(model.GetPositions().size() * percent); i++)
+		{
+			vertices.add(new Vertex(model.GetPositions().get(i),
+					model.GetTexCoords().get(i),
+					model.GetNormals().get(i),
+					model.GetTangents().get(i)));
+		}
+
+		Vertex[] vertexData = new Vertex[vertices.size()];
+		vertices.toArray(vertexData);
+
+		Integer[] indexData = new Integer[model.GetIndices().size()];
+		model.GetIndices().toArray(indexData);
+
+		AddVertices(vertexData, Util.ToIntArray(indexData), false);
+		
+		return this;
 	}
 	
 	private Mesh LoadMesh(String fileName)

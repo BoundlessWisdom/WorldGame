@@ -156,4 +156,12 @@ public class GameObject
 		
 		return m_components.get(index);
 	}
+	
+	public void SetComponent(int index, GameComponent c)
+	{
+		if(index >= m_components.size())
+			return;
+		
+		m_components.set(index, c);
+	}
 }

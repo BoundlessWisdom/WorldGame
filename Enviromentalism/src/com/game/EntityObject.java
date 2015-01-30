@@ -8,6 +8,7 @@ import com.archonica.World;
 import com.archonica.effects.LongModifier;
 import com.archonica.effects.Modifier;
 import com.engine.core.GameObject;
+import com.engine.core.Vector3f;
 import com.engine.physics.PhysicsEngine;
 
 public abstract class EntityObject extends com.engine.core.EntityObject implements Updateable {
@@ -124,6 +125,9 @@ public void collisioncheck()
 public void collide(EntityObject first, EntityObject second)
 {
 	System.out.println("Collision!");
+//	this.GetTransform().SetPos(new Vector3f(GetTransform().GetPos().m_x,
+//			1000f,
+//			GetTransform().GetPos().m_z));
 }
 
 /************************************************************************/

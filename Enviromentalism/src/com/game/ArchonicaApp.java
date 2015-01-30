@@ -1,7 +1,10 @@
 package com.game;
 
 import java.util.HashMap;
+import java.util.Timer;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 import ui.Button;
@@ -51,8 +54,12 @@ public class ArchonicaApp extends GameInstance
 	Menu menu;
 	Button button;
 	GameObject sphere = new GameObject();
+	Icicle icicle;
+	Icicle ice;
 	
 	boolean FullScreen = true;
+	
+	boolean t = false;
 	
 	User MainUser;
 	public HashMap<String, CameraInfo> DifCameraInfo = new HashMap<String, CameraInfo>();
@@ -146,11 +153,12 @@ public class ArchonicaApp extends GameInstance
 				new Texture("menubg.png"), new Texture("menubg.png"), 0.03f, -0.5f));
 		AddEntity(fire);
 		fire.launch(new Vector2f(1,1));
+		
 		/*monkey = new Monkey(new GameObject(), 100.0);
 		monkey.AddMaterial(new Material(new Texture("bricks.jpg"), 1, 8,
 				new Texture("bricks_normal.jpg"), new Texture("bricks_disp.png"), 0.03f, -0.5f));
 		//monkey.GetTransform().SetPos(getRenderingEngine().GetMainCamera().GetTransform().GetPos());
-		monkey.GetTransform().SetPos(0,0,0);
+		monkey.GetTransform().SetPos(0,10f,0);
 		AddEntity(monkey);*/
 		
 		lightObj.GetTransform().SetPos(
@@ -167,11 +175,22 @@ public class ArchonicaApp extends GameInstance
 				new Texture("grass_normal.jpg"), new Texture("grass_disp.png"), 0.03f, -0.5f));
 		ball.GetTransform().SetPos(10f, 10f, 10f);
 		AddEntity(ball);*/
+		Mesh m = new Mesh("icicle.obj", 0.1f);
 		
-		/*GameObject icicle = new GameObject();
-		MeshRenderer render = new MeshRenderer(new Mesh("icicle.obj"), new Material(
-				diffuse, specularIntensity, specularPower, 
-				normal, dispMap, dispMapScale, dispMapOffset));*/
+		icicle = new Icicle(new GameObject(), 100.0f);
+		icicle.AddMaterial(new Material(
+				new Texture("bricks.jpg"), 1, 8, new Texture("bricks_normal.jpg"), 
+				new Texture("bricks_disp.png"), 0.03f, -0.5f), m);
+		icicle.GetTransform().SetPos(new Vector3f(15f, 15f, 15f));
+		AddEntity(icicle);
+		
+		Mesh m2 = new Mesh("icicle.obj");
+		
+		ice = new Icicle(new GameObject(), 1000f);
+		ice.AddMaterial(new Material(
+			new Texture("bricks.jpg"), 1, 8, new Texture("bricks_normal.jpg"), 
+			new Texture("bricks_disp.png"), 0.03f, -0.5f), m2);
+		AddEntity(ice);
 		
 		DifCameraInfo.put("Game", new CameraInfo(GetCameraObject()));
 		
@@ -208,6 +227,15 @@ public class ArchonicaApp extends GameInstance
 		archon.worldmanage();
 		archon.collisioncheck();
 		archoff.worldmanage();
+		
+		if(!t)
+		{
+			
+			
+			AddEntity(ice);
+			//icicle = new Icicle(new GameObject(), )
+			t = true;
+		}
 
 	}
 	

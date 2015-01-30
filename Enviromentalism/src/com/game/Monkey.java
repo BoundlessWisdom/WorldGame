@@ -14,7 +14,7 @@ public class Monkey extends EntityObject
 	public Monkey(GameObject gameObj, double mass) 
 	{
 		super(gameObj, mass);
-		mesh = new Mesh("test1.obj");
+		mesh = new Mesh("test1.obj", 0.75f);
 		fixElastic(0.2);
 	}
 

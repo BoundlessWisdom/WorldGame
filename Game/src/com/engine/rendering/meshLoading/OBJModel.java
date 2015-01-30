@@ -101,6 +101,83 @@ public class OBJModel
 			System.exit(1);
 		}
 	}
+	
+	public IndexedModel ToIndexedModel(float percent)
+	{
+		percent = Math.abs(percent);
+		if(percent > 1f)
+			percent = 1f;
+		
+		IndexedModel result = new IndexedModel();
+		IndexedModel normalModel = new IndexedModel();
+		HashMap<OBJIndex, Integer> resultIndexMap = new HashMap<OBJIndex, Integer>();
+		HashMap<Integer, Integer> normalIndexMap = new HashMap<Integer, Integer>();
+		HashMap<Integer, Integer> indexMap = new HashMap<Integer, Integer>();
+
+		for(int i = 0; i < (int)(m_indices.size() * percent); i++)
+		{
+			OBJIndex currentIndex = m_indices.get(i);
+
+			Vector3f currentPosition = m_positions.get(currentIndex.GetVertexIndex());
+			Vector2f currentTexCoord;
+			Vector3f currentNormal;
+
+			if(m_hasTexCoords)
+				currentTexCoord = m_texCoords.get(currentIndex.GetTexCoordIndex());
+			else
+				currentTexCoord = new Vector2f(0,0);
+
+			if(m_hasNormals)
+				currentNormal = m_normals.get(currentIndex.GetNormalIndex());
+			else
+				currentNormal = new Vector3f(0,0,0);
+
+			Integer modelVertexIndex = resultIndexMap.get(currentIndex);
+
+			if(modelVertexIndex == null)
+			{
+				modelVertexIndex = result.GetPositions().size();
+				resultIndexMap.put(currentIndex, modelVertexIndex);
+
+				result.GetPositions().add(currentPosition);
+				result.GetTexCoords().add(currentTexCoord);
+				if(m_hasNormals)
+					result.GetNormals().add(currentNormal);
+			}
+
+			Integer normalModelIndex = normalIndexMap.get(currentIndex.GetVertexIndex());
+
+			if(normalModelIndex == null)
+			{
+				normalModelIndex = normalModel.GetPositions().size();
+				normalIndexMap.put(currentIndex.GetVertexIndex(), normalModelIndex);
+
+				normalModel.GetPositions().add(currentPosition);
+				normalModel.GetTexCoords().add(currentTexCoord);
+				normalModel.GetNormals().add(currentNormal);
+				normalModel.GetTangents().add(new Vector3f(0,0,0));
+			}
+
+			result.GetIndices().add(modelVertexIndex);
+			normalModel.GetIndices().add(normalModelIndex);
+			indexMap.put(modelVertexIndex, normalModelIndex);
+		}
+
+		if(!m_hasNormals)
+		{
+			normalModel.CalcNormals();
+
+			for(int i = 0; i < (int)(result.GetPositions().size() * percent); i++)
+				result.GetNormals().add(normalModel.GetNormals().get(indexMap.get(i)));
+		}
+
+		normalModel.CalcTangents();
+
+		for(int i = 0; i < (int)(result.GetPositions().size() * percent); i++)
+			result.GetTangents().add(normalModel.GetTangents().get(indexMap.get(i)));
+		
+		return result;		
+	}
 
 	public IndexedModel ToIndexedModel()
 	{
@@ -173,7 +250,7 @@ public class OBJModel
 			result.GetTangents().add(normalModel.GetTangents().get(indexMap.get(i)));
 
 //		for(int i = 0; i < result.GetTexCoords().size(); i++)
-//			result.GetTexCoords().Get(i).SetY(1.0f - result.GetTexCoords().Get(i).GetY());
+//			result.GetTexCoords().get(i).SetY(1.0f - result.GetTexCoords().get(i).GetY());
 
 		return result;
 	}
