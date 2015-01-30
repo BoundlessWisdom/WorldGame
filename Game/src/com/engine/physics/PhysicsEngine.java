@@ -398,7 +398,9 @@ public class PhysicsEngine
 				(float)(velocity.GetZ() * mass)
 		));
     }
-	
+	/**
+	 * @return all the objects in the engine.
+	 */
 	public ArrayList<EntityObject> GetObjects()
 	{
 		return objs;
@@ -409,9 +411,15 @@ public class PhysicsEngine
 		return isCollision(GetObjects().get(i), GetObjects().get(j));
 	}
 	static HashMap<EntityObject, ArrayList<Triangle>> alreadyLoaded = new HashMap<EntityObject, ArrayList<Triangle>>();
+	/**
+	 * Check for a mesh collision.
+	 * @param a the first object to check.
+	 * @param b the second object to check.
+	 * @return true if there is a collision, otherwise false.
+	 */
 	public static boolean isCollision(EntityObject a, EntityObject b)
 	{
-		
+		//If we have already loaded the sets of triangles, don't bother to do it again.
 		ArrayList<Triangle> at = alreadyLoaded.get(a);
 		if(at == null)
 		{
@@ -424,8 +432,9 @@ public class PhysicsEngine
 			bt = Triangle.loadFromObject(b);
 			alreadyLoaded.put(b,bt);
 		}
-		int dbg_int = 0;
+		int dbg_int = 0; //Just for debugging
 		Random random = new Random();
+		//Make sure we know the actual positions of the triangles.
 		for(Triangle t : at)
 		{
 			t.offset(a.GetPos());
@@ -436,14 +445,17 @@ public class PhysicsEngine
 		}
 		for(Triangle t : at)
 		{
+			//Checking all the triangles lags the game, so just do 1 out of every 10.
 			if(random.nextInt(10) != 2)
 				continue;
 			for(Triangle s : bt)
 			{
 				if(random.nextInt(10) != 2)
 					continue;
+				//If there is an intersection...
 				if(t.isIntersection(s))
 				{
+					//There is a collision. Reset the positions of the triangles...
 					for(Triangle v : at)
 					{
 						v.offset(a.GetPos().Mul(-1));
@@ -452,12 +464,15 @@ public class PhysicsEngine
 					{
 						v.offset(b.GetPos().Mul(-1));
 					}
+					//Tell us what triangle this is...
 					System.out.println(dbg_int);
+					//And return true.
 					return true;
 				}
 				dbg_int++;
 			}
 		}
+		//No collision occurs. Reset all the positions of the triangles...
 		for(Triangle t : at)
 		{
 			t.offset(a.GetPos().Mul(-1));
@@ -466,33 +481,55 @@ public class PhysicsEngine
 		{
 			t.offset(b.GetPos().Mul(-1));
 		}
+		//And return false.
 		return false;
 	}
 	{
-		System.loadLibrary("Archonica_native");
+		//Load our native code.
+		System.loadLibrary("CollisionUtils");
 	}
+	/**
+	 * The native function for detecting triangle intersections.
+	 * @param V0 The first point of triangle V.
+	 * @param V1 The second point of triangle V.
+	 * @param V2 The third point of triangle V.
+	 * @param U0 The first point of triangle U.
+	 * @param U1 The second point of triangle U.
+	 * @param U2 The third point of triangle U.
+	 * @return true if there is an intersection, false if there is not.
+	 */
 	static native boolean isIntersection(float V0[],float V1[],float V2[],float U0[],float U1[],float U2[]);
 	public static class Triangle
 	{
 		float u[], v[], w[];
 		public Triangle(Vector3f a, Vector3f b, Vector3f c)
-		{			
+		{	//Convert our vectors to float arrays, so we can send the triangle to the C++ code.		
 			u = new float[]{a.m_x,a.m_y,a.m_z};
 		    v = new float[]{b.m_x,b.m_y,b.m_z};
 			w = new float[]{c.m_x,c.m_y,c.m_z};
 		}
 		boolean isIntersection(Triangle T)
 		{
+			//Just call the native magic.
 			return PhysicsEngine.isIntersection(u,v,w,T.u,T.v, T.w);
 		}
-		
+		/**
+		 * Convert an object's sprite to triangles.
+		 * @param obj the object whose sprite is to convert.
+		 * @return
+		 */
 		static ArrayList<Triangle> loadFromObject(EntityObject obj)
 		{
 			ArrayList<Triangle> ret = (new OBJModel(obj.GetSprite().origFileName())).GetTriangles();
 			return ret;
 		}
+		/**
+		 * Move the triangle.
+		 * @param offset the displacement vector.
+		 */
 		public void offset(Vector3f offset)
 		{
+			//Add the values.
 			u[0] += offset.m_x;
 			u[1] += offset.m_y;
 			u[2] += offset.m_z;
