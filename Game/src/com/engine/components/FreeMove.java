@@ -47,7 +47,7 @@ public class FreeMove extends GameComponent
 		//GetTransform().LookAt(obj.GetPos(), FreeLook.Y_AXIS);
 		//GetTransform().SetPos(obj.GetTransform().GetPos());
 		//Move(obj.GetTransform().GetRot().GetBack(), radius.Length());
-		
+		obj.SetVelocity(new Vector3f(0,0,0));
 		if(Input.GetKey(m_forwardKey))
 		{
 			//GetTransform().SetRot(GetTransform().GetRot().);
